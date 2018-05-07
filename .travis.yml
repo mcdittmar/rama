@@ -7,14 +7,14 @@ matrix:
   - os: osx
     language: generic
 before_script:
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
-  > ./cc-test-reporter; chmod +x ./cc-test-reporter; ./cc-test-reporter before-build;
-  fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+    > ./cc-test-reporter; chmod +x ./cc-test-reporter; ./cc-test-reporter before-build;
+    fi
 before_install:
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update -q; brew upgrade -q python;
-  fi
-- pip3 install tox-travis
+  >
+  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update -q; brew upgrade -q python; mkdir $HOME/.matplotlib; echo "backend: TkAgg" > $HOME/.matplotlib/matplotlibrc; fi;
+  pip3 install tox-travis
 script: tox
 after_script:
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./cc-test-reporter after-build --exit-code
-  $TRAVIS_TEST_RESULT; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./cc-test-reporter after-build --exit-code
+    $TRAVIS_TEST_RESULT; fi
