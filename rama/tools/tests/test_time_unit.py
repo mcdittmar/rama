@@ -35,7 +35,7 @@ class TimeAxisStub:
         self.dependent = False
         coord = np.array([1, 2, 3]) * u.Unit('d')
         coord.name = "foo"
-        self.measurement = mock.MagicMock(StdTimeMeasure, coord=coord)
+        self.measure = mock.MagicMock(StdTimeMeasure, coord=coord)
 
 
 class FluxAxisStub:
@@ -44,18 +44,18 @@ class FluxAxisStub:
         cval = np.array([10, 20, 30]) * u.Unit('mag')
         cval.name = 'flux'
         coord = mock.MagicMock(cval=cval)
-        self.measurement = mock.MagicMock(GenericCoordMeasure, coord=coord)
+        self.measure = mock.MagicMock(GenericCoordMeasure, coord=coord)
 
 
 class NdPointStub:
-    axis = [TimeAxisStub(), FluxAxisStub()]
+    observable = [TimeAxisStub(), FluxAxisStub()]
 
 
 def test_time_series():
     cube = CubePoint(NdPointStub())
     time_series = TimeSeries(cube)
 
-    assert_array_equal(time_series.time.measurement, np.array([1, 2, 3]) * u.Unit('d'))
-    assert_array_equal(time_series['time'].measurement, np.array([1, 2, 3]) * u.Unit('d'))
-    assert_array_equal(time_series.dependent[0].measurement, np.array([10, 20, 30]) * u.Unit('mag'))
-    assert_array_equal(time_series['flux'].measurement, np.array([10, 20, 30]) * u.Unit('mag'))
+    assert_array_equal(time_series.time.measure, np.array([1, 2, 3]) * u.Unit('d'))
+    assert_array_equal(time_series['time'].measure, np.array([1, 2, 3]) * u.Unit('d'))
+    assert_array_equal(time_series.dependent[0].measure, np.array([10, 20, 30]) * u.Unit('mag'))
+    assert_array_equal(time_series['flux'].measure, np.array([10, 20, 30]) * u.Unit('mag'))

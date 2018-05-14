@@ -28,7 +28,7 @@
           </INSTANCE>
         </ATTRIBUTE>
       </INSTANCE>
-      <INSTANCE dmtype="meas:SkyPosition">
+      <INSTANCE dmtype="meas:StdPosition">
         <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
           <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
             <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.ra">

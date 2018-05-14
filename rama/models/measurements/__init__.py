@@ -142,6 +142,17 @@ class CovarianceMatrix3D(Uncertainty3D):
     matrix = Attribute('meas:CovarianceMatrix3D.matrix', min_occurs=1, max_occurs=1)
 
 
+@VO('meas:Measure')
+class Measure:
+    pass
+
+
+@VO('meas:CoordMeasure')
+class CoordMeasure(Measure):
+    coord = Attribute('meas:CoordMeasure.coord', min_occurs=1, max_occurs=1)
+    error = Composition('meas:CoordMeasure.error', min_occurs=0, max_occurs=1)
+
+
 @VO('meas:Error')
 class Error:
     pass
@@ -166,17 +177,6 @@ class Error3D(Error):
     stat_error = Attribute('meas:Error3D.statError', min_occurs=0, max_occurs=1)
     sys_error = Attribute('meas:Error3D.sysError', min_occurs=0, max_occurs=1)
     ran_error = Attribute('meas:Error3D.ranError', min_occurs=0, max_occurs=1)
-
-
-@VO('meas:Measure')
-class Measure:
-    pass
-
-
-@VO('meas:CoordMeasure')
-class CoordMeasure(Measure):
-    coord = Attribute('meas:CoordMeasure.coord', min_occurs=1, max_occurs=1)
-    error = Composition('meas:CoordMeasure.error', min_occurs=0, max_occurs=1)
 
 
 @VO('meas:GenericCoordMeasure')
@@ -219,13 +219,8 @@ class Polarization(Measure):
     coord = Attribute('meas:Polarization.coord', min_occurs=1, max_occurs=1)
 
 
-@VO('meas:RedshiftCoordMeasure')
-class RedshiftCoordMeasure(CoordMeasure):
-    pass
-
-
-@VO('meas:SkyPosition')
-class SkyPosition(Position):
+@VO('meas:StdPosition')
+class StdPosition(Position):
     pass
 
 

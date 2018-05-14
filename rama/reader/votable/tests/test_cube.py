@@ -27,7 +27,6 @@ from dateutil.parser import parse
 from numpy.testing import assert_array_equal
 from rama.models.dataset import ObsDataset
 
-from rama.models.coordinates import GenericCoordValue
 from rama.models.cube import NDPoint
 from rama.reader import Reader
 from rama.reader.votable import Votable
@@ -46,10 +45,10 @@ def test_ndpoint(context_cube, recwarn):
 
     assert_array_equal(ndpoint.dependent, ['flux', 'mag'])
     assert_array_equal(ndpoint.independent, ['time', 'position'])
-    assert isinstance(ndpoint['position'].measurement, SkyCoord)
-    assert isinstance(ndpoint['time'].measurement, Time)
-    assert isinstance(ndpoint['mag'].measurement, MaskedColumn)
-    assert isinstance(ndpoint['flux'].measurement, MaskedColumn)
+    assert isinstance(ndpoint['position'].measure, SkyCoord)
+    assert isinstance(ndpoint['time'].measure, Time)
+    assert isinstance(ndpoint['mag'].measure, MaskedColumn)
+    assert isinstance(ndpoint['flux'].measure, MaskedColumn)
 
     assert "W20" in str(recwarn[0].message)
     assert "W41" in str(recwarn[1].message)
@@ -57,7 +56,7 @@ def test_ndpoint(context_cube, recwarn):
         assert "W10" in str(recwarn[i].message)
 
 
-def test_dataset(context_cube, recwarn):
+def test_dataset(context_cube):
     datasets = context_cube.find_instances(ObsDataset)
     dataset = datasets[0]
 

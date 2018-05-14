@@ -19,15 +19,13 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-import numpy as np
 import pytest
 
-from astropy import units as u
 from numpy.testing import assert_array_equal
 
 from rama import read, is_template
-from rama.models.cube import NDPoint, DataAxis
-from rama.models.measurements import SkyPosition
+from rama.models.cube import NDPoint, Observable
+from rama.models.measurements import StdPosition
 from rama.tools.time import TimeSeries
 
 
@@ -37,9 +35,9 @@ def time_series(make_data_path):
 
 def test_is_template(time_series, recwarn):
     gavo = time_series
-    positions = gavo.find_instances(SkyPosition)
+    positions = gavo.find_instances(StdPosition)
     cube_points = gavo.find_instances(NDPoint)
-    axes = gavo.find_instances(DataAxis)
+    axes = gavo.find_instances(Observable)
 
     assert not is_template(positions[0])  # positions are direct
     assert is_template(cube_points[0])  # ndpoint is a template

@@ -14,7 +14,7 @@
             <URL>https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models//ivoa/vo-dml/IVOA-v1.0.vo-dml.xml</URL>
         </MODEL>
         <GLOBALS>
-            <INSTANCE dmtype="meas:SkyPosition">
+            <INSTANCE dmtype="meas:StdPosition">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                     <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
                         <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.ra">

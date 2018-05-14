@@ -19,7 +19,7 @@
                     <LITERAL value="FK5" dmtype="coords:domain.space.StdRefFrame"/>
                 </ATTRIBUTE>
             </INSTANCE>
-            <INSTANCE dmtype="meas:SkyPosition">
+            <INSTANCE dmtype="meas:StdPosition">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                     <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
                         <REFERENCE dmrole="coords:Coordinate.frame">
@@ -28,7 +28,7 @@
                     </INSTANCE>
                 </ATTRIBUTE>
             </INSTANCE>
-            <INSTANCE dmtype="meas:SkyPosition">
+            <INSTANCE dmtype="meas:StdPosition">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                     <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
                         <REFERENCE dmrole="coords:Coordinate.frame">

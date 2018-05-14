@@ -19,8 +19,10 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+from rama.models.measurements import Measure
+
 from rama.adapters.cube import CubePoint
-from rama.framework import Composition, Attribute
+from rama.framework import Composition, Attribute, Reference
 from rama.utils import Adapter
 from rama.utils.registry import VO
 
@@ -29,50 +31,79 @@ from rama.utils.registry import VO
 class DataProduct:
     coord_sys = Composition('cube:DataProduct.coordSys', min_occurs=1, max_occurs=-1)
     mappings = Composition('cube:DataProduct.mappings', min_occurs=0, max_occurs=1)
-
-
-@VO('cube:PixelatedDataProduct')
-class PixelatedDataProduct(DataProduct):
-    pixel_coord_sys = Composition('cube:PixelatedDataProduct.pixelCoordSys', min_occurs=1, max_occurs=1)
-
-
-@VO('cube:PointDataProduct')
-class PointDataProduct(DataProduct):
-    pass
+    dataset = Reference('cube:DataProduct.dataset', min_occurs=1, max_occurs=1)
 
 
 @VO('cube:NDImage')
-class NDImage(PixelatedDataProduct):
+class NDImage(DataProduct):
     data = Composition('cube:NDImage.data', min_occurs=0, max_occurs=-1)
+    pixel_coord_sys = Composition('cube:NDImage.pixelCoordSys', min_occurs=1, max_occurs=1)
 
 
 @VO('cube:SparseCube')
-class SparseCube(PointDataProduct):
+class SparseCube(DataProduct):
     data = Composition('cube:SparseCube.data', min_occurs=0, max_occurs=-1)
 
 
-@VO('cube:DataElement')
-class DataElement:
-    axis = Composition('cube:DataElement.axis', min_occurs=0, max_occurs=-1)
-
-
 @VO('cube:Voxel')
-class Voxel(DataElement):
+class Voxel:
     pixel_axis = Composition('cube:Voxel.pixelAxis', min_occurs=1, max_occurs=-1)
+    value_axis = Composition('cube:Voxel.valueAxis', min_occurs=1, max_occurs=1)
+    coord_axis = Composition('cube:Voxel.coordAxis', min_occurs=0, max_occurs=-1)
 
 
 @VO('cube:NDPoint')
 @Adapter(CubePoint)
-class NDPoint(DataElement):
-    pass
+class NDPoint:
+    observable = Composition('cube:NDPoint.observable', min_occurs=0, max_occurs=-1)
 
 
 @VO('cube:DataAxis')
 class DataAxis:
     dependent = Attribute('cube:DataAxis.dependent', min_occurs=1, max_occurs=1)
-    measurement = Composition('cube:DataAxis.measurement', min_occurs=1, max_occurs=1)
+
+
+@VO('cube:ImageAxis')
+class ImageAxis(DataAxis):
+    pass
 
 
 @VO('cube:PixelAxis')
-class PixelAxis:
+class PixelAxis(ImageAxis):
     coord = Attribute('cube:PixelAxis.coord', min_occurs=1, max_occurs=1)
+
+
+@VO('cube:MeasurementAxis')
+class MeasurementAxis(DataAxis):
+    measure = Composition('cube:MeasurementAxis.measure', min_occurs=1, max_occurs=1)
+
+
+@VO('cube:Observable')
+class Observable(MeasurementAxis):
+    pass
+
+
+@VO('cube:ValueAxis')
+class ValueAxis(MeasurementAxis):
+    pass
+
+
+@VO('cube:VirtualMeasure')
+class VirtualMeasure(Measure):
+    result_type = Attribute('cube:VirtualMeasure.result_type', min_occurs=1, max_occurs=1)
+    source = Reference('cube:VirtualMeasure.source', min_occurs=1, max_occurs=-1)
+    transform = Reference('cube:VirtualMeasure.transform', min_occurs=0, max_occurs=1)
+    result_frame = Reference('cube:VirtualMeasure.result_frame', min_occurs=0, max_occurs=1)
+
+
+@VO('cube:VirtualImageAxis')
+class VirtualImageAxis(ImageAxis):
+    result_type = Attribute('cube:VirtualImageAxis.result_type', min_occurs=1, max_occurs=1)
+    source = Reference('cube:VirtualImageAxis.source', min_occurs=1, max_occurs=-1)
+    transform = Reference('cube:VirtualImageAxis.transform', min_occurs=0, max_occurs=1)
+    result_frame = Reference('cube:VirtualImageAxis.result_frame', min_occurs=0, max_occurs=1)
+
+
+@VO('cube:Transform')
+class Transform:
+    pass

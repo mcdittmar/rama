@@ -23,12 +23,10 @@ import numpy
 import pytest
 from astropy import units as u
 from astropy.coordinates import SkyCoord, FK5
-from astropy.tests.helper import assert_quantity_allclose
 from astropy.time import Time
-from astropy.units import Quantity
 
 from rama.models.coordinates import SpaceFrame
-from rama.models.measurements import SkyPosition
+from rama.models.measurements import StdPosition
 from rama import read
 
 
@@ -58,7 +56,7 @@ def asymmetric_data_file(make_data_path):
 
 
 def test_parsing_coordinates(simple_position_file):
-    sky_positions = simple_position_file.find_instances(SkyPosition)
+    sky_positions = simple_position_file.find_instances(StdPosition)
     pos = sky_positions[0]
 
     assert 1 == len(sky_positions)
@@ -72,7 +70,7 @@ def test_parsing_coordinates(simple_position_file):
 
 
 def test_references_are_same_object(references_file):
-    sky_positions = references_file.find_instances(SkyPosition)
+    sky_positions = references_file.find_instances(StdPosition)
 
     assert sky_positions[0].coord.frame is sky_positions[1].coord.frame
 
@@ -80,7 +78,7 @@ def test_references_are_same_object(references_file):
 def test_referred_built_only_once(references_file):
     frame = references_file.find_instances(SpaceFrame)[0]
     frame2 = references_file.find_instances(SpaceFrame)[0]
-    sky_positions = references_file.find_instances(SkyPosition)
+    sky_positions = references_file.find_instances(StdPosition)
 
     assert frame is frame2
     assert sky_positions[0].coord.frame is frame
@@ -88,7 +86,7 @@ def test_referred_built_only_once(references_file):
 
 
 def test_parsing_columns(simple_position_columns_file, recwarn):
-    sky_positions = simple_position_columns_file.find_instances(SkyPosition)
+    sky_positions = simple_position_columns_file.find_instances(StdPosition)
     position = sky_positions[0]
 
     assert 1 == len(sky_positions)
@@ -104,7 +102,7 @@ def test_parsing_columns(simple_position_columns_file, recwarn):
 
 
 def test_attribute_multiplicity(asymmetric_data_file, recwarn):
-    position = asymmetric_data_file.find_instances(SkyPosition)[0]
+    position = asymmetric_data_file.find_instances(StdPosition)[0]
 
     plus = position.error.stat_error.plus
     assert len(plus) == 2
@@ -118,7 +116,7 @@ def test_attribute_multiplicity(asymmetric_data_file, recwarn):
 def test_invalid_file(invalid_file):
 
     with pytest.warns(SyntaxWarning) as record:
-        sky_positions = invalid_file.find_instances(SkyPosition)
+        sky_positions = invalid_file.find_instances(StdPosition)
         assert "ID foo" in str(record[-1].message)
         assert "W50" in str(record[12].message)
 

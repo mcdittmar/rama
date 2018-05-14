@@ -36,10 +36,11 @@ from rama.models import coordinates
 
 LOG = logging.getLogger(__name__)
 
+
 class SkyCoordAdapter:
     """
     A an adapter for sky coordinates. The initializer takes a standard
-    :py:class:`~rama.models.coordinates.SkyCoord` instance and returns an astropy.coordinates.SkyCoord object based
+    :py:class:`~rama.models.coordinates.SpaceCoord` instance and returns an astropy.coordinates.SkyCoord object based
     on the contents of the original instance.
     """
 
@@ -51,7 +52,7 @@ class SkyCoordAdapter:
             frame = "icrs"
             equinox = None
 
-        try:
+        try:  # FIXME This only works with equatorial coordinates. Implement for other coordinates as well
             ra = stc_position_coord.ra
             dec = stc_position_coord.dec
             sky_coord = SkyCoord(frame=frame, equinox=equinox, ra=ra, dec=dec)

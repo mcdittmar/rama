@@ -71,56 +71,56 @@
         </COMPOSITION>
       </INSTANCE>
       <INSTANCE dmtype="cube:NDPoint" ID="_DATA_INSTANCE">
-        <COMPOSITION dmrole="cube:DataElement.axis">
-          <INSTANCE dmtype="cube:DataAxis">
+        <COMPOSITION dmrole="cube:NDPoint.observable">
+          <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="cube:DataAxis.dependent">
               <LITERAL value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
-            <COMPOSITION dmrole="cube:DataAxis.measurement">
+            <COMPOSITION dmrole="cube:MeasurementAxis.measure">
               <INSTANCE dmtype="meas:StdTimeMeasure">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                   <INSTANCE dmtype="coords:domain.time.ISOTime">
-                    <REFERENCE dmrole="coords:Coordinate.frame">
-                      <IDREF>_TT_FRAME</IDREF>
-                    </REFERENCE>
                     <ATTRIBUTE dmrole="coords:domain.time.ISOTime.date">
                       <COLUMN dmtype="ivoa:datetime" ref="_col_TIME"/>
                     </ATTRIBUTE>
+                    <REFERENCE dmrole="coords:Coordinate.frame">
+                      <IDREF>_TT_FRAME</IDREF>
+                    </REFERENCE>
                   </INSTANCE>
                 </ATTRIBUTE>
               </INSTANCE>
             </COMPOSITION>
           </INSTANCE>
-          <INSTANCE dmtype="cube:DataAxis">
+          <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="cube:DataAxis.dependent">
               <LITERAL value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
-            <COMPOSITION dmrole="cube:DataAxis.measurement">
-              <INSTANCE dmtype="meas:SkyPosition">
+            <COMPOSITION dmrole="cube:MeasurementAxis.measure">
+              <INSTANCE dmtype="meas:StdPosition">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                   <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-                    <REFERENCE dmrole="coords:Coordinate.frame">
-                      <IDREF>_FK4_J2000_FRAME</IDREF>
-                    </REFERENCE>
                     <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.ra">
                       <COLUMN dmtype="ivoa:RealQuantity" ref="_col_RAJ2000"/>
                     </ATTRIBUTE>
                     <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
                       <COLUMN dmtype="ivoa:RealQuantity" ref="_col_DECJ2000"/>
                     </ATTRIBUTE>
+                    <REFERENCE dmrole="coords:Coordinate.frame">
+                      <IDREF>_FK4_J2000_FRAME</IDREF>
+                    </REFERENCE>
                   </INSTANCE>
                 </ATTRIBUTE>
               </INSTANCE>
             </COMPOSITION>
           </INSTANCE>
-          <INSTANCE dmtype="cube:DataAxis">
+          <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="cube:DataAxis.dependent">
               <LITERAL value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
-            <COMPOSITION dmrole="cube:DataAxis.measurement">
+            <COMPOSITION dmrole="cube:MeasurementAxis.measure">
               <INSTANCE dmtype="meas:GenericCoordMeasure">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
-                  <INSTANCE dmtype="coords:GenericCoordValue">
+                  <INSTANCE dmtype="coords:PhysicalCoordValue">
                     <ATTRIBUTE dmrole="coords:PhysicalCoordValue.cval">
                       <COLUMN dmtype="ivoa:RealQuantity" ref="_col_FLUX"/>
                     </ATTRIBUTE>
@@ -140,14 +140,14 @@
               </INSTANCE>
             </COMPOSITION>
           </INSTANCE>
-          <INSTANCE dmtype="cube:DataAxis">
+          <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="cube:DataAxis.dependent">
               <LITERAL value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
-            <COMPOSITION dmrole="cube:DataAxis.measurement">
+            <COMPOSITION dmrole="cube:MeasurementAxis.measure">
               <INSTANCE dmtype="meas:GenericCoordMeasure">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
-                  <INSTANCE dmtype="coords:GenericCoordValue">
+                  <INSTANCE dmtype="coords:PhysicalCoordValue">
                     <ATTRIBUTE dmrole="coords:PhysicalCoordValue.cval">
                       <COLUMN dmtype="ivoa:RealQuantity" ref="_col_MAG"/>
                     </ATTRIBUTE>
