@@ -56,3 +56,13 @@ def is_template(instance):
         return instance.is_template
 
     return False
+
+
+def count(template_instance):
+    if hasattr(template_instance, "__vo_object__"):
+        return count(template_instance.__vo_object__)
+
+    if hasattr(template_instance, "count"):
+        return template_instance.count
+
+    raise ValueError("Instance is not an adapter or a data model type (BaseType)")

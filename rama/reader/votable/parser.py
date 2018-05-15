@@ -95,7 +95,9 @@ class Parser:
             return self._make(instance_class, instance_id, xml_element, context)
 
     def is_template(self, xml_element):
-        return len(xml_element.xpath(f'.//{get_local_name("COLUMN")}')) > 0
+        has_template_parent = len(xml_element.xpath(f'./parent::{get_local_name("TEMPLATES")}')) > 0
+        has_column_descendants = len(xml_element.xpath(f'.//{get_local_name("COLUMN")}')) > 0
+        return has_template_parent or has_column_descendants
 
     def _make(self, instance_class, instance_id, xml_element, context):
         instance = instance_class()

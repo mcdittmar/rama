@@ -21,8 +21,10 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import pytest
 from astropy.table import MaskedColumn
+from astropy import units as u
 from numpy.testing import assert_array_equal
 
+from rama import is_template, count
 from rama.models.test.filter import PhotometryFilter
 from rama.models.test.sample import SkyCoordinateFrame, Source
 from rama.reader import Reader
@@ -102,3 +104,15 @@ def test_source(context_test5, recwarn):
         assert "W10" in str(recwarn[i].message)
 
     # TODO MISSING multi-table relationship
+
+
+def test_source_direct(context_test5, recwarn):
+    template_source = context_test5.find_instances(Source)[0]
+    assert is_template(template_source)
+    assert count(template_source) == 3
+
+    # assert len(sources) == 3
+    # source = sources[0]
+    # assert source.name == b'08120809-0206132'
+    # assert source.position.longitude == 123.033734 * u.Unit('deg')
+    # assert source.position.latitude == -2.103671 * u.Unit('deg')

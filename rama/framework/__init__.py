@@ -20,6 +20,9 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import logging
+from weakref import WeakKeyDictionary
+
+from astropy.units import Quantity
 
 LOG = logging.getLogger(__name__)
 
@@ -31,14 +34,20 @@ class VodmlDescriptor:
         self.min = min_occurs
         self.max = max_occurs
         self.name = None
+        self.values = WeakKeyDictionary()
 
     def __get__(self, instance, owner):
         if instance is None:
             return self
-        return instance.__dict__.get(self.name, self.default)
+        return self.values[instance]
 
     def __set__(self, instance, value):
-        instance.__dict__[self.name] = value
+        self.values[instance] = value
+        if hasattr(value, "__parent__"):
+            value.__parent__ = instance
+
+    def __delete__(self, instance):
+        del self.values[instance]
 
     def __set_name__(self, owner, name):
         self.name = name
@@ -49,7 +58,12 @@ class Composition(VodmlDescriptor):
 
 
 class Attribute(VodmlDescriptor):
-    pass
+    def __set__(self, instance, value):
+        VodmlDescriptor.__set__(self, instance, value)
+        if hasattr(value, 'count'):
+            instance.count = value.count
+        elif isinstance(value, Quantity) and not value.isscalar:
+            instance.count = len(value)
 
 
 class Reference(VodmlDescriptor):
@@ -57,9 +71,17 @@ class Reference(VodmlDescriptor):
 
 
 class BaseType:
+    def __init__(self):
+        self.__parent__ = None
+        self.__count = None
+
     def set_field(self, field_name, field_instance):
         setattr(self, field_name, field_instance)
-        try:
-            field_instance.__parent__ = self
-        except AttributeError:
-            LOG.warning(f"Can't set __parent__ attribute to {field_instance}")
+
+    @property
+    def count(self):
+        return self.__count
+
+    @count.setter
+    def count(self, value):
+        self.__count = value
