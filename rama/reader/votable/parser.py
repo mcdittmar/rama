@@ -112,13 +112,14 @@ class Parser:
             instance_info.instance.set_field(field_name, field_instance)
 
     def _decorate_with_adapter(self, instance_info):
+        decorated_instance = instance_info.instance
         if hasattr(instance_info.instance_class, '__delegate__'):
             vo_instance = instance_info.instance
-            instance_info.instance = instance_info.instance_class.__delegate__(vo_instance)
-            instance_info.instance.__vo_object__ = vo_instance
-        instance_info.instance.__vo_id__ = instance_info.instance_id
-        instance_info.context.add_instance(instance_info.instance)
-        return instance_info.instance
+            decorated_instance = instance_info.instance_class.__delegate__(vo_instance)
+            decorated_instance.__vo_object__ = vo_instance
+        decorated_instance.__vo_id__ = instance_info.instance_id
+        instance_info.context.add_instance(decorated_instance)
+        return decorated_instance
 
 
 class _InstanceInfo:
