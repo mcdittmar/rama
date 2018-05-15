@@ -19,18 +19,18 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-from rama.framework import Attribute
+from rama.framework import Attribute, BaseType
 from rama.utils.registry import VO
 
 
 @VO('filter:PhotometricSystem')
-class PhotometricSystem:
+class PhotometricSystem(BaseType):
     description = Attribute('filter:PhotometricSystem.description', min_occurs=0, max_occurs=1)
     detector_type = Attribute('filter:PhotometricSystem.detectorType', min_occurs=1, max_occurs=1)
 
 
 @VO('filter:PhotometryFilter')
-class PhotometryFilter:
+class PhotometryFilter(BaseType):
     fps_identifier = Attribute('filter:PhotometryFilter.fpsIdentifier', min_occurs=1, max_occurs=1)
     identifier = Attribute('filter:PhotometryFilter.identifier', min_occurs=1, max_occurs=1)
     name = Attribute('filter:PhotometryFilter.name', min_occurs=1, max_occurs=1)

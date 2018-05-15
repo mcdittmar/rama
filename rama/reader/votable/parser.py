@@ -109,7 +109,7 @@ class Parser:
         for field_name, field_object in fields:
             field_reader = self.field_readers[field_object.__class__]
             field_instance = field_reader(instance_info.xml_element, field_object, instance_info.context)
-            setattr(instance_info.instance, field_name, field_instance)
+            instance_info.instance.set_field(field_name, field_instance)
 
     def _decorate_with_adapter(self, instance_info):
         if hasattr(instance_info.instance_class, '__delegate__'):

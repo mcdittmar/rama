@@ -19,12 +19,12 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-from rama.framework import Attribute, Composition
+from rama.framework import Attribute, Composition, BaseType
 from rama.utils.registry import VO
 
 
 @VO('meas:Uncertainty')
-class Uncertainty:
+class Uncertainty(BaseType):
     pass
 
 
@@ -107,7 +107,7 @@ class Ellipsoid(Uncertainty3D):
 
 
 @VO('meas:Matrix')
-class Matrix:
+class Matrix(BaseType):
     pass
 
 
@@ -143,7 +143,7 @@ class CovarianceMatrix3D(Uncertainty3D):
 
 
 @VO('meas:Measure')
-class Measure:
+class Measure(BaseType):
     pass
 
 
@@ -154,7 +154,7 @@ class CoordMeasure(Measure):
 
 
 @VO('meas:Error')
-class Error:
+class Error(BaseType):
     pass
 
 

@@ -22,13 +22,13 @@
 from rama.models.measurements import Measure
 
 from rama.adapters.cube import CubePoint
-from rama.framework import Composition, Attribute, Reference
+from rama.framework import Composition, Attribute, Reference, BaseType
 from rama.utils import Adapter
 from rama.utils.registry import VO
 
 
 @VO('cube:DataProduct')
-class DataProduct:
+class DataProduct(BaseType):
     coord_sys = Composition('cube:DataProduct.coordSys', min_occurs=1, max_occurs=-1)
     mappings = Composition('cube:DataProduct.mappings', min_occurs=0, max_occurs=1)
     dataset = Reference('cube:DataProduct.dataset', min_occurs=1, max_occurs=1)
@@ -46,7 +46,7 @@ class SparseCube(DataProduct):
 
 
 @VO('cube:Voxel')
-class Voxel:
+class Voxel(BaseType):
     pixel_axis = Composition('cube:Voxel.pixelAxis', min_occurs=1, max_occurs=-1)
     value_axis = Composition('cube:Voxel.valueAxis', min_occurs=1, max_occurs=1)
     coord_axis = Composition('cube:Voxel.coordAxis', min_occurs=0, max_occurs=-1)
@@ -54,12 +54,12 @@ class Voxel:
 
 @VO('cube:NDPoint')
 @Adapter(CubePoint)
-class NDPoint:
+class NDPoint(BaseType):
     observable = Composition('cube:NDPoint.observable', min_occurs=0, max_occurs=-1)
 
 
 @VO('cube:DataAxis')
-class DataAxis:
+class DataAxis(BaseType):
     dependent = Attribute('cube:DataAxis.dependent', min_occurs=1, max_occurs=1)
 
 
@@ -105,5 +105,5 @@ class VirtualImageAxis(ImageAxis):
 
 
 @VO('cube:Transform')
-class Transform:
+class Transform(BaseType):
     pass

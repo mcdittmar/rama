@@ -33,13 +33,13 @@ For example::
 
     >>> from rama.utils import Adapter
     >>> from rama.utils.registry import VO
-    >>> from rama.framework import Attribute
+    >>> from rama.framework import Attribute, BaseType
     >>> class MyAdapter:
     ...     def __init__(self, standard_obj):
     ...         self.ultimate = standard_obj.standard_attribute
     >>> @VO("some:id")
     ... @Adapter(MyAdapter)
-    ... class MyStandard:
+    ... class MyStandard(BaseType):
     ...     standard_attribute = Attribute('foo:bar')
 
 Every time the parser will build an instance of the ``Standard`` class, it will pass it to the `Adapter` class::

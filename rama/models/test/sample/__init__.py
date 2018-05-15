@@ -19,7 +19,7 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-from rama.framework import Attribute, Reference, Composition
+from rama.framework import Attribute, Reference, Composition, BaseType
 from rama.models.ivoa import StringQuantity
 
 from rama.utils.registry import VO
@@ -36,7 +36,7 @@ class SourceClassification(StringQuantity):
 
 
 @VO('sample:catalog.SkyError')
-class SkyError:
+class SkyError(BaseType):
     pass
 
 
@@ -59,14 +59,14 @@ class GenericEllipse(SkyError):
 
 
 @VO('sample:catalog.SkyCoordinate')
-class SkyCoordinate:
+class SkyCoordinate(BaseType):
     longitude = Attribute('sample:catalog.SkyCoordinate.longitude', min_occurs=1, max_occurs=1)
     latitude = Attribute('sample:catalog.SkyCoordinate.latitude', min_occurs=1, max_occurs=1)
     frame = Reference('sample:catalog.SkyCoordinate.frame', min_occurs=1, max_occurs=1)
 
 
 @VO('sample:catalog.AstroObject')
-class AstroObject:
+class AstroObject(BaseType):
     label = Attribute('sample:catalog.AstroObject.label', min_occurs=0, max_occurs=1)
 
 
@@ -81,7 +81,7 @@ class AbstractSource(AstroObject):
 
 
 @VO('sample:catalog.LuminosityMeasurement')
-class LuminosityMeasurement:
+class LuminosityMeasurement(BaseType):
     value = Attribute('sample:catalog.LuminosityMeasurement.value', min_occurs=1, max_occurs=1)
     error = Attribute('sample:catalog.LuminosityMeasurement.error', min_occurs=0, max_occurs=1)
     description = Attribute('sample:catalog.LuminosityMeasurement.description', min_occurs=0, max_occurs=1)
@@ -95,7 +95,7 @@ class SDSSSource(AbstractSource):
 
 
 @VO('sample:catalog.SkyCoordinateFrame')
-class SkyCoordinateFrame:
+class SkyCoordinateFrame(BaseType):
     name = Attribute('sample:catalog.SkyCoordinateFrame.name', min_occurs=1, max_occurs=1)
     document_u_r_i = Attribute('sample:catalog.SkyCoordinateFrame.documentURI', min_occurs=1, max_occurs=1)
     equinox = Attribute('sample:catalog.SkyCoordinateFrame.equinox', min_occurs=0, max_occurs=1)

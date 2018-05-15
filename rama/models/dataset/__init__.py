@@ -19,13 +19,13 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-from rama.framework import Attribute, Reference, Composition
+from rama.framework import Attribute, Reference, Composition, BaseType
 from rama.models.ivoa import StringQuantity
 from rama.utils.registry import VO
 
 
 @VO('ds:experiment.Observation')
-class Observation:
+class Observation(BaseType):
     observation_i_d = Attribute('ds:experiment.Observation.observationID', min_occurs=1, max_occurs=1)
     obs_config = Composition('ds:experiment.Observation.obsConfig', min_occurs=1, max_occurs=1)
     result = Composition('ds:experiment.Observation.result', min_occurs=0, max_occurs=-1)
@@ -34,7 +34,7 @@ class Observation:
 
 
 @VO('ds:experiment.ObsConfig')
-class ObsConfig:
+class ObsConfig(BaseType):
     bandpass = Attribute('ds:experiment.ObsConfig.bandpass', min_occurs=0, max_occurs=1)
     datasource = Attribute('ds:experiment.ObsConfig.datasource', min_occurs=0, max_occurs=1)
     facility = Composition('ds:experiment.ObsConfig.facility', min_occurs=0, max_occurs=1)
@@ -42,7 +42,7 @@ class ObsConfig:
 
 
 @VO('ds:experiment.BaseTarget')
-class BaseTarget:
+class BaseTarget(BaseType):
     name = Attribute('ds:experiment.BaseTarget.name', min_occurs=1, max_occurs=1)
     description = Attribute('ds:experiment.BaseTarget.description', min_occurs=0, max_occurs=1)
     position = Reference('ds:experiment.BaseTarget.position', min_occurs=0, max_occurs=1)
@@ -62,22 +62,22 @@ class AstroTarget(BaseTarget):
 
 
 @VO('ds:experiment.Instrument')
-class Instrument:
+class Instrument(BaseType):
     name = Attribute('ds:experiment.Instrument.name', min_occurs=1, max_occurs=1)
 
 
 @VO('ds:experiment.Proposal')
-class Proposal:
+class Proposal(BaseType):
     identifier = Attribute('ds:experiment.Proposal.identifier', min_occurs=1, max_occurs=1)
 
 
 @VO('ds:experiment.Derived')
-class Derived:
+class Derived(BaseType):
     derived_element = Composition('ds:experiment.Derived.derivedElement', min_occurs=0, max_occurs=-1)
 
 
 @VO('ds:dataset.Dataset')
-class Dataset:
+class Dataset(BaseType):
     data_product_type = Attribute('ds:dataset.Dataset.dataProductType', min_occurs=1, max_occurs=1)
     data_product_subtype = Attribute('ds:dataset.Dataset.dataProductSubtype', min_occurs=0, max_occurs=1)
     curation = Composition('ds:dataset.Dataset.curation', min_occurs=1, max_occurs=1)
@@ -94,7 +94,7 @@ class ObsDataset(Dataset):
 
 
 @VO('ds:experiment.DerivedElement')
-class DerivedElement:
+class DerivedElement(BaseType):
     pass
 
 
@@ -125,14 +125,14 @@ class SpectralBandType(StringQuantity):
 
 
 @VO('ds:dataset.DataModel')
-class DataModel:
+class DataModel(BaseType):
     name = Attribute('ds:dataset.DataModel.name', min_occurs=1, max_occurs=1)
     prefix = Attribute('ds:dataset.DataModel.prefix', min_occurs=0, max_occurs=1)
     u_r_l = Attribute('ds:dataset.DataModel.URL', min_occurs=0, max_occurs=1)
 
 
 @VO('ds:dataset.DataID')
-class DataID:
+class DataID(BaseType):
     title = Attribute('ds:dataset.DataID.title', min_occurs=1, max_occurs=1)
     dataset_i_d = Attribute('ds:dataset.DataID.datasetID', min_occurs=0, max_occurs=1)
     creator_d_i_d = Attribute('ds:dataset.DataID.creatorDID', min_occurs=0, max_occurs=1)
@@ -145,7 +145,7 @@ class DataID:
 
 
 @VO('ds:dataset.Curation')
-class Curation:
+class Curation(BaseType):
     publisher_d_i_d = Attribute('ds:dataset.Curation.publisherDID', min_occurs=0, max_occurs=1)
     version = Attribute('ds:dataset.Curation.version', min_occurs=0, max_occurs=1)
     release_date = Attribute('ds:dataset.Curation.releaseDate', min_occurs=0, max_occurs=1)
@@ -156,7 +156,7 @@ class Curation:
 
 
 @VO('ds:party.Role')
-class Role:
+class Role(BaseType):
     party = Reference('ds:party.Role.party', min_occurs=1, max_occurs=1)
 
 
@@ -186,17 +186,17 @@ class Contributor(Role):
 
 
 @VO('ds:dataset.Publication')
-class Publication:
+class Publication(BaseType):
     ref_code = Attribute('ds:dataset.Publication.refCode', min_occurs=1, max_occurs=1)
 
 
 @VO('ds:dataset.Collection')
-class Collection:
+class Collection(BaseType):
     name = Attribute('ds:dataset.Collection.name', min_occurs=1, max_occurs=1)
 
 
 @VO('ds:party.Party')
-class Party:
+class Party(BaseType):
     name = Attribute('ds:party.Party.name', min_occurs=1, max_occurs=1)
 
 

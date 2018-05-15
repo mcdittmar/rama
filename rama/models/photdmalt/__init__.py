@@ -19,7 +19,7 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-from rama.framework import Attribute, Composition, Reference
+from rama.framework import Attribute, Composition, Reference, BaseType
 from rama.utils.registry import VO
 
 
@@ -31,14 +31,14 @@ class S_Bounds:
 
 
 @VO('photdm-alt:Access')
-class Access:
+class Access(BaseType):
     reference = Attribute('photdm-alt:Access.reference', min_occurs=1, max_occurs=1)
     format = Attribute('photdm-alt:Access.format', min_occurs=1, max_occurs=1)
     size = Attribute('photdm-alt:Access.size', min_occurs=0, max_occurs=1)
 
 
 @VO('photdm-alt:ZeroPoint')
-class ZeroPoint:
+class ZeroPoint(BaseType):
     flux = Attribute('photdm-alt:ZeroPoint.flux', min_occurs=1, max_occurs=1)
     reference_magnitude = Attribute('photdm-alt:ZeroPoint.referenceMagnitude', min_occurs=1, max_occurs=1)
 
@@ -54,28 +54,28 @@ class LinearFlux(ZeroPoint):
 
 
 @VO('photdm-alt:MagnitudeSystem')
-class MagnitudeSystem:
+class MagnitudeSystem(BaseType):
     type = Attribute('photdm-alt:MagnitudeSystem.type', min_occurs=0, max_occurs=1)
     reference_spectrum = Attribute('photdm-alt:MagnitudeSystem.referenceSpectrum', min_occurs=0, max_occurs=1)
     source = Composition('photdm-alt:MagnitudeSystem.source', min_occurs=0, max_occurs=-1)
 
 
 @VO('photdm-alt:PhotCal')
-class PhotCal:
+class PhotCal(BaseType):
     zero_point = Composition('photdm-alt:PhotCal.zeroPoint', min_occurs=1, max_occurs=1)
     magnitude_system = Composition('photdm-alt:PhotCal.magnitudeSystem', min_occurs=1, max_occurs=1)
     photometry_filter = Reference('photdm-alt:PhotCal.photometryFilter', min_occurs=1, max_occurs=1)
 
 
 @VO('photdm-alt:PhotometricSystem')
-class PhotometricSystem:
+class PhotometricSystem(BaseType):
     description = Attribute('photdm-alt:PhotometricSystem.description', min_occurs=0, max_occurs=1)
     detector_type = Attribute('photdm-alt:PhotometricSystem.detectorType', min_occurs=1, max_occurs=1)
     photometry_filter = Composition('photdm-alt:PhotometricSystem.photometryFilter', min_occurs=1, max_occurs=-1)
 
 
 @VO('photdm-alt:PhotometryFilter')
-class PhotometryFilter:
+class PhotometryFilter(BaseType):
     fps_identifier = Attribute('photdm-alt:PhotometryFilter.fpsIdentifier', min_occurs=1, max_occurs=1)
     identifier = Attribute('photdm-alt:PhotometryFilter.identifier', min_occurs=1, max_occurs=1)
     name = Attribute('photdm-alt:PhotometryFilter.name', min_occurs=1, max_occurs=1)
@@ -95,12 +95,12 @@ class PogsonZeroPoint(ZeroPoint):
 
 
 @VO('photdm-alt:Source')
-class Source:
+class Source(BaseType):
     pass
 
 
 @VO('photdm-alt:TransmissionPoint')
-class TransmissionPoint:
+class TransmissionPoint(BaseType):
     spectral = Attribute('photdm-alt:TransmissionPoint.spectral', min_occurs=1, max_occurs=1)
     spectral_error = Attribute('photdm-alt:TransmissionPoint.spectralError', min_occurs=1, max_occurs=1)
     transmission = Attribute('photdm-alt:TransmissionPoint.transmission', min_occurs=1, max_occurs=1)

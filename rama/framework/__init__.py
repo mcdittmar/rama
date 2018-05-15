@@ -19,6 +19,9 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+import logging
+
+LOG = logging.getLogger(__name__)
 
 
 class VodmlDescriptor:
@@ -51,3 +54,12 @@ class Attribute(VodmlDescriptor):
 
 class Reference(VodmlDescriptor):
     pass
+
+
+class BaseType:
+    def set_field(self, field_name, field_instance):
+        setattr(self, field_name, field_instance)
+        try:
+            field_instance.__parent__ = self
+        except AttributeError:
+            LOG.warning(f"Can't set __parent__ attribute to {field_instance}")

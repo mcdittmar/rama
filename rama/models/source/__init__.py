@@ -19,7 +19,7 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-from rama.framework import Attribute, Composition, Reference
+from rama.framework import Attribute, Composition, Reference, BaseType
 from rama.models.ivoa import StringQuantity
 from rama.models.measurements import CoordMeasure
 from rama.utils.registry import VO
@@ -41,17 +41,17 @@ class LuminosityType2(StringQuantity):
 
 
 @VO('source:Algorithm')
-class Algorithm:
+class Algorithm(BaseType):
     description = Attribute('source:Algorithm.description', min_occurs=0, max_occurs=1)
 
 
 @VO('source:Catalogue')
-class Catalogue:
+class Catalogue(BaseType):
     source = Composition('source:Catalogue.source', min_occurs=0, max_occurs=-1)
 
 
 @VO('source:Source')
-class Source:
+class Source(BaseType):
     name = Attribute('source:Source.name', min_occurs=0, max_occurs=1)
     classification = Attribute('source:Source.classification', min_occurs=0, max_occurs=1)
     luminosity = Composition('source:Source.luminosity', min_occurs=0, max_occurs=-1)
@@ -64,7 +64,7 @@ class Detection(Source):
 
 
 @VO('source:Image')
-class Image:
+class Image(BaseType):
     url = Attribute('source:Image.url', min_occurs=0, max_occurs=1)
     exposure_time = Attribute('source:Image.exposureTime', min_occurs=0, max_occurs=1)
     start_time = Attribute('source:Image.startTime', min_occurs=0, max_occurs=1)
@@ -73,7 +73,7 @@ class Image:
 
 
 @VO('source:LuminosityMeasurement')
-class LuminosityMeasurement:
+class LuminosityMeasurement(BaseType):
     value = Attribute('source:LuminosityMeasurement.value', min_occurs=1, max_occurs=1)
     error = Attribute('source:LuminosityMeasurement.error', min_occurs=1, max_occurs=1)
     type = Attribute('source:LuminosityMeasurement.type', min_occurs=1, max_occurs=1)
@@ -82,7 +82,7 @@ class LuminosityMeasurement:
 
 
 @VO('source:SourceImage')
-class SourceImage:
+class SourceImage(BaseType):
     image = Reference('source:SourceImage.image', min_occurs=1, max_occurs=1)
 
 
@@ -92,7 +92,7 @@ class SourcePosition(CoordMeasure):
 
 
 @VO('source:XMatchSource')
-class XMatchSource:
+class XMatchSource(BaseType):
     weight = Attribute('source:XMatchSource.weight', min_occurs=0, max_occurs=1)
     source = Reference('source:XMatchSource.source', min_occurs=1, max_occurs=1)
 

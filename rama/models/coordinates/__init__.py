@@ -20,7 +20,7 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from rama.adapters.astropy import SkyCoordAdapter, TimeAdapter
-from rama.framework import Attribute, Reference, Composition
+from rama.framework import Attribute, Reference, Composition, BaseType
 from rama.models.ivoa import StringQuantity
 from rama.utils import Adapter
 from rama.utils.registry import VO
@@ -37,7 +37,7 @@ class Handedness(StringQuantity):
 
 
 @VO('coords:Coordinate')
-class Coordinate:
+class Coordinate(BaseType):
     frame = Reference('coords:Coordinate.frame', min_occurs=0, max_occurs=1)
 
 
@@ -77,12 +77,12 @@ class CompositeCoord3D(CompositeCoordinate):
 
 
 @VO('coords:CoordFrame')
-class CoordFrame:
+class CoordFrame(BaseType):
     pass
 
 
 @VO('coords:CoordSys')
-class CoordSys:
+class CoordSys(BaseType):
     pass
 
 
@@ -92,12 +92,12 @@ class AstroCoordSystem(CoordSys):
 
 
 @VO('coords:CoordSpace')
-class CoordSpace:
+class CoordSpace(BaseType):
     axis = Composition('coords:CoordSpace.axis', min_occurs=1, max_occurs=-1)
 
 
 @VO('coords:Axis')
-class Axis:
+class Axis(BaseType):
     name = Attribute('coords:Axis.name', min_occurs=0, max_occurs=1)
 
 
@@ -150,7 +150,7 @@ class StdRefFrame(StringQuantity):
 
 
 @VO('coords:domain.space.RefLocation')
-class RefLocation:
+class RefLocation(BaseType):
     pass
 
 

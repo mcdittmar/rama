@@ -65,6 +65,8 @@ def test_dataset(context_cube):
     assert dataset.calib_level == 3
     assert dataset.data_id.date == parse("2017-03-27T15:35:56")
 
+    assert dataset.data_id.__parent__ is dataset
+
 # def test_ext_instances(context_cube, recwarn):
 #     cube = context_cube.find_instances(SparseCube)[0]
 #
