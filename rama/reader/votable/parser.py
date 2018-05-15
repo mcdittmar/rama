@@ -30,10 +30,10 @@ from astropy.io import votable
 
 import numpy
 
-from rama.framework import Attribute, Reference, Composition, VodmlDescriptor
+from rama.framework import Attribute, Reference, Composition
 from rama.reader import Document
 from rama.reader.votable.utils import get_children, get_local_name, \
-    get_type_xpath_expression, resolve_id, resolve_type, find_element_for_role
+    get_type_xpath_expression, resolve_id, resolve_type, find_element_for_role, is_field
 
 LOG = logging.getLogger(__name__)
 
@@ -88,33 +88,46 @@ class Parser:
 
     def make(self, instance_class, xml_element, context):
         instance_id = resolve_id(xml_element)
-
         instance = context.get_instance_by_id(instance_id)
         if instance is not None:
             return instance
-
-        instance = instance_class()
-        instance.is_template = self.is_template(xml_element)
-
-        def is_field(attr):
-            return inspect.isdatadescriptor(attr) and isinstance(attr, VodmlDescriptor)
-
-        fields = inspect.getmembers(instance_class, is_field)
-        for field_name, field_object in fields:
-            field_reader = self.field_readers[field_object.__class__]
-            setattr(instance, field_name, field_reader(xml_element, field_object, context))
-
-        if hasattr(instance_class, '__delegate__'):
-            vo_instance = instance
-            instance = instance_class.__delegate__(vo_instance)
-            instance.__vo_object__ = vo_instance
-        instance.__vo_id__ = instance_id
-        context.add_instance(instance)
-
-        return instance
+        else:
+            return self._make(instance_class, instance_id, xml_element, context)
 
     def is_template(self, xml_element):
         return len(xml_element.xpath(f'.//{get_local_name("COLUMN")}')) > 0
+
+    def _make(self, instance_class, instance_id, xml_element, context):
+        instance = instance_class()
+        instance.is_template = self.is_template(xml_element)
+        instance_info = _InstanceInfo(instance, instance_id, instance_class, xml_element, context)
+        self._attach_fields(instance_info)
+        return self._decorate_with_adapter(instance_info)
+
+    def _attach_fields(self, instance_info):
+        fields = inspect.getmembers(instance_info.instance_class, is_field)
+        for field_name, field_object in fields:
+            field_reader = self.field_readers[field_object.__class__]
+            field_instance = field_reader(instance_info.xml_element, field_object, instance_info.context)
+            setattr(instance_info.instance, field_name, field_instance)
+
+    def _decorate_with_adapter(self, instance_info):
+        if hasattr(instance_info.instance_class, '__delegate__'):
+            vo_instance = instance_info.instance
+            instance_info.instance = instance_info.instance_class.__delegate__(vo_instance)
+            instance_info.instance.__vo_object__ = vo_instance
+        instance_info.instance.__vo_id__ = instance_info.instance_id
+        instance_info.context.add_instance(instance_info.instance)
+        return instance_info.instance
+
+
+class _InstanceInfo:
+    def __init__(self, instance, instance_id, instance_class, xml_element, context):
+        self.context = context
+        self.xml_element = xml_element
+        self.instance_class = instance_class
+        self.instance_id = instance_id
+        self.instance = instance
 
 
 class Element:
