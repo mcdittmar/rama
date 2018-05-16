@@ -19,7 +19,6 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-import inspect
 import logging
 import warnings
 
@@ -33,7 +32,7 @@ import numpy
 from rama.framework import Attribute, Reference, Composition
 from rama.reader import Document
 from rama.reader.votable.utils import get_children, get_local_name, \
-    get_type_xpath_expression, resolve_id, resolve_type, find_element_for_role, is_field
+    get_type_xpath_expression, resolve_id, resolve_type, find_element_for_role
 
 LOG = logging.getLogger(__name__)
 
@@ -107,7 +106,7 @@ class Parser:
         return self._decorate_with_adapter(instance_info)
 
     def _attach_fields(self, instance_info):
-        fields = inspect.getmembers(instance_info.instance_class, is_field)
+        fields = instance_info.instance_class.find_fields()
         for field_name, field_object in fields:
             field_reader = self.field_readers[field_object.__class__]
             field_instance = field_reader(instance_info.xml_element, field_object, instance_info.context)

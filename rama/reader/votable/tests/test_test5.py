@@ -24,7 +24,7 @@ from astropy.table import MaskedColumn
 from astropy import units as u
 from numpy.testing import assert_array_equal
 
-from rama import is_template, count
+from rama import is_template, count, flatten
 from rama.models.test.filter import PhotometryFilter
 from rama.models.test.sample import SkyCoordinateFrame, Source
 from rama.reader import Reader
@@ -106,13 +106,85 @@ def test_source(context_test5, recwarn):
     # TODO MISSING multi-table relationship
 
 
-def test_source_direct(context_test5, recwarn):
+def test_source_unroll(context_test5, recwarn):
     template_source = context_test5.find_instances(Source)[0]
     assert is_template(template_source)
     assert count(template_source) == 3
 
-    # assert len(sources) == 3
-    # source = sources[0]
-    # assert source.name == b'08120809-0206132'
-    # assert source.position.longitude == 123.033734 * u.Unit('deg')
-    # assert source.position.latitude == -2.103671 * u.Unit('deg')
+    frame = context_test5.find_instances(SkyCoordinateFrame)[0]
+    filters = context_test5.find_instances(PhotometryFilter)
+    h_filter = filters[0]
+    j_filter = filters[1]
+    k_filter = filters[2]
+
+    sources = flatten(template_source)
+
+    assert len(sources) == 3
+    source = sources[0]
+    assert source.name == b'08120809-0206132'
+    assert source.position.longitude == template_source.position.longitude[0]
+    assert source.position.latitude == template_source.position.latitude[0]
+    assert source.position.frame is frame
+    h_mag = source.luminosity[0]
+    assert h_mag.type == 'magnitude'
+    assert h_mag.filter is h_filter
+    assert h_mag.value == template_source.luminosity[0].value[0]
+    assert h_mag.error == template_source.luminosity[0].error[0]
+
+    j_mag = source.luminosity[1]
+    assert j_mag.type == 'magnitude'
+    assert j_mag.filter is j_filter
+    assert j_mag.value == template_source.luminosity[1].value[0]
+    assert j_mag.error == template_source.luminosity[1].error[0]
+
+    k_mag = source.luminosity[2]
+    assert k_mag.type == 'magnitude'
+    assert k_mag.filter is k_filter
+    assert k_mag.value == template_source.luminosity[2].value[0]
+    assert k_mag.error == template_source.luminosity[2].error[0]
+
+    source = sources[1]
+    assert source.name == b'08115683-0205428'
+    assert source.position.longitude == template_source.position.longitude[1]
+    assert source.position.latitude == template_source.position.latitude[1]
+    assert source.position.frame is frame
+    h_mag = source.luminosity[0]
+    assert h_mag.type == 'magnitude'
+    assert h_mag.filter is h_filter
+    assert h_mag.value == template_source.luminosity[0].value[1]
+    assert h_mag.error == template_source.luminosity[0].error[1]
+
+    j_mag = source.luminosity[1]
+    assert j_mag.type == 'magnitude'
+    assert j_mag.filter is j_filter
+    assert j_mag.value == template_source.luminosity[1].value[1]
+    assert j_mag.error == template_source.luminosity[1].error[1]
+
+    k_mag = source.luminosity[2]
+    assert k_mag.type == 'magnitude'
+    assert k_mag.filter is k_filter
+    assert k_mag.value == template_source.luminosity[2].value[1]
+    assert k_mag.error == template_source.luminosity[2].error[1]
+
+    source = sources[2]
+    assert source.name == b'08115826-0205336'
+    assert source.position.longitude == template_source.position.longitude[2]
+    assert source.position.latitude == template_source.position.latitude[2]
+    assert source.position.frame is frame
+    h_mag = source.luminosity[0]
+    assert h_mag.type == 'magnitude'
+    assert h_mag.filter is h_filter
+    assert h_mag.value == template_source.luminosity[0].value[2]
+    assert h_mag.error == template_source.luminosity[0].error[2]
+
+    j_mag = source.luminosity[1]
+    assert j_mag.type == 'magnitude'
+    assert j_mag.filter is j_filter
+    assert j_mag.value == template_source.luminosity[1].value[2]
+    assert j_mag.error == template_source.luminosity[1].error[2]
+
+    k_mag = source.luminosity[2]
+    assert k_mag.type == 'magnitude'
+    assert k_mag.filter is k_filter
+    assert k_mag.value == template_source.luminosity[2].value[2]
+    assert k_mag.error == template_source.luminosity[2].error[2]
