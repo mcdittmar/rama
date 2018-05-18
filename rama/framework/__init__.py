@@ -68,10 +68,10 @@ class Composition(VodmlDescriptor):
 class Attribute(VodmlDescriptor):
     def __set__(self, instance, value):
         VodmlDescriptor.__set__(self, instance, value)
-        if hasattr(value, 'count'):  # BaseTypes
-            instance.count = value.count
+        if hasattr(value, 'cardinality'):  # BaseTypes
+            instance.cardinality = value.cardinality
         elif isinstance(value, Quantity) and not value.isscalar:
-            instance.count = len(value)
+            instance.cardinality = len(value)
 
     def get_index(self, instance, instance_index):
         value = self.values[instance]
@@ -100,21 +100,21 @@ class Reference(VodmlDescriptor):
 class BaseType:
     def __init__(self):
         self.__parent__ = None
-        self.__count = None
+        self.__count = 0
 
     def set_field(self, field_name, field_instance):
         setattr(self, field_name, field_instance)
 
     @property
-    def count(self):
+    def cardinality(self):
         return self.__count
 
-    @count.setter
-    def count(self, value):
+    @cardinality.setter
+    def cardinality(self, value):
         self.__count = value
 
     def flatten(self):
-        return [self.__class__.unroll(self, instance_index) for instance_index in range(self.count)]
+        return [self.__class__.unroll(self, instance_index) for instance_index in range(self.cardinality)]
 
     @classmethod
     def find_fields(cls):

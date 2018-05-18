@@ -62,8 +62,8 @@ def count(template_instance):
     if hasattr(template_instance, "__vo_object__"):
         return count(template_instance.__vo_object__)
 
-    if hasattr(template_instance, "count"):
-        return template_instance.count
+    if hasattr(template_instance, "cardinality"):
+        return template_instance.cardinality
 
     raise ValueError("Instance is not an adapter or a data model type (BaseType)")
 
