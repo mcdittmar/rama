@@ -23,6 +23,7 @@ import inspect
 import logging
 from weakref import WeakKeyDictionary
 
+import numpy
 from astropy.units import Quantity
 
 LOG = logging.getLogger(__name__)
@@ -130,3 +131,28 @@ class BaseType:
             value = field_object.get_index(template_instance, instance_index)
             instance.set_field(field_name, value)
         return instance
+
+
+class InstanceId:
+    def __init__(self, id=None, keys=None):
+        self.id = id
+        self.keys = keys
+        self.is_column = keys is not None and len(keys.shape) == 2
+
+    def __repr__(self):
+        return f"ID: {self.id} and Keys: {self.keys}"
+
+    def __eq__(self, other):
+        if isinstance(self, other.__class__):
+            return numpy.array_equal(self.id, other.id) and numpy.array_equal(self.keys, other.keys)
+        return False
+
+    def __hash__(self):
+        id_to_hash = self.id
+        keys_to_hash = self.keys
+        if hasattr(self.id, "tostring"):
+            id_to_hash = self.id.tostring()
+        if hasattr(self.keys, "tostring"):
+            keys_to_hash = self.keys.tostring()
+
+        return hash((id_to_hash, keys_to_hash))

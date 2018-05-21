@@ -25,9 +25,14 @@ from astropy import units as u
 from astropy.coordinates import SkyCoord, FK5
 from astropy.time import Time
 
+from rama.framework import InstanceId
+from rama.models.test.sample import Source
+
 from rama.models.coordinates import SpaceFrame
 from rama.models.measurements import StdPosition
-from rama import read
+from rama import read, Votable, Reader
+from rama.models.photdmalt import PhotometryFilter
+from rama.models.source import Detection
 
 
 @pytest.fixture
@@ -53,6 +58,11 @@ def references_file(make_data_path):
 @pytest.fixture
 def asymmetric_data_file(make_data_path):
     return read(make_data_path('asymmetric-2d-position.vot.xml'))
+
+
+@pytest.fixture
+def hsc_data_file(make_data_path):
+    return read(make_data_path('hsc.vot.xml'))
 
 
 def test_parsing_coordinates(simple_position_file):
@@ -126,5 +136,42 @@ def test_invalid_file(invalid_file):
     expected_ra = numpy.array([numpy.NaN, numpy.NaN])
     expected_dec = u.Quantity(numpy.array([11.0, 21.0]))
     numpy.testing.assert_array_equal(expected_ra, position.coord.ra)
-    # The unit is bogus, so we can't really test for equality
     numpy.testing.assert_array_equal(expected_dec.value, position.coord.dec.value)
+
+
+def test_single_table_orm(hsc_data_file):
+    detections = hsc_data_file.find_instances(Detection)[0]
+    filters = hsc_data_file.find_instances(PhotometryFilter)
+
+    f814w = None
+    f606w = None
+
+    for hsc_filter in filters:
+        if hsc_filter.name == "F814W":
+            f814w = hsc_filter
+        else:
+            f606w = hsc_filter
+
+    assert detections.luminosity[0].filter[1] is f814w
+    assert detections.luminosity[0].filter[0] is f606w
+
+
+def test_references_orm(make_data_path):
+    doc = Votable(make_data_path('references.vot.xml'))
+    reader = Reader(doc)
+    sources = reader.find_instances(Source)
+    filters = reader.find_instances(PhotometryFilter)
+
+    f814w = None
+    f606w = None
+
+    for hsc_filter in filters:
+        if hsc_filter.name == "F814W":
+            f814w = hsc_filter
+        else:
+            f606w = hsc_filter
+
+    source = sources[0]
+    print(source.luminosity[0].filter[0])
+    assert source.luminosity[0].filter[0] is f606w
+    assert source.luminosity[0].filter[1] is f814w

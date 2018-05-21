@@ -23,6 +23,7 @@ import logging
 from abc import abstractmethod, ABCMeta
 from weakref import WeakValueDictionary
 
+from rama.framework import InstanceId
 from rama.utils.registry import TypeRegistry
 
 LOG = logging.getLogger(__name__)
@@ -37,10 +38,31 @@ class Document(metaclass=ABCMeta):
         pass
 
 
+class InstanceRegistry:
+    def __init__(self):
+        self.id_instances = {}
+        self.pk_instances = {}
+
+    def set(self, instance_id, instance):
+        if instance_id.keys is not None:
+            self.pk_instances[instance_id] = instance
+        self.id_instances[instance_id] = instance
+
+    def get(self, instance_id):
+        if not instance_id.is_column:
+            return self.id_instances.get(instance_id, None)
+
+        possible_instances = [self.get(InstanceId(id_for_row, None)) for id_for_row in instance_id.keys]
+        if not any(possible_instances):
+            return None
+        return possible_instances
+
+
 class Reader:
     def __init__(self, document: Document):
-        self.standalone_instances = WeakValueDictionary()
+        self.instance_registry = InstanceRegistry()
         self.tables = {}
+        self.column_mappings = {}
         self.registry = TypeRegistry.instance
         self.document = document
 
@@ -56,13 +78,19 @@ class Reader:
 
     def add_instance(self, instance):
         if instance.__vo_id__ is not None:
-            self.standalone_instances[instance.__vo_id__] = instance
+            self.instance_registry.set(instance.__vo_id__, instance)
 
     def get_instance_by_id(self, instance_id):
-        return self.standalone_instances.get(instance_id, None)
+        return self.instance_registry.get(instance_id)
 
     def add_table(self, table_id, table):
         self.tables[table_id] = table
 
     def get_table_by_id(self, table_id):
         return self.tables.get(table_id, None)
+
+    def add_column_mapping(self, old, new):
+        self.column_mappings[old] = new
+
+    def get_column_mapping(self, old):
+        return self.column_mappings.get(old, old)

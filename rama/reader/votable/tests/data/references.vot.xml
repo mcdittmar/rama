@@ -10,9 +10,71 @@
             <URL>file:../models/STC_meas-v2.0.vo-dml.xml</URL>
         </MODEL>
         <MODEL>
+            <NAME>photdm-alt</NAME>
+            <URL>file:../models/filter.vot.xml</URL>
+        </MODEL>
+        <MODEL>
+            <NAME>sample</NAME>
+            <URL>file:../models/sample.vot.xml</URL>
+        </MODEL>
+        <MODEL>
             <NAME>ivoa</NAME>
             <URL>https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models//ivoa/vo-dml/IVOA-v1.0.vo-dml.xml</URL>
         </MODEL>
+        <GLOBALS ID="_HSC_FILTERS">
+			<INSTANCE ID="_F606W" dmtype="photdm-alt:PhotometryFilter">
+				<PRIMARYKEY>
+					<PKFIELD>
+						<LITERAL value="F606W" dmtype="ivoa:string"/>
+					</PKFIELD>
+					<PKFIELD>
+						<LITERAL value="ACS" dmtype="ivoa:string"/>
+					</PKFIELD>
+				</PRIMARYKEY>
+				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
+					<LITERAL value="F606W" dmtype="ivoa:string"/>
+				</ATTRIBUTE>
+				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
+					<LITERAL value="R" dmtype="ivoa:string"/>
+				</ATTRIBUTE>
+				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
+					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
+						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
+							<LITERAL value="606" dmtype="ivoa:RealQuantity"/>
+						</ATTRIBUTE>
+						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
+							<LITERAL value="0" dmtype="ivoa:RealQuantity"/>
+						</ATTRIBUTE>
+					</INSTANCE>
+				</ATTRIBUTE>
+			</INSTANCE>
+			<INSTANCE ID="_W2_F814W" dmtype="photdm-alt:PhotometryFilter">
+				<PRIMARYKEY>
+					<PKFIELD>
+						<LITERAL value="F814W" dmtype="ivoa:string"/>
+					</PKFIELD>
+					<PKFIELD>
+						<LITERAL value="WFPC2" dmtype="ivoa:string"/>
+					</PKFIELD>
+				</PRIMARYKEY>
+				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
+					<LITERAL value="F814W" dmtype="ivoa:string"/>
+				</ATTRIBUTE>
+				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
+					<LITERAL value="I" dmtype="ivoa:string"/>
+				</ATTRIBUTE>
+				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
+					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
+						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
+							<LITERAL value="814" dmtype="ivoa:RealQuantity"/>
+						</ATTRIBUTE>
+						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
+							<LITERAL value="0" dmtype="ivoa:RealQuantity"/>
+						</ATTRIBUTE>
+					</INSTANCE>
+				</ATTRIBUTE>
+			</INSTANCE>
+		</GLOBALS>
         <GLOBALS>
             <INSTANCE dmtype="coords:domain.space.SpaceFrame" ID="_SPACE_FRAME">
                 <ATTRIBUTE dmrole="coords:domain.space.SpaceFrame.spaceRefFrame">
@@ -38,5 +100,97 @@
                 </ATTRIBUTE>
             </INSTANCE>
         </GLOBALS>
+        <TEMPLATES tableref="_table1">
+            <INSTANCE ID="_source" dmtype="sample:catalog.Source">
+                <PRIMARYKEY>
+                    <PKFIELD>
+                        <COLUMN ref="_designation" dmtype="ivoa:string"/>
+                    </PKFIELD>
+                </PRIMARYKEY>
+                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.name">
+                    <COLUMN ref="_designation" dmtype="ivoa:string"/>
+                </ATTRIBUTE>
+                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.position">
+                    <INSTANCE dmtype="sample:catalog.SkyCoordinate">
+                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.longitude">
+                            <COLUMN ref="_ra" dmtype="ivoa:real"/>
+                        </ATTRIBUTE>
+                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.latitude">
+                            <COLUMN ref="_dec" dmtype="ivoa:real"/>
+                        </ATTRIBUTE>
+                        <REFERENCE dmrole="sample:catalog.SkyCoordinate.frame">
+                            <IDREF>_SPACE_FRAME</IDREF>
+                        </REFERENCE>
+                    </INSTANCE>
+                </ATTRIBUTE>
+                <COMPOSITION dmrole="sample:catalog.AbstractSource.luminosity">
+					<INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
+						<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+							<COLUMN ref="MagAper2" dmtype="ivoa:real"/>
+						</ATTRIBUTE>
+						<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+							<LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
+						</ATTRIBUTE>
+						<REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+							<FOREIGNKEY>
+								<PKFIELD>
+									<COLUMN ref="Filter" dmtype="ivoa:string"/>
+								</PKFIELD>
+								<PKFIELD>
+									<COLUMN ref="Instrument" dmtype="ivoa:string"/>
+								</PKFIELD>
+								<TARGETID>_HSC_FILTERS</TARGETID>
+							</FOREIGNKEY>
+						</REFERENCE>
+					</INSTANCE>
+				</COMPOSITION>
+            </INSTANCE>
+        </TEMPLATES>
+        <RESOURCE>
+            <TABLE ID="_table1">
+                <!-- The following GROUP represents 0 or more Sources indirectly. For it has FIELDref-s, hence indicating the Source
+                  instances are stored in the TABLE rows. Note that not all FIELDs are represented in the annotation, as there is no model
+                  covering all elements such as. -->
+
+                <FIELD name="_designation" ID="_designation" utype="ivoa:string" datatype="char" arraysize="*">
+                    <DESCRIPTION>source designation formed from sexigesimal coordinates</DESCRIPTION>
+                </FIELD>
+                <FIELD name="ra" ID="_ra" unit="deg" datatype="float">
+                    <DESCRIPTION>right ascension (J2000 decimal deg)</DESCRIPTION>
+                </FIELD>
+                <FIELD name="dec" ID="_dec" unit="deg" datatype="float">
+                    <DESCRIPTION>declination (J2000 decimal deg)</DESCRIPTION>
+                </FIELD>
+                <FIELD name="MagAper2" datatype="double" ucd="PHOT_MAG_VISUAL" unit="ABMAG" ID="MagAper2">
+				    <DESCRIPTION>Magnitude with an aperture radius 0.3 arcsec (WFPC2),  0.15 arcsec (ACS, WFC3/UVIS) and 0.45 arcsec (WFC3/IR)</DESCRIPTION>
+			    </FIELD>
+                <FIELD name="Instrument" datatype="char" ID="Instrument" arraysize="*">
+				    <DESCRIPTION>Name of instrument</DESCRIPTION>
+			    </FIELD>
+                <FIELD name="Filter" datatype="char" ID="Filter" arraysize="*">
+				    <DESCRIPTION>Filter</DESCRIPTION>
+			    </FIELD>
+                <DATA>
+                    <TABLEDATA>
+                        <TR>
+                            <TD>ID1</TD>
+                            <TD>10.0</TD>
+                            <TD>20.0</TD>
+                            <TD>100.0</TD>
+                            <TD>F606W</TD>
+                            <TD>ACS</TD>
+                        </TR>
+                        <TR>
+                            <TD>ID2</TD>
+                            <TD>11.0</TD>
+                            <TD>21.0</TD>
+                            <TD>200.0</TD>
+                            <TD>F814W</TD>
+                            <TD>WFPC2</TD>
+                        </TR>
+                    </TABLEDATA>
+                </DATA>
+            </TABLE>
+        </RESOURCE>
     </VODML>
 </VOTABLE>
