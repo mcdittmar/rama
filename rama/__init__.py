@@ -68,11 +68,11 @@ def count(template_instance):
     raise ValueError("Instance is not an adapter or a data model type (BaseType)")
 
 
-def flatten(template_instance):
+def unroll(template_instance):
     if hasattr(template_instance, "__vo_object__"):
-        return [template_instance.__class__(instance) for instance in flatten(template_instance.__vo_object__)]
+        return [template_instance.__class__(instance) for instance in unroll(template_instance.__vo_object__)]
 
-    if hasattr(template_instance, "flatten"):
-        return template_instance.flatten()
+    if hasattr(template_instance, "unroll"):
+        return template_instance.unroll()
 
     raise ValueError("Instance is not an adapter or a data model type (BaseType)")

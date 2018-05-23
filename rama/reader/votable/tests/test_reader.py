@@ -29,7 +29,7 @@ from rama.models.test.sample import Source
 
 from rama.models.coordinates import SpaceFrame
 from rama.models.measurements import StdPosition
-from rama import read, flatten
+from rama import read, unroll
 from rama.models.photdmalt import PhotometryFilter
 from rama.models.source import Detection
 
@@ -186,6 +186,6 @@ def test_references_orm_unroll(references_file):
         else:
             f606w = hsc_filter
 
-    source = flatten(sources[0])
+    source = unroll(sources[0])
     assert source[0].luminosity[0].filter is f606w
     assert source[1].luminosity[0].filter is f814w

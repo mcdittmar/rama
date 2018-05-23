@@ -24,7 +24,7 @@ from astropy.table import MaskedColumn
 from astropy import units as u
 from numpy.testing import assert_array_equal
 
-from rama import is_template, count, flatten
+from rama import is_template, count, unroll
 from rama.models.test.filter import PhotometryFilter
 from rama.models.test.sample import SkyCoordinateFrame, Source
 from rama.reader import Reader
@@ -118,7 +118,7 @@ def test_source_unroll(context_test5, recwarn):
     j_filter = filters[1]
     k_filter = filters[2]
 
-    sources = flatten(template_source)
+    sources = unroll(template_source)
 
     assert len(sources) == 3
     source = sources[0]

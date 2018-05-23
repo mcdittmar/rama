@@ -64,7 +64,7 @@ class Composition(VodmlDescriptor):
         values = self.values[instance]
         if values is None:
             return
-        return [value.__class__.unroll(value, instance_index) for value in values]
+        return [value.__class__._unroll(value, instance_index) for value in values]
 
 
 class Attribute(VodmlDescriptor):
@@ -78,7 +78,7 @@ class Attribute(VodmlDescriptor):
     def get_index(self, instance, instance_index):
         value = self.values[instance]
         if self._is_basetype(value):
-            return value.__class__.unroll(value, instance_index)
+            return value.__class__._unroll(value, instance_index)
         if self._is_string(value):
             return value
         if value is not None:
@@ -151,8 +151,8 @@ class BaseType:
     def cardinality(self, value):
         self.__count = value
 
-    def flatten(self):
-        return [self.__class__.unroll(self, instance_index) for instance_index in range(self.cardinality)]
+    def unroll(self):
+        return [self.__class__._unroll(self, instance_index) for instance_index in range(self.cardinality)]
 
     @classmethod
     def find_fields(cls):
@@ -162,7 +162,7 @@ class BaseType:
         return inspect.getmembers(cls, is_field)
 
     @classmethod
-    def unroll(cls, template_instance, instance_index):
+    def _unroll(cls, template_instance, instance_index):
         instance = cls()
         for field_name, field_object in cls.find_fields():
             value = field_object.get_index(template_instance, instance_index)
