@@ -21,6 +21,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import inspect
 import logging
+from abc import ABCMeta
 from weakref import WeakKeyDictionary
 
 import numpy
@@ -91,11 +92,47 @@ class Attribute(VodmlDescriptor):
 
 
 class Reference(VodmlDescriptor):
-    def get_index(self, instance, _):
+    def get_index(self, instance, instance_index):
         """
-        References should just pass through
+        References should just pass through, unless they are from a column.
         """
-        return self.values[instance]
+        reference_wrapper = self.values[instance]
+        return reference_wrapper.get(instance_index)
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        return self.values.get(instance, self.default).get(None)
+
+    def __set__(self, instance, value):
+        if not isinstance(value, ReferenceWrapper):
+            set_value = SingleReferenceWrapper(value)
+        else:
+            set_value = value
+        self.values[instance] = set_value
+
+
+class ReferenceWrapper(metaclass=ABCMeta):
+    pass
+
+
+class SingleReferenceWrapper(ReferenceWrapper):
+    def __init__(self, referenced_instance):
+        self.referenced_instance = referenced_instance
+
+    def get(self, _):
+        return self.referenced_instance
+
+
+class RowReferenceWrapper(ReferenceWrapper):
+    def __init__(self, referenced_list):
+        self.referenced_list = referenced_list
+
+    def get(self, instance_index):
+        if instance_index is None:
+            return self.referenced_list
+        else:
+            return self.referenced_list[instance_index]
 
 
 class BaseType:

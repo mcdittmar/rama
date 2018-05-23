@@ -24,7 +24,7 @@ import warnings
 
 from lxml import etree
 
-from rama.framework import Attribute, Reference, Composition, InstanceId
+from rama.framework import Attribute, Reference, Composition, InstanceId, RowReferenceWrapper, SingleReferenceWrapper
 from rama.reader import Document
 from rama.reader.votable.utils import get_children, get_local_name, \
     get_type_xpath_expression, parse_id, resolve_type, find_element_for_role, parse_literal, parse_column, \
@@ -186,7 +186,7 @@ class ReferenceElement(Element):
 
         referred_instance = find_instance(self.context, ref)
         if referred_instance is not None:
-            return referred_instance
+            return SingleReferenceWrapper(referred_instance)
 
         referred_elements = xml_element.xpath(f"//{get_local_name('INSTANCE')}[@ID='{ref.id}']")
 
@@ -198,7 +198,7 @@ class ReferenceElement(Element):
             return None
 
         referred_element = referred_elements[0]
-        return self.parser.read_instance(referred_element, self.context)
+        return SingleReferenceWrapper(self.parser.read_instance(referred_element, self.context))
 
     def _parse_foreign_key(self, xml_element):
         ref = InstanceId(None, parse_identifier_field(self.context, xml_element))
@@ -209,7 +209,9 @@ class ReferenceElement(Element):
         target_id = xml_element.xpath(f"./{get_local_name('TARGETID')}")[0].text
         referred_elements = xml_element.xpath(f"//*[@ID='{target_id}']/{get_local_name('INSTANCE')}")
 
-        return [self.parser.read_instance(referred_element, self.context) for referred_element in referred_elements]
+        instances = [self.parser.read_instance(referred_element, self.context)
+                     for referred_element in referred_elements]
+        return RowReferenceWrapper(instances)
 
 
 class CompositionElement(ElementWithInstances):

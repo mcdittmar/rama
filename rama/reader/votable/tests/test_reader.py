@@ -29,7 +29,7 @@ from rama.models.test.sample import Source
 
 from rama.models.coordinates import SpaceFrame
 from rama.models.measurements import StdPosition
-from rama import read
+from rama import read, flatten
 from rama.models.photdmalt import PhotometryFilter
 from rama.models.source import Detection
 
@@ -171,3 +171,21 @@ def test_references_orm(references_file):
     source = sources[0]
     assert source.luminosity[0].filter[0] is f606w
     assert source.luminosity[0].filter[1] is f814w
+
+
+def test_references_orm_unroll(references_file):
+    sources = references_file.find_instances(Source)
+    filters = references_file.find_instances(PhotometryFilter)
+
+    f814w = None
+    f606w = None
+
+    for hsc_filter in filters:
+        if hsc_filter.name == "F814W":
+            f814w = hsc_filter
+        else:
+            f606w = hsc_filter
+
+    source = flatten(sources[0])
+    assert source[0].luminosity[0].filter is f606w
+    assert source[1].luminosity[0].filter is f814w
