@@ -22,9 +22,11 @@
 import logging
 import warnings
 
+import itertools
 from lxml import etree
 
-from rama.framework import Attribute, Reference, Composition, InstanceId, RowReferenceWrapper, SingleReferenceWrapper
+from rama.framework import Attribute, Reference, Composition, InstanceId, RowReferenceWrapper, SingleReferenceWrapper, \
+    BaseType
 from rama.reader import Document
 from rama.reader.votable.utils import get_children, get_local_name, \
     get_type_xpath_expression, parse_id, resolve_type, find_element_for_role, parse_literal, parse_column, \
@@ -76,10 +78,13 @@ class Parser:
     def parse_references(self, xml_element, field_object, context):
         return ReferenceElement(xml_element, field_object, context, self).all
 
-    def find(self, element_class):
-        type_id = element_class.vodml_id
-        elements = self.votable.document.xpath(get_type_xpath_expression('INSTANCE', type_id))
-        return elements
+    def find(self, element_class: BaseType):
+        type_id = [element_class.vodml_id,]
+        subtype_ids = [subtype.vodml_id for subtype in element_class.all_subclasses()]
+        all_ids = type_id + subtype_ids
+        elements = [self.votable.document.xpath(get_type_xpath_expression('INSTANCE', id)) for id in all_ids]
+        elements_flat = list(itertools.chain(*elements))
+        return elements_flat
 
     def make(self, instance_class, xml_element, context):
         instance_id = parse_id(context, xml_element, instance_class)

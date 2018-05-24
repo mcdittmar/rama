@@ -221,3 +221,14 @@ def test_references_orm_unroll_hsc(hsc_data_file):
     assert source[4].luminosity[0].filter is f606w
     assert source[5].luminosity[0].filter is f606w
     assert source[6].luminosity[0].filter is f606w
+
+
+def test_polymorphism(hsc_data_file):
+    # There is no explicit instantiation of Source in the hsc file, but there is and instantiation of Detection,
+    # which is a subtype of Source.
+    from rama.models.source import Source
+    sources = hsc_data_file.find_instances(Source)
+
+    assert sources[0].cardinality == 7
+    assert isinstance(sources[0], Detection)
+    assert isinstance(sources[0], Source)

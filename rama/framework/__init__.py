@@ -137,6 +137,8 @@ class RowReferenceWrapper(ReferenceWrapper):
 
 
 class BaseType:
+    vodml_id = None
+
     def __init__(self):
         self.__parent__ = None
         self.__count = 0
@@ -169,6 +171,10 @@ class BaseType:
             value = field_object.get_index(template_instance, instance_index)
             instance.set_field(field_name, value)
         return instance
+
+    @classmethod
+    def all_subclasses(cls):
+        return set(cls.__subclasses__()).union([s for c in cls.__subclasses__() for s in c.all_subclasses()])
 
 
 class InstanceId:
