@@ -152,7 +152,7 @@
                   instances are stored in the TABLE rows. Note that not all FIELDs are represented in the annotation, as there is no model
                   covering all elements such as. -->
 
-                <FIELD name="_designation" ID="_designation" utype="ivoa:string" datatype="char" arraysize="*">
+                <FIELD name="designation" ID="_designation" utype="ivoa:string" datatype="char" arraysize="*">
                     <DESCRIPTION>source designation formed from sexigesimal coordinates</DESCRIPTION>
                 </FIELD>
                 <FIELD name="ra" ID="_ra" unit="deg" datatype="float">
@@ -164,11 +164,11 @@
                 <FIELD name="MagAper2" datatype="double" ucd="PHOT_MAG_VISUAL" unit="ABMAG" ID="MagAper2">
 				    <DESCRIPTION>Magnitude with an aperture radius 0.3 arcsec (WFPC2),  0.15 arcsec (ACS, WFC3/UVIS) and 0.45 arcsec (WFC3/IR)</DESCRIPTION>
 			    </FIELD>
-                <FIELD name="Instrument" datatype="char" ID="Instrument" arraysize="*">
-				    <DESCRIPTION>Name of instrument</DESCRIPTION>
-			    </FIELD>
                 <FIELD name="Filter" datatype="char" ID="Filter" arraysize="*">
 				    <DESCRIPTION>Filter</DESCRIPTION>
+			    </FIELD>
+                <FIELD name="Instrument" datatype="char" ID="Instrument" arraysize="*">
+				    <DESCRIPTION>Name of instrument</DESCRIPTION>
 			    </FIELD>
                 <DATA>
                     <TABLEDATA>

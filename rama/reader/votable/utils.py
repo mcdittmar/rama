@@ -49,6 +49,15 @@ def parse_column(context, xml_element):
     column_ref = context.get_column_mapping(column_ref)
     column = table[column_ref]
 
+    # Another hack: it simplify things if the byte columns are converted to strings... maybe this is an issue
+    # in the VOTable parser needing some attention?
+    try:
+        if column.dtype == 'object':
+            column = column.astype('U')
+            table[column_ref] = column
+    except:
+        pass
+
     name = column_element.xpath("@name")[0]
     column.name = name
 

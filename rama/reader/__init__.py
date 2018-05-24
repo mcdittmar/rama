@@ -45,14 +45,18 @@ class InstanceRegistry:
 
     def set(self, instance_id, instance):
         if instance_id.keys is not None:
-            self.pk_instances[instance_id] = instance
+            if instance_id.is_column:
+                for keys in instance_id.keys:
+                    self.pk_instances[tuple(keys.tolist())] = instance
+            else:
+                self.pk_instances[tuple(instance_id.keys.tolist())] = instance
         self.id_instances[instance_id] = instance
 
     def get(self, instance_id):
         if not instance_id.is_column:
             return self.id_instances.get(instance_id, None)
 
-        possible_instances = [self.get(InstanceId(id_for_row, None)) for id_for_row in instance_id.keys]
+        possible_instances = [self.pk_instances.get(tuple(keys.tolist()), None) for keys in instance_id.keys]
         if not any(possible_instances):
             return None
         return possible_instances

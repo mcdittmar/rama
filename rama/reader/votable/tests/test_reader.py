@@ -25,6 +25,7 @@ from astropy import units as u
 from astropy.coordinates import SkyCoord, FK5
 from astropy.time import Time
 
+from rama.framework import InstanceId
 from rama.models.test.sample import Source
 
 from rama.models.coordinates import SpaceFrame
@@ -138,23 +139,6 @@ def test_invalid_file(invalid_file):
     numpy.testing.assert_array_equal(expected_dec.value, position.coord.dec.value)
 
 
-def test_single_table_orm(hsc_data_file):
-    detections = hsc_data_file.find_instances(Detection)[0]
-    filters = hsc_data_file.find_instances(PhotometryFilter)
-
-    f814w = None
-    f606w = None
-
-    for hsc_filter in filters:
-        if hsc_filter.name == "F814W":
-            f814w = hsc_filter
-        else:
-            f606w = hsc_filter
-
-    assert detections.luminosity[0].filter[1] is f814w
-    assert detections.luminosity[0].filter[0] is f606w
-
-
 def test_references_orm(references_file):
     sources = references_file.find_instances(Source)
     filters = references_file.find_instances(PhotometryFilter)
@@ -189,3 +173,51 @@ def test_references_orm_unroll(references_file):
     source = unroll(sources[0])
     assert source[0].luminosity[0].filter is f606w
     assert source[1].luminosity[0].filter is f814w
+
+
+def test_references_orm_hsc(hsc_data_file):
+    sources = hsc_data_file.find_instances(Detection)
+    filters = hsc_data_file.find_instances(PhotometryFilter)
+
+    f814w = None
+    f606w = None
+
+    for hsc_filter in filters:
+        if hsc_filter.name == "F814W":
+            f814w = hsc_filter
+        else:
+            f606w = hsc_filter
+
+    source = sources[0]
+    assert source.luminosity[0].filter[0] is f814w
+    assert source.luminosity[0].filter[1] is f606w
+    assert source.luminosity[0].filter[2] is f606w
+    assert source.luminosity[0].filter[3] is f606w
+    assert source.luminosity[0].filter[4] is f606w
+    assert source.luminosity[0].filter[5] is f606w
+    assert source.luminosity[0].filter[6] is f606w
+
+
+def test_references_orm_unroll_hsc(hsc_data_file):
+    sources = hsc_data_file.find_instances(Detection)
+    filters = hsc_data_file.find_instances(PhotometryFilter)
+
+    f814w = None
+    f606w = None
+
+    for hsc_filter in filters:
+        if hsc_filter.name == "F814W":
+            f814w = hsc_filter
+        else:
+            f606w = hsc_filter
+
+    assert sources[0].cardinality == 7
+
+    source = unroll(sources[0])
+    assert source[0].luminosity[0].filter is f814w
+    assert source[1].luminosity[0].filter is f606w
+    assert source[2].luminosity[0].filter is f606w
+    assert source[3].luminosity[0].filter is f606w
+    assert source[4].luminosity[0].filter is f606w
+    assert source[5].luminosity[0].filter is f606w
+    assert source[6].luminosity[0].filter is f606w

@@ -25,6 +25,7 @@ from abc import ABCMeta
 from weakref import WeakKeyDictionary
 
 import numpy
+from astropy.table import Column
 from astropy.units import Quantity
 
 LOG = logging.getLogger(__name__)
@@ -72,7 +73,7 @@ class Attribute(VodmlDescriptor):
         VodmlDescriptor.__set__(self, instance, value)
         if hasattr(value, 'cardinality'):  # BaseTypes
             instance.cardinality = value.cardinality
-        elif isinstance(value, Quantity) and not value.isscalar:
+        elif isinstance(value, Quantity) and not value.isscalar or isinstance(value, Column):
             instance.cardinality = len(value)
 
     def get_index(self, instance, instance_index):

@@ -211,7 +211,9 @@ class ReferenceElement(Element):
 
         instances = [self.parser.read_instance(referred_element, self.context)
                      for referred_element in referred_elements]
-        return RowReferenceWrapper(instances)
+        instances_index = {tuple(instance.__vo_id__.keys): instance for instance in instances}
+        references = [instances_index.get(tuple(key), None) for key in ref.keys]
+        return RowReferenceWrapper(references)
 
 
 class CompositionElement(ElementWithInstances):

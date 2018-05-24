@@ -122,7 +122,7 @@ def test_source_unroll(context_test5, recwarn):
 
     assert len(sources) == 3
     source = sources[0]
-    assert source.name == b'08120809-0206132'
+    assert source.name == '08120809-0206132'
     assert source.position.longitude == template_source.position.longitude[0]
     assert source.position.latitude == template_source.position.latitude[0]
     assert source.position.frame is frame
@@ -145,7 +145,7 @@ def test_source_unroll(context_test5, recwarn):
     assert k_mag.error == template_source.luminosity[2].error[0]
 
     source = sources[1]
-    assert source.name == b'08115683-0205428'
+    assert source.name == '08115683-0205428'
     assert source.position.longitude == template_source.position.longitude[1]
     assert source.position.latitude == template_source.position.latitude[1]
     assert source.position.frame is frame
@@ -168,7 +168,7 @@ def test_source_unroll(context_test5, recwarn):
     assert k_mag.error == template_source.luminosity[2].error[1]
 
     source = sources[2]
-    assert source.name == b'08115826-0205336'
+    assert source.name == '08115826-0205336'
     assert source.position.longitude == template_source.position.longitude[2]
     assert source.position.latitude == template_source.position.latitude[2]
     assert source.position.frame is frame
