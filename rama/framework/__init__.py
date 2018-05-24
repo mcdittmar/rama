@@ -56,6 +56,16 @@ class VodmlDescriptor:
     def __set_name__(self, owner, name):
         self.name = name
 
+    def select_return_value(self, values):
+        max_occurs = self.max
+        if max_occurs == 1 and len(values) == 1:
+            return values[0]
+
+        if max_occurs == 1 and not values:
+            return None
+
+        return values
+
 
 class Composition(VodmlDescriptor):
     def get_index(self, instance, instance_index):

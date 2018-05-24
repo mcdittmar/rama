@@ -196,10 +196,6 @@ def parse_id(context, xml_element, instance_class):
     return InstanceId(id, keys)
 
 
-def find_instance(context, key):
-    return context.get_instance_by_id(key)
-
-
 def parse_identifier_field(context, xml_element):
     pk_fields = xml_element.xpath(f"./{PKFIELD}")
     keys_array = numpy.array([parse_primary_key_field(context, pk_field) for pk_field in pk_fields]).T
@@ -291,14 +287,14 @@ def parse_attributes(xml_element, field_object, context):
         values = parse_structured_instances(xml_element, context) +\
                  parse_literals(xml_element, context) +\
                  parse_columns(xml_element, context)
-        return select_return_value(field_object, values)
+        return field_object.select_return_value(values)
 
 
 def parse_composed_instances(xml_element, field_object, context):
     xml_element = find_element_for_role(xml_element, COMPOSITION, field_object.vodml_id)
     if xml_element is not None:
         values = parse_structured_instances(xml_element, context)
-        return select_return_value(field_object, values)
+        return field_object.select_return_value(values)
 
 
 def parse_references(xml_element, field_object, context):
@@ -309,11 +305,11 @@ def parse_references(xml_element, field_object, context):
     if xml_element is not None:
         idref_instances = parse_idref_instances(xml_element, context)
         if idref_instances:
-            return select_return_value(field_object, idref_instances)
+            return field_object.select_return_value(idref_instances)
 
         foreign_key_instances = parse_foreign_key_instances(xml_element, context)
         if foreign_key_instances:
-            return select_return_value(field_object, foreign_key_instances)
+            return field_object.select_return_value(foreign_key_instances)
 
 
 def parse_structured_instances(xml_element, context):
@@ -383,18 +379,6 @@ def make(instance_class, xml_element, context):
         decorated_instance = decorate_with_adapter(instance_info)
         context.add_instance(decorated_instance)
         return decorated_instance
-
-
-# TODO NOW This might be a method of the field class
-def select_return_value(field_object, values):
-    max_occurs = field_object.max
-    if max_occurs == 1 and len(values) == 1:
-        return values[0]
-
-    if max_occurs == 1 and not values:
-        return None
-
-    return values
 
 
 class InstanceInfo:
