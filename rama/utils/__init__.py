@@ -20,6 +20,8 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+ADAPTER_PROPERTY_NAME = "__delegate__"
+
 
 class Singleton:
     """
@@ -66,5 +68,5 @@ class Adapter:
         self.delegate = delegate
 
     def __call__(self, wrapped):
-        wrapped.__delegate__ = self.delegate
+        setattr(wrapped, ADAPTER_PROPERTY_NAME, self.delegate)
         return wrapped

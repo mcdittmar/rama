@@ -78,18 +78,12 @@ class Attribute(VodmlDescriptor):
 
     def get_index(self, instance, instance_index):
         value = self.values[instance]
-        if self._is_basetype(value):
+        if _is_basetype(value):
             return value.__class__._unroll(value, instance_index)
-        if self._is_string(value):
+        if _is_string(value):
             return value
         if value is not None:
             return value[instance_index]
-
-    def _is_string(self, value):
-        return isinstance(value, str)
-
-    def _is_basetype(self, value):
-        return isinstance(value, BaseType)
 
 
 class Reference(VodmlDescriptor):
@@ -200,3 +194,11 @@ class InstanceId:
             keys_to_hash = self.keys.tostring()
 
         return hash((id_to_hash, keys_to_hash))
+
+
+def _is_string(value):
+    return isinstance(value, str)
+
+
+def _is_basetype(value):
+    return isinstance(value, BaseType)

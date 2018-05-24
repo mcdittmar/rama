@@ -19,18 +19,20 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+import itertools
 import logging
+import uuid
 import warnings
 
-import itertools
+import numpy
+from astropy.io import votable
+from astropy.table import QTable
 from lxml import etree
 
-from rama.framework import Attribute, Reference, Composition, InstanceId, RowReferenceWrapper, SingleReferenceWrapper, \
-    BaseType
-from rama.reader import Document
-from rama.reader.votable.utils import get_children, get_local_name, \
-    get_type_xpath_expression, parse_id, resolve_type, find_element_for_role, parse_literal, parse_column, \
-    find_instance, parse_identifier_field
+from rama.framework import BaseType, InstanceId, Attribute, Reference, Composition, SingleReferenceWrapper, \
+    RowReferenceWrapper
+from rama.reader import Document, Reader
+from rama.utils import ADAPTER_PROPERTY_NAME
 
 LOG = logging.getLogger(__name__)
 
@@ -38,236 +40,367 @@ LOG = logging.getLogger(__name__)
 class Votable(Document):
     def __init__(self, xml):
         super().__init__(xml)
-        self.parser = Parser(self)
-        self.document = None
-        self._open_document(xml)
-
-    def _open_document(self, xml_document):
         # TBD Maybe I should remove TABLEDATA to reduce the size of the tree. TABLEDATA will be parsed by astropy.
         parser = etree.XMLParser(ns_clean=True)
-        tree = etree.parse(xml_document, parser)
+        tree = etree.parse(xml, parser)
         self.document = tree.getroot()
 
     def find_instances(self, element_class, context):
-        return self.parser.find_instances(element_class, context)
+        return find_instances(self, element_class, context)
 
 
-class Parser:
-    def __init__(self, votable_file):
-        self.votable = votable_file
-        self.field_readers = {
-            Attribute: self.parse_attributes,
-            Reference: self.parse_references,
-            Composition: self.parse_composed_instances
-        }
+def get_local_name(tag_name):
+    return f"*[local-name() = '{tag_name}']"
 
-    def find_instances(self, element_class, context):
-        return [self.read_instance(element, context) for element in self.find(element_class)]
 
-    def read_instance(self, xml_element, context):
-        type_id = resolve_type(xml_element)
-        element_class = context.get_type_by_id(type_id)
-        return self.make(element_class, xml_element, context)
+TEMPLATES = get_local_name("TEMPLATES")
+INSTANCE = get_local_name("INSTANCE")
+LITERAL = get_local_name("LITERAL")
+COLUMN = get_local_name("COLUMN")
+REFERENCE = get_local_name("REFERENCE")
+COMPOSITION = get_local_name("COMPOSITION")
+ATTRIBUTE = get_local_name("ATTRIBUTE")
+TABLE = get_local_name("TABLE")
+FIELD = get_local_name("FIELD")
+PRIMARYKEY = get_local_name("PRIMARYKEY")
+FOREIGNKEY = get_local_name("FOREIGNKEY")
+PKFIELD = get_local_name("PKFIELD")
+IDREF = get_local_name("IDREF")
+TARGETID = get_local_name("TARGETID")
+ID = "ID"
+REF_ATTR = "@ref"
+ID_ATTR = f"@{ID}"
+NAME_ATTR = "@name"
+VALUE_ATTR = "@value"
+TYPE_ATTR = "@dmtype"
+ROLE_ATTR = "@dmrole"
+UNIT_ATTR = "@unit"
 
-    def parse_attributes(self, xml_element, field_object, context):
-        return AttributeElement(xml_element, field_object, context, self).all
 
-    def parse_composed_instances(self, xml_element, field_object, context):
-        return CompositionElement(xml_element, field_object, context, self).all
+def find_instances(votable: Votable, element_class: BaseType, context: Reader):
+    return [read_instance(element, context) for element in find(votable, element_class)]
 
-    def parse_references(self, xml_element, field_object, context):
-        return ReferenceElement(xml_element, field_object, context, self).all
 
-    def find(self, element_class: BaseType):
-        type_id = [element_class.vodml_id,]
-        subtype_ids = [subtype.vodml_id for subtype in element_class.all_subclasses()]
-        all_ids = type_id + subtype_ids
-        elements = [self.votable.document.xpath(get_type_xpath_expression('INSTANCE', id)) for id in all_ids]
-        elements_flat = list(itertools.chain(*elements))
-        return elements_flat
+def find(votable: Votable, element_class: BaseType):
+    type_id = [element_class.vodml_id, ]
+    subtype_ids = [subtype.vodml_id for subtype in element_class.all_subclasses()]
+    all_ids = type_id + subtype_ids
+    elements = [find_instance_elements(votable.document, id) for id in all_ids]
+    elements_flat = list(itertools.chain(*elements))
+    return elements_flat
 
-    def make(self, instance_class, xml_element, context):
-        instance_id = parse_id(context, xml_element, instance_class)
-        instance = context.get_instance_by_id(instance_id)
-        if instance is not None:
-            return instance
-        else:
-            return self._make(instance_class, instance_id, xml_element, context)
 
-    def is_template(self, xml_element):
-        has_template_parent = len(xml_element.xpath(f'./parent::{get_local_name("TEMPLATES")}')) > 0
-        has_column_descendants = len(xml_element.xpath(f'.//{get_local_name("COLUMN")}')) > 0
-        return has_template_parent or has_column_descendants
+def find_instance_elements(xml_document, vodml_id):
+    return xml_document.xpath(get_instance_element_by_id(vodml_id))
 
-    def _make(self, instance_class, instance_id, xml_element, context):
+
+def get_instance_element_by_id(vodml_id):
+    return get_type_xpath_expression("INSTANCE", vodml_id)
+
+
+def read_instance(xml_element, context):
+    type_id = resolve_type(xml_element)
+    element_class = context.get_type_by_id(type_id)
+    return make(element_class, xml_element, context)
+
+
+def parse_column(context, xml_element):
+    column_ref = xml_element.xpath(REF_ATTR)[0]
+    find_column_xpath = f"//{FIELD}[{ID_ATTR}='{column_ref}']"
+    column_elements = xml_element.xpath(find_column_xpath)
+    if not column_elements:
+        msg = f"Can't find column with ID {column_ref}. Setting values to NaN"
+        LOG.warning(msg)
+        warnings.warn(msg, SyntaxWarning)
+        return numpy.NaN
+
+    column_element = column_elements[0]
+    table = parse_table(context, column_element)
+
+    column_ref = context.get_column_mapping(column_ref)
+    column = table[column_ref]
+
+    # Another hack: it simplify things if the byte columns are converted to strings... maybe this is an issue
+    # in the VOTable parser needing some attention?
+    try:
+        if column.dtype == 'object':
+            column = column.astype('U')
+            table[column_ref] = column
+    except:
+        pass
+
+    name = column_element.xpath(NAME_ATTR)[0]
+    column.name = name
+
+    # Kind of a hack, but I couldn't find a better way.
+    # For instances with primary keys which use the same column(s) as a different attribute, in some but not all
+    # cases changing the column names makes it impossible for the second pass to find the same column implementing a
+    # different attribute (for instance, in test5, the same column is used for the primary key and for Source.name)
+    # Whether or not this happens seems to depend on what class the column is (e.g. Quantity vs MappedColumn).
+    try:
+        column = table[column_ref]
+    except KeyError:
+        context.add_column_mapping(column_ref, name)
+    return column
+
+
+def parse_table(context, column_element):
+    table_elements = column_element.xpath(f"parent::{TABLE}")
+    if not table_elements:
+        raise RuntimeError("COLUMN points to FIELD that does not have a TABLE parent")
+    table_element = table_elements[0]
+    table_index = int(table_element.xpath(f"count(preceding-sibling::{TABLE})"))
+
+    table_ids = table_element.xpath(ID_ATTR)
+    if table_ids:
+        no_id = False
+        table_id = table_ids[0]
+        table = context.get_table_by_id(table_id)
+        if table is not None:
+            return table
+    else:
+        no_id = True
+        table_id = f"_GENERATED_ID_{table_index}"
+
+    table = QTable(votable.parse_single_table(context.file, table_number=table_index).to_table())
+
+    if no_id:
+        table_id = id(table)
+        table_element.attrib[ID] = str(table_id)  # We set the attribute so we have an handle if we parse it again
+
+    context.add_table(table_id, table)
+
+    return table
+
+
+def parse_literal(context, xml_element):
+    value = xml_element.xpath(VALUE_ATTR)[0]
+    value_type = xml_element.xpath(TYPE_ATTR)[0]
+    units = xml_element.xpath(UNIT_ATTR)
+    unit = units[0] if units else None
+    return context.get_type_by_id(value_type)(value, unit)
+
+
+def parse_id(context, xml_element, instance_class):
+    keys = None
+    primary_key_elements = xml_element.xpath(f"./{PRIMARYKEY}")
+    if primary_key_elements:
+        keys = parse_identifier_field(context, primary_key_elements[0])
+    ids = xml_element.xpath(ID_ATTR)
+    if not ids:
+        # Randomly generate an ID for each instance that doesn't have any.
+        id = f"{instance_class.vodml_id}-{str(uuid.uuid4())}"
+    else:
+        id = ids[0]
+
+    return InstanceId(id, keys)
+
+
+def find_instance(context, key):
+    return context.get_instance_by_id(key)
+
+
+def parse_identifier_field(context, xml_element):
+    pk_fields = xml_element.xpath(f"./{PKFIELD}")
+    keys_array = numpy.array([parse_primary_key_field(context, pk_field) for pk_field in pk_fields]).T
+    return keys_array
+
+
+def parse_primary_key_field(context, xml_element):
+    literal_elements = xml_element.xpath(f"./{LITERAL}")
+    if literal_elements:
+        return parse_literal(context, literal_elements[0])
+    column_elements = xml_element.xpath(f"./{COLUMN}")
+    if column_elements:
+        return parse_column(context, column_elements[0]).data
+
+
+def get_type_xpath_expression(tag_name, type_id):
+    tag_selector = get_local_name(tag_name)
+    return f"//{tag_selector}[{TYPE_ATTR}='{type_id}']"
+
+
+def get_role_xpath_expression(tag_name, role_id):
+    return f".//{tag_name}[{ROLE_ATTR}='{role_id}']"
+
+
+def get_local_name(tag_name):
+    return f"*[local-name() = '{tag_name}']"
+
+
+def get_child_selector(tag_name):
+    return f"child::{tag_name}"
+
+
+def get_children(element, child_tag_name):
+    return element.xpath(get_child_selector(child_tag_name))
+
+
+def resolve_type(xml_element):
+    element_type = xml_element.xpath(TYPE_ATTR)[0]
+    return element_type
+
+
+def find_element_for_role(xml_element, tag_name, role_id):
+    elements = xml_element.xpath(get_role_xpath_expression(tag_name, role_id))
+    n_elements = len(elements)
+
+    if n_elements > 1:
+        warnings.warn(SyntaxWarning, f"Too many elements with dmrole = {role_id}")
+
+    if n_elements:
+        return elements[0]
+
+    return None
+
+
+def is_template(xml_element):
+    has_template_parent = len(xml_element.xpath(f'./parent::{TEMPLATES}')) > 0
+    has_column_descendants = len(xml_element.xpath(f'.//{COLUMN}')) > 0
+    return has_template_parent or has_column_descendants
+
+
+def decorate_with_adapter(instance_info):
+    decorated_instance = instance_info.instance
+    if hasattr(instance_info.instance_class, ADAPTER_PROPERTY_NAME):
+        vo_instance = instance_info.instance
+        adapter = getattr(instance_info.instance_class, ADAPTER_PROPERTY_NAME)
+        decorated_instance = adapter(vo_instance)
+        decorated_instance.__vo_object__ = vo_instance
+    decorated_instance.__vo_id__ = instance_info.instance_id
+    return decorated_instance
+
+
+def attach_fields(instance_info):
+    field_readers = {
+        Attribute: parse_attributes,
+        Reference: parse_references,
+        Composition: parse_composed_instances
+    }
+    fields = instance_info.instance_class.find_fields()
+    for field_name, field_object in fields:
+        field_reader = field_readers[field_object.__class__]
+        field_instance = field_reader(instance_info.xml_element, field_object, instance_info.context)
+        instance_info.instance.set_field(field_name, field_instance)
+    return instance_info
+
+
+def parse_attributes(xml_element, field_object, context):
+    xml_element = find_element_for_role(xml_element, ATTRIBUTE, field_object.vodml_id)
+    if xml_element is not None:
+        values = parse_structured_instances(xml_element, context) +\
+                 parse_literals(xml_element, context) +\
+                 parse_columns(xml_element, context)
+        return select_return_value(field_object, values)
+
+
+def parse_composed_instances(xml_element, field_object, context):
+    xml_element = find_element_for_role(xml_element, COMPOSITION, field_object.vodml_id)
+    if xml_element is not None:
+        values = parse_structured_instances(xml_element, context)
+        return select_return_value(field_object, values)
+
+
+def parse_references(xml_element, field_object, context):
+    # In the votable 1.4 schema there is a choice among IDREF, FOREIGNKEY, and REMOREREFERENCE (currently
+    # unsupported). In invalid cases where multiple elements are given, we give precedence to IDREF.
+
+    xml_element = find_element_for_role(xml_element, REFERENCE, field_object.vodml_id)
+    if xml_element is not None:
+        idref_instances = parse_idref_instances(xml_element, context)
+        if idref_instances:
+            return select_return_value(field_object, idref_instances)
+
+        foreign_key_instances = parse_foreign_key_instances(xml_element, context)
+        if foreign_key_instances:
+            return select_return_value(field_object, foreign_key_instances)
+
+
+def parse_structured_instances(xml_element, context):
+    elements = get_children(xml_element, INSTANCE)
+    return [read_instance(element, context) for element in elements]
+
+
+def parse_literals(xml_element, context):
+    elements = get_children(xml_element, LITERAL)
+    return [parse_literal(context, element) for element in elements]
+
+
+def parse_columns(xml_element, context):
+    elements = get_children(xml_element, COLUMN)
+    return [parse_column(context, element) for element in elements]
+
+
+def parse_idref_instances(xml_element, context):
+    elements = get_children(xml_element, IDREF)
+    return [parse_idref(element, context) for element in elements]
+
+
+def parse_foreign_key_instances(xml_element, context):
+    elements = get_children(xml_element, FOREIGNKEY)
+    return [parse_foreign_key(element, context) for element in elements]
+
+
+def parse_idref(xml_element, context):
+    ref = InstanceId(xml_element.text, None)
+
+    referred_elements = xml_element.xpath(f"//{INSTANCE}[{ID_ATTR}='{ref.id}']")
+
+    if not referred_elements:
+        # TODO make a single call?
+        msg = f"Dangling reference {ref}"
+        warnings.warn(msg, SyntaxWarning)
+        LOG.warning(msg)
+        return None
+
+    referred_element = referred_elements[0]
+    return SingleReferenceWrapper(read_instance(referred_element, context))
+
+
+def parse_foreign_key(xml_element, context):
+    ref = InstanceId(None, parse_identifier_field(context, xml_element))
+
+    target_id = xml_element.xpath(f"./{TARGETID}")[0].text
+    referred_elements = xml_element.xpath(f"//*[{ID_ATTR}='{target_id}']/{INSTANCE}")
+
+    instances = [read_instance(referred_element, context)
+                 for referred_element in referred_elements]
+    instances_index = {tuple(instance.__vo_id__.keys): instance for instance in instances}
+    references = [instances_index.get(tuple(key), None) for key in ref.keys]
+    return RowReferenceWrapper(references)
+
+
+def make(instance_class, xml_element, context):
+    instance_id = parse_id(context, xml_element, instance_class)
+    instance = context.get_instance_by_id(instance_id)
+    if instance is not None:
+        return instance
+    else:
         instance = instance_class()
-        instance.is_template = self.is_template(xml_element)
-        instance_info = _InstanceInfo(instance, instance_id, instance_class, xml_element, context)
-        self._attach_fields(instance_info)
-        decorated_instance = self._decorate_with_adapter(instance_info)
+        instance.is_template = is_template(xml_element)
+        instance_info = InstanceInfo(instance, instance_id, instance_class, xml_element, context)
+        instance_info = attach_fields(instance_info)
+        decorated_instance = decorate_with_adapter(instance_info)
         context.add_instance(decorated_instance)
         return decorated_instance
 
-    def _attach_fields(self, instance_info):
-        fields = instance_info.instance_class.find_fields()
-        for field_name, field_object in fields:
-            field_reader = self.field_readers[field_object.__class__]
-            field_instance = field_reader(instance_info.xml_element, field_object, instance_info.context)
-            instance_info.instance.set_field(field_name, field_instance)
 
-    def _decorate_with_adapter(self, instance_info):
-        decorated_instance = instance_info.instance
-        if hasattr(instance_info.instance_class, '__delegate__'):
-            vo_instance = instance_info.instance
-            decorated_instance = instance_info.instance_class.__delegate__(vo_instance)
-            decorated_instance.__vo_object__ = vo_instance
-        decorated_instance.__vo_id__ = instance_info.instance_id
-        return decorated_instance
+# TODO NOW This might be a method of the field class
+def select_return_value(field_object, values):
+    max_occurs = field_object.max
+    if max_occurs == 1 and len(values) == 1:
+        return values[0]
+
+    if max_occurs == 1 and not values:
+        return None
+
+    return values
 
 
-class _InstanceInfo:
+class InstanceInfo:
     def __init__(self, instance, instance_id, instance_class, xml_element, context):
         self.context = context
         self.xml_element = xml_element
         self.instance_class = instance_class
         self.instance_id = instance_id
         self.instance = instance
-
-
-class Element:
-    TAG_NAME = None
-
-    def __init__(self, xml_element, field_object, context, parser):
-        self.field_object = field_object
-        self.role_id = field_object.vodml_id
-        self.xml = find_element_for_role(xml_element, self.TAG_NAME, self.role_id)
-        self.context = context
-        self.parser = parser
-
-    def select_return_value(self, values):
-        max_occurs = self.field_object.max
-        if max_occurs == 1 and len(values) == 1:
-            return values[0]
-
-        if max_occurs == 1 and not values:
-            return None
-
-        return values
-
-
-class ElementWithInstances(Element):
-    @property
-    def structured_instances(self):
-        elements = get_children(self.xml, "INSTANCE")
-        return [self.parser.read_instance(element, self.context) for element in elements]
-
-
-class ReferenceElement(Element):
-    TAG_NAME = 'REFERENCE'
-
-    @property
-    def idref_instances(self):
-        elements = get_children(self.xml, "IDREF")
-        return [self._parse_idref(element) for element in elements]
-
-    @property
-    def foreign_key_instances(self):
-        elements = get_children(self.xml, "FOREIGNKEY")
-        return [self._parse_foreign_key(element) for element in elements]
-
-    @property
-    def all(self):
-        if self.xml is not None:
-            # In the votable 1.4 schema there is a choice among IDREF, FOREIGNKEY, and REMOREREFERENCE (currently
-            # unsupported). In invalid cases where multiple elements are given, we give precedence to IDREF.
-            if self.idref_instances:
-                return self.select_return_value(self.idref_instances)
-            if self.foreign_key_instances:
-                return self.select_return_value(self.foreign_key_instances)
-        return None
-
-    def _parse_idref(self, xml_element):
-        ref = InstanceId(xml_element.text, None)
-
-        referred_instance = find_instance(self.context, ref)
-        if referred_instance is not None:
-            return SingleReferenceWrapper(referred_instance)
-
-        referred_elements = xml_element.xpath(f"//{get_local_name('INSTANCE')}[@ID='{ref.id}']")
-
-        if not referred_elements:
-            # TODO make a single call?
-            msg = f"Dangling reference {ref}"
-            warnings.warn(msg, SyntaxWarning)
-            LOG.warning(msg)
-            return None
-
-        referred_element = referred_elements[0]
-        return SingleReferenceWrapper(self.parser.read_instance(referred_element, self.context))
-
-    def _parse_foreign_key(self, xml_element):
-        ref = InstanceId(None, parse_identifier_field(self.context, xml_element))
-        referred_instance = find_instance(self.context, ref)
-        if referred_instance is not None:
-            return referred_instance
-
-        target_id = xml_element.xpath(f"./{get_local_name('TARGETID')}")[0].text
-        referred_elements = xml_element.xpath(f"//*[@ID='{target_id}']/{get_local_name('INSTANCE')}")
-
-        instances = [self.parser.read_instance(referred_element, self.context)
-                     for referred_element in referred_elements]
-        instances_index = {tuple(instance.__vo_id__.keys): instance for instance in instances}
-        references = [instances_index.get(tuple(key), None) for key in ref.keys]
-        return RowReferenceWrapper(references)
-
-
-class CompositionElement(ElementWithInstances):
-    TAG_NAME = 'COMPOSITION'
-
-    # @property
-    # def external_instances(self):
-    #     elements = _get_children(self.xml, "EXTINSTANCES")
-    #     return [self._parse_externals(element) for element in elements]
-
-    @property
-    def all(self):
-        if self.xml is not None:
-            return self.select_return_value(self.structured_instances)
-        return None
-
-    # def _parse_externals(self, xml_element):
-    #     ref = xml_element.text
-    #
-    #     referred_instance = self.context.get_instance_by_id(ref)
-    #     if referred_instance is not None:
-    #         return referred_instance
-    #
-    #     referred_elements = xml_element.xpath(f"//{get_local_name('INSTANCE')}[@ID='{ref}']")
-    #     if not len(referred_elements):
-    #         # TODO make a single call?
-    #         msg = f"Dangling reference {ref}"
-    #         warnings.warn(msg, SyntaxWarning)
-    #         LOG.warning(msg)
-    #     else:
-    #         referred_element = referred_elements[0]
-    #         return self.context.read_instance(referred_element)
-
-
-class AttributeElement(ElementWithInstances):
-    TAG_NAME = "ATTRIBUTE"
-
-    @property
-    def constants(self):
-        elements = get_children(self.xml, "LITERAL")
-        return [parse_literal(self.context, element) for element in elements]
-
-    @property
-    def columns(self):
-        elements = get_children(self.xml, "COLUMN")
-        return [parse_column(self.context, element) for element in elements]
-
-    @property
-    def all(self):
-        if self.xml is not None:
-            return self.select_return_value(self.structured_instances + self.constants + self.columns)
-        return None
