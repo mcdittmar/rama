@@ -1,0 +1,24 @@
+package:
+ name: rama
+ version: 0.1.0
+
+source:
+ path: ../../
+
+build:
+ number: 0
+
+requirements:
+ build:
+  - python 3.6.*
+ run:
+  - python 3.6.*
+  - astropy
+  - lxml
+  - numpy
+  - matplotlib
+  - requests
+
+test:
+  imports:
+    - rama
