@@ -25,7 +25,7 @@ setup(
     name="rama",
     version="0.1",
     packages=find_packages(),
-    install_requires=['lxml', 'astropy', 'numpy', 'python-dateutil', 'matplotlib'],
+    install_requires=['lxml', 'astropy', 'numpy', 'python-dateutil', 'matplotlib', 'requests'],
     tests_require=['pytest'],
     include_package_data=True,
     entry_points={

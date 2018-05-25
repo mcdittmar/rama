@@ -162,6 +162,10 @@ class BaseType:
         return [self.__class__._unroll(self, instance_index) for instance_index in range(self.cardinality)]
 
     @classmethod
+    def find(cls, function, iterable):
+        return list(filter(function, iterable))
+
+    @classmethod
     def find_fields(cls):
         def is_field(attr):
             return inspect.isdatadescriptor(attr) and isinstance(attr, VodmlDescriptor)

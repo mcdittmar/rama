@@ -21,6 +21,8 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import logging
 
+import io
+import requests
 from pkg_resources import iter_entry_points
 
 from rama.framework import VodmlDescriptor, Composition
@@ -46,6 +48,13 @@ def read(filename, fmt='votable'):
         raise AttributeError(f"No such format: {fmt}. Available formats: {fmt.keys()}")
 
     return Reader(formats[fmt](filename))
+
+
+def read_url(base_url, params, fmt='votable'):
+    response = requests.get(base_url, params=params)
+
+    xml = io.BytesIO(response.content)
+    return read(xml, fmt=fmt)
 
 
 def is_template(instance):
