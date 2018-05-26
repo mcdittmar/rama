@@ -22,6 +22,7 @@
 import inspect
 import logging
 from abc import ABCMeta
+from pprint import pprint, pformat
 from weakref import WeakKeyDictionary
 
 import numpy
@@ -183,6 +184,27 @@ class BaseType:
     @classmethod
     def all_subclasses(cls):
         return set(cls.__subclasses__()).union([s for c in cls.__subclasses__() for s in c.all_subclasses()])
+
+    def __repr__(self):
+        original = numpy.get_printoptions()['threshold']
+        numpy.set_printoptions(threshold=10)
+
+        def what_to_display(value):
+            if hasattr(value, '__vo_object__'):
+                return {'adapter': value.__class__, 'object': value.__vo_object__}
+            if isinstance(value, numpy.ndarray):
+                return str(value)
+            else:
+                return value
+        try:
+            type_name = '.'.join((self.__class__.__module__, self.__class__.__name__))
+            contents = [(p[0], getattr(self, p[0])) for p in self.find_fields()]
+            contents = {elem[0]: what_to_display(elem[1]) for elem in contents}
+            string = pformat({type_name: contents}, width=160)
+        finally:
+            numpy.set_printoptions(threshold=original)
+
+        return string
 
 
 class InstanceId:
