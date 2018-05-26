@@ -2,3 +2,5 @@ recursive-include rama test_*.py
 recursive-include rama tests/data/*
 include tox.ini
 include .coveragerc
+include versioneer.py
+include rama/_version.py

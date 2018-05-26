@@ -85,3 +85,7 @@ def unroll(template_instance):
         return template_instance.unroll()
 
     raise ValueError("Instance is not an adapter or a data model type (BaseType)")
+
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions

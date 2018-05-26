@@ -21,9 +21,12 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from setuptools import setup, find_packages
 
+import versioneer
+
 setup(
     name="rama",
-    version="0.1",
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     packages=find_packages(),
     install_requires=['lxml', 'astropy', 'numpy', 'python-dateutil', 'matplotlib', 'requests'],
     tests_require=['pytest'],
