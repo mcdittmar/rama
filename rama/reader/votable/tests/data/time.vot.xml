@@ -19,9 +19,9 @@
             <INSTANCE dmtype="meas:StdTimeMeasure">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                     <INSTANCE dmtype="coords:domain.time.JD">
-                        <REFERENCE dmrole="coords:Coordinate.frame">
+                        <ATTRIBUTE dmrole="coords:Coordinate.frame">
                             <IDREF>_TT_FRAME</IDREF>
-                        </REFERENCE>
+                        </ATTRIBUTE>
                         <ATTRIBUTE dmrole="coords:domain.time.JD.date">
                             <COLUMN dmtype="ivoa:real" ref="_col_H_TIME"/>
                         </ATTRIBUTE>

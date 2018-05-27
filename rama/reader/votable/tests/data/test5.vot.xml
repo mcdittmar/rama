@@ -105,13 +105,13 @@
                         <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.latitude">
                             <COLUMN ref="_dec" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <REFERENCE dmrole="sample:catalog.SkyCoordinate.frame">
+                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.frame">
                             <IDREF>_icrs</IDREF>
-                        </REFERENCE>
+                        </ATTRIBUTE>
                     </INSTANCE>
                 </ATTRIBUTE>
 
-                <COMPOSITION dmrole="sample:catalog.AbstractSource.luminosity">
+                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.luminosity">
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
                         <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
                             <COLUMN ref="_magH" dmtype="ivoa:real"/>
@@ -122,9 +122,9 @@
                         <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
                             <LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
                         </ATTRIBUTE>
-                        <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.filter">
                             <IDREF>_2massH</IDREF>
-                        </REFERENCE>
+                        </ATTRIBUTE>
                     </INSTANCE>
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
                         <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
@@ -136,9 +136,9 @@
                         <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
                             <LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
                         </ATTRIBUTE>
-                        <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.filter">
                             <IDREF>_2massJ</IDREF>
-                        </REFERENCE>
+                        </ATTRIBUTE>
                     </INSTANCE>
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
                         <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
@@ -150,12 +150,12 @@
                         <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
                             <LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
                         </ATTRIBUTE>
-                        <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.filter">
                             <IDREF>_2massK</IDREF>
-                        </REFERENCE>
+                        </ATTRIBUTE>
                     </INSTANCE>
                     <EXTINSTANCES>SDSS_MAGS</EXTINSTANCES>
-                </COMPOSITION>
+                </ATTRIBUTE>
             </INSTANCE>
         </TEMPLATES>
         <TEMPLATES tableref="_sdss_mags">
@@ -176,9 +176,9 @@
                     <COLUMN ref="_eMag" dmtype="ivoa:real"/>
                 </ATTRIBUTE>
                 <!-- Following is example of OR-like reference, but not to another table but to a singleton object -->
-                <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.filter">
                     <IDREF></IDREF>
-                </REFERENCE>
+                </ATTRIBUTE>
             </INSTANCE>
 
         </TEMPLATES>

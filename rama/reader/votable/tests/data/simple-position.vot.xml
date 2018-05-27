@@ -37,9 +37,9 @@
             <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
               <LITERAL value="41.13232112" dmtype="ivoa:RealQuantity" unit="deg"/>
             </ATTRIBUTE>
-            <REFERENCE dmrole="coords:Coordinate.frame">
+            <ATTRIBUTE dmrole="coords:Coordinate.frame">
               <IDREF>_SPACE_FRAME</IDREF>
-            </REFERENCE>
+            </ATTRIBUTE>
           </INSTANCE>
         </ATTRIBUTE>
       </INSTANCE>

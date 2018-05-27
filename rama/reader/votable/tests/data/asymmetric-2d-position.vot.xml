@@ -24,12 +24,12 @@
                             <LITERAL value="-72.9580158133" dmtype="ivoa:RealQuantity" unit="deg"/>
                         </ATTRIBUTE>
                         <!-- Note reference is dangling! -->
-                        <REFERENCE dmrole="coords:Coordinate.frame">
+                        <ATTRIBUTE dmrole="coords:Coordinate.frame">
                             <IDREF>_SPACE_FRAME</IDREF>
-                        </REFERENCE>
+                        </ATTRIBUTE>
                     </INSTANCE>
                 </ATTRIBUTE>
-                <COMPOSITION dmrole="meas:CoordMeasure.error">
+                <ATTRIBUTE dmrole="meas:CoordMeasure.error">
                     <INSTANCE dmtype="meas:Error2D">
                         <ATTRIBUTE dmrole="meas:Error2D.statError">
                             <INSTANCE dmtype="meas:Asymmetrical2D">
@@ -44,7 +44,7 @@
                             </INSTANCE>
                         </ATTRIBUTE>
                     </INSTANCE>
-                </COMPOSITION>
+                </ATTRIBUTE>
             </INSTANCE>
         </GLOBALS>
     </VODML>

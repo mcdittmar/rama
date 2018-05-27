@@ -52,64 +52,64 @@
         <ATTRIBUTE dmrole="ds:dataset.Dataset.dataProductType">
           <LITERAL value="TIMESERIES" dmtype="ds:dataset.DataProductType"/>
         </ATTRIBUTE>
-        <COMPOSITION dmrole="ds:dataset.Dataset.curation">
+        <ATTRIBUTE dmrole="ds:dataset.Dataset.curation">
           <INSTANCE dmtype="ds:dataset.Curation">
             <ATTRIBUTE dmrole="ds:dataset.Curation.publisherDID">
               <LITERAL value="ivo://org.gavo.dc/~?k2c9vst/data/?MOA-2016-BLG-0254_VST_r_SDS..." dmtype="ivoa:anyURI"/>
             </ATTRIBUTE>
-            <COMPOSITION dmrole="ds:dataset.Curation.reference">
+            <ATTRIBUTE dmrole="ds:dataset.Curation.reference">
               <INSTANCE dmtype="ds:dataset.Publication">
                 <ATTRIBUTE dmrole="ds:dataset.Publication.refCode">
                   <LITERAL value="http://archive.eso.org/wdb/wdb/eso/sched_rep_arc/query?progid..." dmtype="ivoa:string"/>
                 </ATTRIBUTE>
               </INSTANCE>
-            </COMPOSITION>
+            </ATTRIBUTE>
           </INSTANCE>
-        </COMPOSITION>
-        <COMPOSITION dmrole="ds:dataset.Dataset.dataID">
+        </ATTRIBUTE>
+        <ATTRIBUTE dmrole="ds:dataset.Dataset.dataID">
           <INSTANCE dmtype="ds:dataset.DataID">
             <ATTRIBUTE dmrole="ds:dataset.DataID.title">
               <LITERAL value="K2C9 VST MOA-2016-BLG-0254_VST_r_SDSS78.t" dmtype="ivoa:string"/>
             </ATTRIBUTE>
           </INSTANCE>
-        </COMPOSITION>
+        </ATTRIBUTE>
       </INSTANCE>
       <INSTANCE dmtype="cube:SparseCube">
-        <COMPOSITION dmrole="cube:SparseCube.data">
+        <ATTRIBUTE dmrole="cube:SparseCube.data">
           <EXTINSTANCES>_DATA_INSTANCE</EXTINSTANCES>
-        </COMPOSITION>
-        <REFERENCE dmrole="cube:DataProduct.dataset">
+        </ATTRIBUTE>
+        <ATTRIBUTE dmrole="cube:DataProduct.dataset">
           <IDREF>_DATASET</IDREF>
-        </REFERENCE>
+        </ATTRIBUTE>
       </INSTANCE>
     </GLOBALS>
     <TEMPLATES tableref="_DATA_TABLE">
       <INSTANCE dmtype="cube:NDPoint" ID="_DATA_INSTANCE">
-        <COMPOSITION dmrole="cube:NDPoint.observable">
+        <ATTRIBUTE dmrole="cube:NDPoint.observable">
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="cube:DataAxis.dependent">
               <LITERAL value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
-            <COMPOSITION dmrole="cube:MeasurementAxis.measure">
+            <ATTRIBUTE dmrole="cube:MeasurementAxis.measure">
               <INSTANCE dmtype="meas:StdTimeMeasure">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                   <INSTANCE dmtype="coords:domain.time.JD">
                     <ATTRIBUTE dmrole="coords:domain.time.JD.date">
                       <COLUMN dmtype="ivoa:real" ref="_col_TIME"/>
                     </ATTRIBUTE>
-                    <REFERENCE dmrole="coords:Coordinate.frame">
+                    <ATTRIBUTE dmrole="coords:Coordinate.frame">
                       <IDREF>_TIME_FRAME</IDREF>
-                    </REFERENCE>
+                    </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
               </INSTANCE>
-            </COMPOSITION>
+            </ATTRIBUTE>
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="cube:DataAxis.dependent">
               <LITERAL value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
-            <COMPOSITION dmrole="cube:MeasurementAxis.measure">
+            <ATTRIBUTE dmrole="cube:MeasurementAxis.measure">
               <INSTANCE dmtype="meas:StdPosition">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                   <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
@@ -119,19 +119,19 @@
                     <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
                       <LITERAL value="-27.99478" dmtype="ivoa:RealQuantity" unit="deg"/>
                     </ATTRIBUTE>
-                    <REFERENCE dmrole="coords:Coordinate.frame">
+                    <ATTRIBUTE dmrole="coords:Coordinate.frame">
                       <IDREF>_SPACE_FRAME</IDREF>
-                    </REFERENCE>
+                    </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
               </INSTANCE>
-            </COMPOSITION>
+            </ATTRIBUTE>
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="cube:DataAxis.dependent">
               <LITERAL value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
-            <COMPOSITION dmrole="cube:MeasurementAxis.measure">
+            <ATTRIBUTE dmrole="cube:MeasurementAxis.measure">
               <INSTANCE dmtype="meas:GenericCoordMeasure">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                   <INSTANCE dmtype="coords:PhysicalCoordValue">
@@ -140,7 +140,7 @@
                     </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
-                <COMPOSITION dmrole="meas:CoordMeasure.error">
+                <ATTRIBUTE dmrole="meas:CoordMeasure.error">
                   <INSTANCE dmtype="meas:Error1D">
                     <ATTRIBUTE dmrole="meas:Error1D.statError">
                       <INSTANCE dmtype="meas:Symmetrical1D">
@@ -150,15 +150,15 @@
                       </INSTANCE>
                     </ATTRIBUTE>
                   </INSTANCE>
-                </COMPOSITION>
+                </ATTRIBUTE>
               </INSTANCE>
-            </COMPOSITION>
+            </ATTRIBUTE>
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="cube:DataAxis.dependent">
               <LITERAL value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
-            <COMPOSITION dmrole="cube:MeasurementAxis.measure">
+            <ATTRIBUTE dmrole="cube:MeasurementAxis.measure">
               <INSTANCE dmtype="meas:GenericCoordMeasure">
                 <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                   <INSTANCE dmtype="coords:PhysicalCoordValue">
@@ -167,7 +167,7 @@
                     </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
-                <COMPOSITION dmrole="meas:CoordMeasure.error">
+                <ATTRIBUTE dmrole="meas:CoordMeasure.error">
                   <INSTANCE dmtype="meas:Error1D">
                     <ATTRIBUTE dmrole="meas:Error1D.statError">
                       <INSTANCE dmtype="meas:Symmetrical1D">
@@ -177,11 +177,11 @@
                       </INSTANCE>
                     </ATTRIBUTE>
                   </INSTANCE>
-                </COMPOSITION>
+                </ATTRIBUTE>
               </INSTANCE>
-            </COMPOSITION>
+            </ATTRIBUTE>
           </INSTANCE>
-        </COMPOSITION>
+        </ATTRIBUTE>
       </INSTANCE>
     </TEMPLATES>
   </VODML>

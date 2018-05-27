@@ -38,9 +38,9 @@
                         <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
                             <COLUMN ref="_DEC" dmtype="ivoa:RealQuantity"/>
                         </ATTRIBUTE>
-                        <REFERENCE dmrole="coords:Coordinate.frame">
+                        <ATTRIBUTE dmrole="coords:Coordinate.frame">
                             <IDREF>_SPACE_FRAME</IDREF>
-                        </REFERENCE>
+                        </ATTRIBUTE>
                     </INSTANCE>
                 </ATTRIBUTE>
             </INSTANCE>

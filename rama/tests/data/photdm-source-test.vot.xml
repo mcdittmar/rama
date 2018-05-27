@@ -40,9 +40,9 @@
 						<ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
 							<LITERAL value="67.89" dmtype="ivoa:RealQuantity" unit="deg"/>
 						</ATTRIBUTE>
-						<REFERENCE dmrole="coords:Coordinate.frame">
+						<ATTRIBUTE dmrole="coords:Coordinate.frame">
 							<IDREF>_icrs_</IDREF>
-						</REFERENCE>
+						</ATTRIBUTE>
 					</INSTANCE>
 				</ATTRIBUTE>
 			</INSTANCE>
@@ -64,7 +64,7 @@
 				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.spectralLocation">
 					<LITERAL value="606" dmtype="ivoa:RealQuantity" unit="nm"/>
 				</ATTRIBUTE>
-				<COMPOSITION dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
+				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
 						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
 							<LITERAL value="5432.0" dmtype="ivoa:RealQuantity" unit="nm"/>
@@ -73,7 +73,7 @@
 							<LITERAL value="84.6" dmtype="ivoa:RealQuantity" unit="nm"/>
 						</ATTRIBUTE>
 					</INSTANCE>
-				</COMPOSITION>
+				</ATTRIBUTE>
 			</INSTANCE>
 		</GLOBALS>
 	</VODML>

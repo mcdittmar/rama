@@ -88,7 +88,7 @@
 				<ATTRIBUTE dmrole="source:Source.name">
 					<COLUMN ref="SourceID" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
-				<COMPOSITION dmrole="source:Source.luminosity">
+				<ATTRIBUTE dmrole="source:Source.luminosity">
 					<INSTANCE dmtype="source:LuminosityMeasurement">
 						<ATTRIBUTE dmrole="source:LuminosityMeasurement.value">
 							<COLUMN ref="MagAper2" dmtype="ivoa:real"/>
@@ -97,7 +97,7 @@
 							<LITERAL value="magnitude" dmtype="source:LuminosityType"/>
 						</ATTRIBUTE>
 						<!--Use the Filter and instrument and foreign keys to find the appropriate filter from the GLOBALS (ID=_HSC_FILTERS).-->
-						<REFERENCE dmrole="source:LuminosityMeasurement.filter">
+						<ATTRIBUTE dmrole="source:LuminosityMeasurement.filter">
 							<FOREIGNKEY>
 								<PKFIELD>
 									<COLUMN ref="Filter" dmtype="ivoa:string"/>
@@ -107,10 +107,10 @@
 								</PKFIELD>
 								<TARGETID>_HSC_FILTERS</TARGETID>
 							</FOREIGNKEY>
-						</REFERENCE>
+						</ATTRIBUTE>
 					</INSTANCE>
-				</COMPOSITION>
-				<COMPOSITION dmrole="source:Source.position">
+				</ATTRIBUTE>
+				<ATTRIBUTE dmrole="source:Source.position">
 					<INSTANCE dmtype="source:SourcePosition">
                         <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
                             <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
@@ -120,14 +120,14 @@
                                 <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
                                     <COLUMN ref="SourceDec" dmtype="ivoa:real"/>
                                 </ATTRIBUTE>
-                                <REFERENCE dmrole="coords:Coordinate.frame">
+                                <ATTRIBUTE dmrole="coords:Coordinate.frame">
                                     <IDREF>_icrs_</IDREF>
-                                </REFERENCE>
+                                </ATTRIBUTE>
                             </INSTANCE>
                         </ATTRIBUTE>
 					</INSTANCE>
-				</COMPOSITION>
-				<COMPOSITION dmrole="source:Detection.sourceImage">
+				</ATTRIBUTE>
+				<ATTRIBUTE dmrole="source:Detection.sourceImage">
 					<INSTANCE dmtype="source:Image">
 						<ATTRIBUTE dmrole="source:Image.url">
 							<COLUMN ref="AccessUrlFits" dmtype="ivoa:real"/>
@@ -143,7 +143,7 @@
 							<COLUMN ref="StopMJD" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
 					</INSTANCE>
-				</COMPOSITION>
+				</ATTRIBUTE>
 			</INSTANCE>
 		</TEMPLATES>
 	</VODML>
