@@ -25,42 +25,42 @@
         <ATTRIBUTE dmrole="refPosition">
           <INSTANCE dmtype="coords:domain.space.StdRefLocation">
             <ATTRIBUTE dmrole="position">
-              <LITERAL value="HELIOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
+              <INSTANCE value="HELIOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
             </ATTRIBUTE>
           </INSTANCE>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="timescale">
-          <LITERAL value="TT" dmtype="coords:domain.time.TimeScale"/>
+          <INSTANCE value="TT" dmtype="coords:domain.time.TimeScale"/>
         </ATTRIBUTE>
       </INSTANCE>
       <INSTANCE dmtype="coords:domain.space.SpaceFrame" ID="_SPACE_FRAME">
         <ATTRIBUTE dmrole="spaceRefFrame">
-          <LITERAL value="FK4" dmtype="coords:domain.space.StdRefFrame"/>
+          <INSTANCE value="FK4" dmtype="coords:domain.space.StdRefFrame"/>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="equinox">
-          <LITERAL value="J2000" dmtype="coords:domain.space.Epoch"/>
+          <INSTANCE value="J2000" dmtype="coords:domain.space.Epoch"/>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="refPosition">
           <INSTANCE dmtype="coords:domain.space.StdRefLocation">
             <ATTRIBUTE dmrole="position">
-              <LITERAL value="TOPOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
+              <INSTANCE value="TOPOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
             </ATTRIBUTE>
           </INSTANCE>
         </ATTRIBUTE>
       </INSTANCE>
       <INSTANCE ID="_DATASET" dmtype="ds:experiment.ObsDataset">
         <ATTRIBUTE dmrole="dataProductType">
-          <LITERAL value="TIMESERIES" dmtype="ds:dataset.DataProductType"/>
+          <INSTANCE value="TIMESERIES" dmtype="ds:dataset.DataProductType"/>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="curation">
           <INSTANCE dmtype="ds:dataset.Curation">
             <ATTRIBUTE dmrole="publisherDID">
-              <LITERAL value="ivo://org.gavo.dc/~?k2c9vst/data/?MOA-2016-BLG-0254_VST_r_SDS..." dmtype="ivoa:anyURI"/>
+              <INSTANCE value="ivo://org.gavo.dc/~?k2c9vst/data/?MOA-2016-BLG-0254_VST_r_SDS..." dmtype="ivoa:anyURI"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="reference">
               <INSTANCE dmtype="ds:dataset.Publication">
                 <ATTRIBUTE dmrole="refCode">
-                  <LITERAL value="http://archive.eso.org/wdb/wdb/eso/sched_rep_arc/query?progid..." dmtype="ivoa:string"/>
+                  <INSTANCE value="http://archive.eso.org/wdb/wdb/eso/sched_rep_arc/query?progid..." dmtype="ivoa:string"/>
                 </ATTRIBUTE>
               </INSTANCE>
             </ATTRIBUTE>
@@ -69,7 +69,7 @@
         <ATTRIBUTE dmrole="dataID">
           <INSTANCE dmtype="ds:dataset.DataID">
             <ATTRIBUTE dmrole="title">
-              <LITERAL value="K2C9 VST MOA-2016-BLG-0254_VST_r_SDSS78.t" dmtype="ivoa:string"/>
+              <INSTANCE value="K2C9 VST MOA-2016-BLG-0254_VST_r_SDSS78.t" dmtype="ivoa:string"/>
             </ATTRIBUTE>
           </INSTANCE>
         </ATTRIBUTE>
@@ -88,7 +88,7 @@
         <ATTRIBUTE dmrole="observable">
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="dependent">
-              <LITERAL value="False" dmtype="ivoa:boolean"/>
+              <INSTANCE value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="measure">
               <INSTANCE dmtype="meas:StdTimeMeasure">
@@ -107,17 +107,17 @@
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="dependent">
-              <LITERAL value="False" dmtype="ivoa:boolean"/>
+              <INSTANCE value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="measure">
               <INSTANCE dmtype="meas:StdPosition">
                 <ATTRIBUTE dmrole="coord">
                   <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
                     <ATTRIBUTE dmrole="ra">
-                      <LITERAL value="269.82846" dmtype="ivoa:RealQuantity" unit="deg"/>
+                      <INSTANCE value="269.82846" dmtype="ivoa:RealQuantity" unit="deg"/>
                     </ATTRIBUTE>
                     <ATTRIBUTE dmrole="dec">
-                      <LITERAL value="-27.99478" dmtype="ivoa:RealQuantity" unit="deg"/>
+                      <INSTANCE value="-27.99478" dmtype="ivoa:RealQuantity" unit="deg"/>
                     </ATTRIBUTE>
                     <ATTRIBUTE dmrole="frame">
                       <IDREF>_SPACE_FRAME</IDREF>
@@ -129,7 +129,7 @@
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="dependent">
-              <LITERAL value="True" dmtype="ivoa:boolean"/>
+              <INSTANCE value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="measure">
               <INSTANCE dmtype="meas:GenericCoordMeasure">
@@ -156,7 +156,7 @@
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="dependent">
-              <LITERAL value="True" dmtype="ivoa:boolean"/>
+              <INSTANCE value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="measure">
               <INSTANCE dmtype="meas:GenericCoordMeasure">

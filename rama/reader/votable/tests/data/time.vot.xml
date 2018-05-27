@@ -6,12 +6,12 @@
                 <ATTRIBUTE dmrole="refPosition">
                     <INSTANCE dmtype="coords:domain.space.StdRefLocation">
                         <ATTRIBUTE dmrole="position">
-                            <LITERAL value="BARYCENTER" dmtype="coords:domain.space.StdRefPosition"/>
+                            <INSTANCE value="BARYCENTER" dmtype="coords:domain.space.StdRefPosition"/>
                         </ATTRIBUTE>
                     </INSTANCE>
                 </ATTRIBUTE>
                 <ATTRIBUTE dmrole="timescale">
-                    <LITERAL value="TT" dmtype="coords:domain.time.TimeScale"/>
+                    <INSTANCE value="TT" dmtype="coords:domain.time.TimeScale"/>
                 </ATTRIBUTE>
             </INSTANCE>
         </GLOBALS>

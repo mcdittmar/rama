@@ -55,7 +55,7 @@ def get_local_name(tag_name):
 
 TEMPLATES = get_local_name("TEMPLATES")
 INSTANCE = get_local_name("INSTANCE")
-LITERAL = get_local_name("LITERAL")
+LITERAL = get_local_name("INSTANCE")
 COLUMN = get_local_name("COLUMN")
 REFERENCE = get_local_name("ATTRIBUTE")
 COMPOSITION = get_local_name("ATTRIBUTE")
@@ -313,12 +313,12 @@ def parse_references(xml_element, field_object, context):
 
 
 def parse_structured_instances(xml_element, context):
-    elements = get_children(xml_element, INSTANCE)
+    elements = xml_element.xpath(f"./{INSTANCE}[not(@value)]")
     return [read_instance(element, context) for element in elements]
 
 
 def parse_literals(xml_element, context):
-    elements = get_children(xml_element, LITERAL)
+    elements = xml_element.xpath(f"./{INSTANCE}[@value]")
     return [parse_literal(context, element) for element in elements]
 
 

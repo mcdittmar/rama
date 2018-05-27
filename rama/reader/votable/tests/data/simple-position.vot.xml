@@ -15,15 +15,15 @@
     <GLOBALS>
       <INSTANCE dmtype="coords:domain.space.SpaceFrame" ID="_SPACE_FRAME">
         <ATTRIBUTE dmrole="spaceRefFrame">
-          <LITERAL value="FK5" dmtype="coords:domain.space.StdRefFrame"/>
+          <INSTANCE value="FK5" dmtype="coords:domain.space.StdRefFrame"/>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="equinox">
-          <LITERAL value="J1975" dmtype="coords:domain.space.Epoch"/>
+          <INSTANCE value="J1975" dmtype="coords:domain.space.Epoch"/>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="refPosition">
           <INSTANCE dmtype="coords:domain.space.StdRefLocation">
             <ATTRIBUTE dmrole="position">
-              <LITERAL value="TOPOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
+              <INSTANCE value="TOPOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
             </ATTRIBUTE>
           </INSTANCE>
         </ATTRIBUTE>
@@ -32,10 +32,10 @@
         <ATTRIBUTE dmrole="coord">
           <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
             <ATTRIBUTE dmrole="ra">
-              <LITERAL value="10.34209135" dmtype="ivoa:RealQuantity" unit="deg"/>
+              <INSTANCE value="10.34209135" dmtype="ivoa:RealQuantity" unit="deg"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="dec">
-              <LITERAL value="41.13232112" dmtype="ivoa:RealQuantity" unit="deg"/>
+              <INSTANCE value="41.13232112" dmtype="ivoa:RealQuantity" unit="deg"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="frame">
               <IDREF>_SPACE_FRAME</IDREF>

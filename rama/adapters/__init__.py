@@ -47,7 +47,7 @@ Every time the parser will build an instance of the ``Standard`` class, it will 
     >>> from io import StringIO
     >>> xml = StringIO('''<INSTANCE dmtype="some:id">
     ... <ATTRIBUTE dmrole="foo:bar">
-    ...   <LITERAL dmtype="ivoa:integer" value="42"/>
+    ...   <INSTANCE dmtype="ivoa:integer" value="42"/>
     ... </ATTRIBUTE>
     ... </INSTANCE>
     ... ''')

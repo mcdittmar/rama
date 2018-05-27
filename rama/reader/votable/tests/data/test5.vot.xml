@@ -21,40 +21,40 @@
 
             <INSTANCE ID="_icrs" dmtype="sample:catalog.SkyCoordinateFrame">
                 <ATTRIBUTE dmrole="name">
-                    <LITERAL value="ICRS" dmtype="ivoa:string"/>
+                    <INSTANCE value="ICRS" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
 
             <INSTANCE ID="_2massH" dmtype="filter:PhotometryFilter">
                 <PRIMARYKEY>
                     <PKFIELD>
-                        <LITERAL value="_2massH" dmtype="ivoa:string"/>
+                        <INSTANCE value="_2massH" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
                 <ATTRIBUTE dmrole="name">
-                    <LITERAL value="2mass:H" dmtype="ivoa:string"/>
+                    <INSTANCE value="2mass:H" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
 
             <INSTANCE ID="_2massJ" dmtype="filter:PhotometryFilter">
                 <PRIMARYKEY>
                     <PKFIELD>
-                        <LITERAL value="_2massJ" dmtype="ivoa:string"/>
+                        <INSTANCE value="_2massJ" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
                 <ATTRIBUTE dmrole="name">
-                    <LITERAL value="2mass:J" dmtype="ivoa:string"/>
+                    <INSTANCE value="2mass:J" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
 
             <INSTANCE ID="_2massK" dmtype="filter:PhotometryFilter">
                 <PRIMARYKEY>
                     <PKFIELD>
-                        <LITERAL value="_2massK" dmtype="ivoa:string"/>
+                        <INSTANCE value="_2massK" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
                 <ATTRIBUTE dmrole="name">
-                    <LITERAL value="2mass:K" dmtype="ivoa:string"/>
+                    <INSTANCE value="2mass:K" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
 
@@ -63,21 +63,21 @@
             <INSTANCE dmtype="filter:PhotometryFilter">
                 <PRIMARYKEY>
                     <PKFIELD>
-                        <LITERAL value="sdss:g" dmtype="ivoa:string"/>
+                        <INSTANCE value="sdss:g" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
                 <ATTRIBUTE dmrole="name">
-                    <LITERAL value="sdss:g" dmtype="ivoa:string"/>
+                    <INSTANCE value="sdss:g" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
             <INSTANCE dmtype="filter:PhotometryFilter">
                 <PRIMARYKEY>
                     <PKFIELD>
-                        <LITERAL value="sdss:r" dmtype="ivoa:string"/>
+                        <INSTANCE value="sdss:r" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
                 <ATTRIBUTE dmrole="name">
-                    <LITERAL value="sdss:r" dmtype="ivoa:string"/>
+                    <INSTANCE value="sdss:r" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
 
@@ -120,7 +120,7 @@
                             <COLUMN ref="_errH" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="type">
-                            <LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
+                            <INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="filter">
                             <IDREF>_2massH</IDREF>
@@ -134,7 +134,7 @@
                             <COLUMN ref="_errJ" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="type">
-                            <LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
+                            <INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="filter">
                             <IDREF>_2massJ</IDREF>
@@ -148,7 +148,7 @@
                             <COLUMN ref="_errK" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="type">
-                            <LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
+                            <INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="filter">
                             <IDREF>_2massK</IDREF>

@@ -20,7 +20,7 @@
 		<GLOBALS>
 			<INSTANCE ID="_icrs_" dmtype="coords:domain.space.SpaceFrame">
 				<ATTRIBUTE dmrole="spaceRefFrame">
-					<LITERAL value="ICRS" dmtype="ivoa:string"/>
+					<INSTANCE value="ICRS" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
 			</INSTANCE>
 		</GLOBALS>
@@ -28,25 +28,25 @@
 			<INSTANCE ID="_F606W" dmtype="photdm-alt:PhotometryFilter">
 				<PRIMARYKEY>
 					<PKFIELD>
-						<LITERAL value="F606W" dmtype="ivoa:string"/>
+						<INSTANCE value="F606W" dmtype="ivoa:string"/>
 					</PKFIELD>
 					<PKFIELD>
-						<LITERAL value="ACS" dmtype="ivoa:string"/>
+						<INSTANCE value="ACS" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
 				<ATTRIBUTE dmrole="name">
-					<LITERAL value="F606W" dmtype="ivoa:string"/>
+					<INSTANCE value="F606W" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
 				<ATTRIBUTE dmrole="bandName">
-					<LITERAL value="R" dmtype="ivoa:string"/>
+					<INSTANCE value="R" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
 				<ATTRIBUTE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
 						<ATTRIBUTE dmrole="spectral">
-							<LITERAL value="606" dmtype="ivoa:RealQuantity"/>
+							<INSTANCE value="606" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="spectralError">
-							<LITERAL value="0" dmtype="ivoa:RealQuantity"/>
+							<INSTANCE value="0" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
 					</INSTANCE>
 				</ATTRIBUTE>
@@ -54,25 +54,25 @@
 			<INSTANCE ID="_W2_F814W" dmtype="photdm-alt:PhotometryFilter">
 				<PRIMARYKEY>
 					<PKFIELD>
-						<LITERAL value="F814W" dmtype="ivoa:string"/>
+						<INSTANCE value="F814W" dmtype="ivoa:string"/>
 					</PKFIELD>
 					<PKFIELD>
-						<LITERAL value="WFPC2" dmtype="ivoa:string"/>
+						<INSTANCE value="WFPC2" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
 				<ATTRIBUTE dmrole="name">
-					<LITERAL value="F814W" dmtype="ivoa:string"/>
+					<INSTANCE value="F814W" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
 				<ATTRIBUTE dmrole="bandName">
-					<LITERAL value="I" dmtype="ivoa:string"/>
+					<INSTANCE value="I" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
 				<ATTRIBUTE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
 						<ATTRIBUTE dmrole="spectral">
-							<LITERAL value="814" dmtype="ivoa:RealQuantity"/>
+							<INSTANCE value="814" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="spectralError">
-							<LITERAL value="0" dmtype="ivoa:RealQuantity"/>
+							<INSTANCE value="0" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
 					</INSTANCE>
 				</ATTRIBUTE>
@@ -94,7 +94,7 @@
 							<COLUMN ref="MagAper2" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="type">
-							<LITERAL value="magnitude" dmtype="source:LuminosityType"/>
+							<INSTANCE value="magnitude" dmtype="source:LuminosityType"/>
 						</ATTRIBUTE>
 						<!--Use the Filter and instrument and foreign keys to find the appropriate filter from the GLOBALS (ID=_HSC_FILTERS).-->
 						<ATTRIBUTE dmrole="filter">

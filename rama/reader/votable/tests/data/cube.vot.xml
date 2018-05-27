@@ -25,25 +25,25 @@
         <ATTRIBUTE dmrole="refPosition">
           <INSTANCE dmtype="coords:domain.space.StdRefLocation">
             <ATTRIBUTE dmrole="position">
-              <LITERAL value="TOPOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
+              <INSTANCE value="TOPOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
             </ATTRIBUTE>
           </INSTANCE>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="timescale">
-          <LITERAL value="TT" dmtype="coords:domain.time.TimeScale"/>
+          <INSTANCE value="TT" dmtype="coords:domain.time.TimeScale"/>
         </ATTRIBUTE>
       </INSTANCE>
       <INSTANCE dmtype="coords:domain.space.SpaceFrame" ID="_FK4_J2000_FRAME">
         <ATTRIBUTE dmrole="spaceRefFrame">
-          <LITERAL value="FK4" dmtype="coords:domain.space.StdRefFrame"/>
+          <INSTANCE value="FK4" dmtype="coords:domain.space.StdRefFrame"/>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="equinox">
-          <LITERAL value="J2000" dmtype="coords:domain.space.Epoch"/>
+          <INSTANCE value="J2000" dmtype="coords:domain.space.Epoch"/>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="refPosition">
           <INSTANCE dmtype="coords:domain.space.StdRefLocation">
             <ATTRIBUTE dmrole="position">
-              <LITERAL value="TOPOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
+              <INSTANCE value="TOPOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
             </ATTRIBUTE>
           </INSTANCE>
         </ATTRIBUTE>
@@ -57,15 +57,15 @@
     <TEMPLATES tableref="_DATA_TABLE">
       <INSTANCE dmtype="ds:experiment.ObsDataset">
         <ATTRIBUTE dmrole="dataProductType">
-          <LITERAL value="TIMESERIES" dmtype="ds:dataset.DataProductType"/>
+          <INSTANCE value="TIMESERIES" dmtype="ds:dataset.DataProductType"/>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="calibLevel">
-          <LITERAL value="3" dmtype="ivoa:integer"/>
+          <INSTANCE value="3" dmtype="ivoa:integer"/>
         </ATTRIBUTE>
         <ATTRIBUTE dmrole="dataID">
           <INSTANCE dmtype="ds:dataset.DataID">
             <ATTRIBUTE dmrole="date">
-              <LITERAL value="2017-03-27T15:35:56" dmtype="ivoa:datetime"/>
+              <INSTANCE value="2017-03-27T15:35:56" dmtype="ivoa:datetime"/>
             </ATTRIBUTE>
           </INSTANCE>
         </ATTRIBUTE>
@@ -74,7 +74,7 @@
         <ATTRIBUTE dmrole="observable">
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="dependent">
-              <LITERAL value="False" dmtype="ivoa:boolean"/>
+              <INSTANCE value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="measure">
               <INSTANCE dmtype="meas:StdTimeMeasure">
@@ -93,7 +93,7 @@
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="dependent">
-              <LITERAL value="False" dmtype="ivoa:boolean"/>
+              <INSTANCE value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="measure">
               <INSTANCE dmtype="meas:StdPosition">
@@ -115,7 +115,7 @@
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="dependent">
-              <LITERAL value="True" dmtype="ivoa:boolean"/>
+              <INSTANCE value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="measure">
               <INSTANCE dmtype="meas:GenericCoordMeasure">
@@ -142,7 +142,7 @@
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="dependent">
-              <LITERAL value="True" dmtype="ivoa:boolean"/>
+              <INSTANCE value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="measure">
               <INSTANCE dmtype="meas:GenericCoordMeasure">

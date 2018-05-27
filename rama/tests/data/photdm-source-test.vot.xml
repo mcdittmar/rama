@@ -28,17 +28,17 @@
 		<GLOBALS>
 			<INSTANCE ID="_icrs_" dmtype="coords:domain.space.SpaceFrame">
 				<ATTRIBUTE dmrole="spaceRefFrame">
-					<LITERAL value="ICRS" dmtype="ivoa:string"/>
+					<INSTANCE value="ICRS" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
 			</INSTANCE>
 			<INSTANCE dmtype="source:SourcePosition">
 				<ATTRIBUTE dmrole="coord">
 					<INSTANCE dmtype="coords:domain.space.EquatorialCoord">
 						<ATTRIBUTE dmrole="ra">
-							<LITERAL value="123.45" dmtype="ivoa:RealQuantity" unit="deg"/>
+							<INSTANCE value="123.45" dmtype="ivoa:RealQuantity" unit="deg"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="dec">
-							<LITERAL value="67.89" dmtype="ivoa:RealQuantity" unit="deg"/>
+							<INSTANCE value="67.89" dmtype="ivoa:RealQuantity" unit="deg"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="frame">
 							<IDREF>_icrs_</IDREF>
@@ -49,28 +49,28 @@
 			<INSTANCE ID="_F606W" dmtype="photdm-alt:PhotometryFilter">
 				<PRIMARYKEY>
 					<PKFIELD>
-						<LITERAL value="F606W" dmtype="ivoa:string"/>
+						<INSTANCE value="F606W" dmtype="ivoa:string"/>
 					</PKFIELD>
 					<PKFIELD>
-						<LITERAL value="ACS" dmtype="ivoa:string"/>
+						<INSTANCE value="ACS" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
 				<ATTRIBUTE dmrole="name">
-					<LITERAL value="F606W" dmtype="ivoa:string"/>
+					<INSTANCE value="F606W" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
 				<ATTRIBUTE dmrole="bandName">
-					<LITERAL value="R" dmtype="ivoa:string"/>
+					<INSTANCE value="R" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
 				<ATTRIBUTE dmrole="spectralLocation">
-					<LITERAL value="606" dmtype="ivoa:RealQuantity" unit="nm"/>
+					<INSTANCE value="606" dmtype="ivoa:RealQuantity" unit="nm"/>
 				</ATTRIBUTE>
 				<ATTRIBUTE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
 						<ATTRIBUTE dmrole="spectral">
-							<LITERAL value="5432.0" dmtype="ivoa:RealQuantity" unit="nm"/>
+							<INSTANCE value="5432.0" dmtype="ivoa:RealQuantity" unit="nm"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="spectralError">
-							<LITERAL value="84.6" dmtype="ivoa:RealQuantity" unit="nm"/>
+							<INSTANCE value="84.6" dmtype="ivoa:RealQuantity" unit="nm"/>
 						</ATTRIBUTE>
 					</INSTANCE>
 				</ATTRIBUTE>
