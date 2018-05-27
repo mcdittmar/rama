@@ -19,7 +19,7 @@
 		</MODEL>
 		<GLOBALS>
 			<INSTANCE ID="_icrs_" dmtype="coords:domain.space.SpaceFrame">
-				<ATTRIBUTE dmrole="coords:domain.space.SpaceFrame.spaceRefFrame">
+				<ATTRIBUTE dmrole="spaceRefFrame">
 					<LITERAL value="ICRS" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
 			</INSTANCE>
@@ -34,18 +34,18 @@
 						<LITERAL value="ACS" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
+				<ATTRIBUTE dmrole="name">
 					<LITERAL value="F606W" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
+				<ATTRIBUTE dmrole="bandName">
 					<LITERAL value="R" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
+				<ATTRIBUTE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
+						<ATTRIBUTE dmrole="spectral">
 							<LITERAL value="606" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
+						<ATTRIBUTE dmrole="spectralError">
 							<LITERAL value="0" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
 					</INSTANCE>
@@ -60,18 +60,18 @@
 						<LITERAL value="WFPC2" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
+				<ATTRIBUTE dmrole="name">
 					<LITERAL value="F814W" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
+				<ATTRIBUTE dmrole="bandName">
 					<LITERAL value="I" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
+				<ATTRIBUTE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
+						<ATTRIBUTE dmrole="spectral">
 							<LITERAL value="814" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
+						<ATTRIBUTE dmrole="spectralError">
 							<LITERAL value="0" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
 					</INSTANCE>
@@ -85,19 +85,19 @@
 						<COLUMN dmtype="ivoa:string" ref="SourceID"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="source:Source.name">
+				<ATTRIBUTE dmrole="name">
 					<COLUMN ref="SourceID" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="source:Source.luminosity">
+				<ATTRIBUTE dmrole="luminosity">
 					<INSTANCE dmtype="source:LuminosityMeasurement">
-						<ATTRIBUTE dmrole="source:LuminosityMeasurement.value">
+						<ATTRIBUTE dmrole="value">
 							<COLUMN ref="MagAper2" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="source:LuminosityMeasurement.type">
+						<ATTRIBUTE dmrole="type">
 							<LITERAL value="magnitude" dmtype="source:LuminosityType"/>
 						</ATTRIBUTE>
 						<!--Use the Filter and instrument and foreign keys to find the appropriate filter from the GLOBALS (ID=_HSC_FILTERS).-->
-						<ATTRIBUTE dmrole="source:LuminosityMeasurement.filter">
+						<ATTRIBUTE dmrole="filter">
 							<FOREIGNKEY>
 								<PKFIELD>
 									<COLUMN ref="Filter" dmtype="ivoa:string"/>
@@ -110,36 +110,36 @@
 						</ATTRIBUTE>
 					</INSTANCE>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="source:Source.position">
+				<ATTRIBUTE dmrole="position">
 					<INSTANCE dmtype="source:SourcePosition">
-                        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+                        <ATTRIBUTE dmrole="coord">
                             <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-                                <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.ra">
+                                <ATTRIBUTE dmrole="ra">
                                     <COLUMN ref="SourceRA" dmtype="ivoa:real"/>
                                 </ATTRIBUTE>
-                                <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
+                                <ATTRIBUTE dmrole="dec">
                                     <COLUMN ref="SourceDec" dmtype="ivoa:real"/>
                                 </ATTRIBUTE>
-                                <ATTRIBUTE dmrole="coords:Coordinate.frame">
+                                <ATTRIBUTE dmrole="frame">
                                     <IDREF>_icrs_</IDREF>
                                 </ATTRIBUTE>
                             </INSTANCE>
                         </ATTRIBUTE>
 					</INSTANCE>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="source:Detection.sourceImage">
+				<ATTRIBUTE dmrole="sourceImage">
 					<INSTANCE dmtype="source:Image">
-						<ATTRIBUTE dmrole="source:Image.url">
+						<ATTRIBUTE dmrole="url">
 							<COLUMN ref="AccessUrlFits" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="source:Image.exposureTime">
+						<ATTRIBUTE dmrole="exposureTime">
 							<COLUMN ref="ExposureTime" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="source:Image.startTime">
+						<ATTRIBUTE dmrole="startTime">
 							<!--TBD: What is the right way to define these time stamps?-->
 							<COLUMN ref="StartMJD" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="source:Image.stopTime">
+						<ATTRIBUTE dmrole="stopTime">
 							<COLUMN ref="StopMJD" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
 					</INSTANCE>

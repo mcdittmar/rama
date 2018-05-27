@@ -20,7 +20,7 @@
         <GLOBALS>
 
             <INSTANCE ID="_icrs" dmtype="sample:catalog.SkyCoordinateFrame">
-                <ATTRIBUTE dmrole="sample:catalog.SkyCoordinateFrame.name">
+                <ATTRIBUTE dmrole="name">
                     <LITERAL value="ICRS" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
@@ -31,7 +31,7 @@
                         <LITERAL value="_2massH" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                <ATTRIBUTE dmrole="name">
                     <LITERAL value="2mass:H" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
@@ -42,7 +42,7 @@
                         <LITERAL value="_2massJ" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                <ATTRIBUTE dmrole="name">
                     <LITERAL value="2mass:J" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
@@ -53,7 +53,7 @@
                         <LITERAL value="_2massK" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                <ATTRIBUTE dmrole="name">
                     <LITERAL value="2mass:K" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
@@ -66,7 +66,7 @@
                         <LITERAL value="sdss:g" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                <ATTRIBUTE dmrole="name">
                     <LITERAL value="sdss:g" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
@@ -76,7 +76,7 @@
                         <LITERAL value="sdss:r" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                <ATTRIBUTE dmrole="name">
                     <LITERAL value="sdss:r" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
@@ -92,65 +92,65 @@
                 </PRIMARYKEY>
                 <!-- possible error -->
                 <!--
-                <ATTRIBUTE dmrole="filter:PhotometryFilter.name">
+                <ATTRIBUTE dmrole="name">
                 -->
-                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.name">
+                <ATTRIBUTE dmrole="name">
                     <COLUMN ref="_designation" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
-                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.position">
+                <ATTRIBUTE dmrole="position">
                     <INSTANCE dmtype="sample:catalog.SkyCoordinate">
-                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.longitude">
+                        <ATTRIBUTE dmrole="longitude">
                             <COLUMN ref="_ra" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.latitude">
+                        <ATTRIBUTE dmrole="latitude">
                             <COLUMN ref="_dec" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.frame">
+                        <ATTRIBUTE dmrole="frame">
                             <IDREF>_icrs</IDREF>
                         </ATTRIBUTE>
                     </INSTANCE>
                 </ATTRIBUTE>
 
-                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.luminosity">
+                <ATTRIBUTE dmrole="luminosity">
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                        <ATTRIBUTE dmrole="value">
                             <COLUMN ref="_magH" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                        <ATTRIBUTE dmrole="error">
                             <COLUMN ref="_errH" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+                        <ATTRIBUTE dmrole="type">
                             <LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                        <ATTRIBUTE dmrole="filter">
                             <IDREF>_2massH</IDREF>
                         </ATTRIBUTE>
                     </INSTANCE>
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                        <ATTRIBUTE dmrole="value">
                             <COLUMN ref="_magJ" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                        <ATTRIBUTE dmrole="error">
                             <COLUMN ref="_errJ" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+                        <ATTRIBUTE dmrole="type">
                             <LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                        <ATTRIBUTE dmrole="filter">
                             <IDREF>_2massJ</IDREF>
                         </ATTRIBUTE>
                     </INSTANCE>
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                        <ATTRIBUTE dmrole="value">
                             <COLUMN ref="_magK" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                        <ATTRIBUTE dmrole="error">
                             <COLUMN ref="_errK" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+                        <ATTRIBUTE dmrole="type">
                             <LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                        <ATTRIBUTE dmrole="filter">
                             <IDREF>_2massK</IDREF>
                         </ATTRIBUTE>
                     </INSTANCE>
@@ -169,14 +169,14 @@
                         <TARGETID>_source</TARGETID>
                     </FOREIGNKEY>
                 </CONTAINER>
-                <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+                <ATTRIBUTE dmrole="value">
                     <COLUMN ref="_mag" dmtype="ivoa:real"/>
                 </ATTRIBUTE>
-                <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
+                <ATTRIBUTE dmrole="error">
                     <COLUMN ref="_eMag" dmtype="ivoa:real"/>
                 </ATTRIBUTE>
                 <!-- Following is example of OR-like reference, but not to another table but to a singleton object -->
-                <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.filter">
+                <ATTRIBUTE dmrole="filter">
                     <IDREF></IDREF>
                 </ATTRIBUTE>
             </INSTANCE>

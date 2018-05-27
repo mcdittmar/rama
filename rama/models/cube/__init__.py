@@ -29,38 +29,38 @@ from rama.utils.registry import VO
 
 @VO('cube:DataProduct')
 class DataProduct(BaseType):
-    coord_sys = Composition('cube:DataProduct.coordSys', min_occurs=1, max_occurs=-1)
-    mappings = Composition('cube:DataProduct.mappings', min_occurs=0, max_occurs=1)
-    dataset = Reference('cube:DataProduct.dataset', min_occurs=1, max_occurs=1)
+    coord_sys = Composition('coordSys', min_occurs=1, max_occurs=-1)
+    mappings = Composition('mappings', min_occurs=0, max_occurs=1)
+    dataset = Reference('dataset', min_occurs=1, max_occurs=1)
 
 
 @VO('cube:NDImage')
 class NDImage(DataProduct):
-    data = Composition('cube:NDImage.data', min_occurs=0, max_occurs=-1)
-    pixel_coord_sys = Composition('cube:NDImage.pixelCoordSys', min_occurs=1, max_occurs=1)
+    data = Composition('data', min_occurs=0, max_occurs=-1)
+    pixel_coord_sys = Composition('pixelCoordSys', min_occurs=1, max_occurs=1)
 
 
 @VO('cube:SparseCube')
 class SparseCube(DataProduct):
-    data = Composition('cube:SparseCube.data', min_occurs=0, max_occurs=-1)
+    data = Composition('data', min_occurs=0, max_occurs=-1)
 
 
 @VO('cube:Voxel')
 class Voxel(BaseType):
-    pixel_axis = Composition('cube:Voxel.pixelAxis', min_occurs=1, max_occurs=-1)
-    value_axis = Composition('cube:Voxel.valueAxis', min_occurs=1, max_occurs=1)
-    coord_axis = Composition('cube:Voxel.coordAxis', min_occurs=0, max_occurs=-1)
+    pixel_axis = Composition('pixelAxis', min_occurs=1, max_occurs=-1)
+    value_axis = Composition('valueAxis', min_occurs=1, max_occurs=1)
+    coord_axis = Composition('coordAxis', min_occurs=0, max_occurs=-1)
 
 
 @VO('cube:NDPoint')
 @Adapter(CubePoint)
 class NDPoint(BaseType):
-    observable = Composition('cube:NDPoint.observable', min_occurs=0, max_occurs=-1)
+    observable = Composition('observable', min_occurs=0, max_occurs=-1)
 
 
 @VO('cube:DataAxis')
 class DataAxis(BaseType):
-    dependent = Attribute('cube:DataAxis.dependent', min_occurs=1, max_occurs=1)
+    dependent = Attribute('dependent', min_occurs=1, max_occurs=1)
 
 
 @VO('cube:ImageAxis')
@@ -70,12 +70,12 @@ class ImageAxis(DataAxis):
 
 @VO('cube:PixelAxis')
 class PixelAxis(ImageAxis):
-    coord = Attribute('cube:PixelAxis.coord', min_occurs=1, max_occurs=1)
+    coord = Attribute('coord', min_occurs=1, max_occurs=1)
 
 
 @VO('cube:MeasurementAxis')
 class MeasurementAxis(DataAxis):
-    measure = Composition('cube:MeasurementAxis.measure', min_occurs=1, max_occurs=1)
+    measure = Composition('measure', min_occurs=1, max_occurs=1)
 
 
 @VO('cube:Observable')
@@ -90,18 +90,18 @@ class ValueAxis(MeasurementAxis):
 
 @VO('cube:VirtualMeasure')
 class VirtualMeasure(Measure):
-    result_type = Attribute('cube:VirtualMeasure.result_type', min_occurs=1, max_occurs=1)
-    source = Reference('cube:VirtualMeasure.source', min_occurs=1, max_occurs=-1)
-    transform = Reference('cube:VirtualMeasure.transform', min_occurs=0, max_occurs=1)
-    result_frame = Reference('cube:VirtualMeasure.result_frame', min_occurs=0, max_occurs=1)
+    result_type = Attribute('result_type', min_occurs=1, max_occurs=1)
+    source = Reference('source', min_occurs=1, max_occurs=-1)
+    transform = Reference('transform', min_occurs=0, max_occurs=1)
+    result_frame = Reference('result_frame', min_occurs=0, max_occurs=1)
 
 
 @VO('cube:VirtualImageAxis')
 class VirtualImageAxis(ImageAxis):
-    result_type = Attribute('cube:VirtualImageAxis.result_type', min_occurs=1, max_occurs=1)
-    source = Reference('cube:VirtualImageAxis.source', min_occurs=1, max_occurs=-1)
-    transform = Reference('cube:VirtualImageAxis.transform', min_occurs=0, max_occurs=1)
-    result_frame = Reference('cube:VirtualImageAxis.result_frame', min_occurs=0, max_occurs=1)
+    result_type = Attribute('result_type', min_occurs=1, max_occurs=1)
+    source = Reference('source', min_occurs=1, max_occurs=-1)
+    transform = Reference('transform', min_occurs=0, max_occurs=1)
+    result_frame = Reference('result_frame', min_occurs=0, max_occurs=1)
 
 
 @VO('cube:Transform')

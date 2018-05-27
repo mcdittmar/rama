@@ -31,18 +31,18 @@
 						<LITERAL value="ACS" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
+				<ATTRIBUTE dmrole="name">
 					<LITERAL value="F606W" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
+				<ATTRIBUTE dmrole="bandName">
 					<LITERAL value="R" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
+				<ATTRIBUTE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
+						<ATTRIBUTE dmrole="spectral">
 							<LITERAL value="606" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
+						<ATTRIBUTE dmrole="spectralError">
 							<LITERAL value="0" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
 					</INSTANCE>
@@ -57,18 +57,18 @@
 						<LITERAL value="WFPC2" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
+				<ATTRIBUTE dmrole="name">
 					<LITERAL value="F814W" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
+				<ATTRIBUTE dmrole="bandName">
 					<LITERAL value="I" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
+				<ATTRIBUTE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
+						<ATTRIBUTE dmrole="spectral">
 							<LITERAL value="814" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
+						<ATTRIBUTE dmrole="spectralError">
 							<LITERAL value="0" dmtype="ivoa:RealQuantity"/>
 						</ATTRIBUTE>
 					</INSTANCE>
@@ -77,23 +77,23 @@
 		</GLOBALS>
         <GLOBALS>
             <INSTANCE dmtype="coords:domain.space.SpaceFrame" ID="_SPACE_FRAME">
-                <ATTRIBUTE dmrole="coords:domain.space.SpaceFrame.spaceRefFrame">
+                <ATTRIBUTE dmrole="spaceRefFrame">
                     <LITERAL value="FK5" dmtype="coords:domain.space.StdRefFrame"/>
                 </ATTRIBUTE>
             </INSTANCE>
             <INSTANCE dmtype="meas:StdPosition">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+                <ATTRIBUTE dmrole="coord">
                     <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-                        <ATTRIBUTE dmrole="coords:Coordinate.frame">
+                        <ATTRIBUTE dmrole="frame">
                             <IDREF>_SPACE_FRAME</IDREF>
                         </ATTRIBUTE>
                     </INSTANCE>
                 </ATTRIBUTE>
             </INSTANCE>
             <INSTANCE dmtype="meas:StdPosition">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+                <ATTRIBUTE dmrole="coord">
                     <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-                        <ATTRIBUTE dmrole="coords:Coordinate.frame">
+                        <ATTRIBUTE dmrole="frame">
                             <IDREF>_SPACE_FRAME</IDREF>
                         </ATTRIBUTE>
                     </INSTANCE>
@@ -107,31 +107,31 @@
                         <COLUMN ref="_designation" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.name">
+                <ATTRIBUTE dmrole="name">
                     <COLUMN ref="_designation" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
-                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.position">
+                <ATTRIBUTE dmrole="position">
                     <INSTANCE dmtype="sample:catalog.SkyCoordinate">
-                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.longitude">
+                        <ATTRIBUTE dmrole="longitude">
                             <COLUMN ref="_ra" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.latitude">
+                        <ATTRIBUTE dmrole="latitude">
                             <COLUMN ref="_dec" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="sample:catalog.SkyCoordinate.frame">
+                        <ATTRIBUTE dmrole="frame">
                             <IDREF>_SPACE_FRAME</IDREF>
                         </ATTRIBUTE>
                     </INSTANCE>
                 </ATTRIBUTE>
-                <ATTRIBUTE dmrole="sample:catalog.AbstractSource.luminosity">
+                <ATTRIBUTE dmrole="luminosity">
 					<INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
-						<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
+						<ATTRIBUTE dmrole="value">
 							<COLUMN ref="MagAper2" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+						<ATTRIBUTE dmrole="type">
 							<LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
 						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.filter">
+						<ATTRIBUTE dmrole="filter">
 							<FOREIGNKEY>
 								<PKFIELD>
 									<COLUMN ref="Filter" dmtype="ivoa:string"/>

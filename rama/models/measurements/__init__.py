@@ -45,65 +45,65 @@ class Uncertainty3D(Uncertainty):
 
 @VO('meas:Symmetrical1D')
 class Symmetrical1D(Uncertainty1D):
-    radius = Attribute('meas:Symmetrical1D.radius', min_occurs=1, max_occurs=1)
+    radius = Attribute('radius', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:Asymmetrical1D')
 class Asymmetrical1D(Uncertainty1D):
-    plus = Attribute('meas:Asymmetrical1D.plus', min_occurs=1, max_occurs=1)
-    minus = Attribute('meas:Asymmetrical1D.minus', min_occurs=1, max_occurs=1)
+    plus = Attribute('plus', min_occurs=1, max_occurs=1)
+    minus = Attribute('minus', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:Bounds1D')
 class Bounds1D(Uncertainty1D):
-    lo_limit = Attribute('meas:Bounds1D.loLimit', min_occurs=1, max_occurs=1)
-    hi_limit = Attribute('meas:Bounds1D.hiLimit', min_occurs=1, max_occurs=1)
+    lo_limit = Attribute('loLimit', min_occurs=1, max_occurs=1)
+    hi_limit = Attribute('hiLimit', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:Symmetrical2D')
 class Symmetrical2D(Uncertainty2D):
-    radius = Attribute('meas:Symmetrical2D.radius', min_occurs=1, max_occurs=1)
+    radius = Attribute('radius', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:Asymmetrical2D')
 class Asymmetrical2D(Uncertainty2D):
-    plus = Attribute('meas:Asymmetrical2D.plus', min_occurs=2, max_occurs=2)
-    minus = Attribute('meas:Asymmetrical2D.minus', min_occurs=2, max_occurs=2)
+    plus = Attribute('plus', min_occurs=2, max_occurs=2)
+    minus = Attribute('minus', min_occurs=2, max_occurs=2)
 
 
 @VO('meas:Bounds2D')
 class Bounds2D(Uncertainty2D):
-    lo_limit = Attribute('meas:Bounds2D.loLimit', min_occurs=2, max_occurs=2)
-    hi_limit = Attribute('meas:Bounds2D.hiLimit', min_occurs=2, max_occurs=2)
+    lo_limit = Attribute('loLimit', min_occurs=2, max_occurs=2)
+    hi_limit = Attribute('hiLimit', min_occurs=2, max_occurs=2)
 
 
 @VO('meas:Symmetrical3D')
 class Symmetrical3D(Uncertainty3D):
-    radius = Attribute('meas:Symmetrical3D.radius', min_occurs=1, max_occurs=1)
+    radius = Attribute('radius', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:Asymmetrical3D')
 class Asymmetrical3D(Uncertainty3D):
-    plus = Attribute('meas:Asymmetrical3D.plus', min_occurs=3, max_occurs=3)
-    minus = Attribute('meas:Asymmetrical3D.minus', min_occurs=3, max_occurs=3)
+    plus = Attribute('plus', min_occurs=3, max_occurs=3)
+    minus = Attribute('minus', min_occurs=3, max_occurs=3)
 
 
 @VO('meas:Bounds3D')
 class Bounds3D(Uncertainty3D):
-    lo_limit = Attribute('meas:Bounds3D.loLimit', min_occurs=3, max_occurs=3)
-    hi_limit = Attribute('meas:Bounds3D.hiLimit', min_occurs=3, max_occurs=3)
+    lo_limit = Attribute('loLimit', min_occurs=3, max_occurs=3)
+    hi_limit = Attribute('hiLimit', min_occurs=3, max_occurs=3)
 
 
 @VO('meas:Ellipse')
 class Ellipse(Uncertainty2D):
-    semi_axis = Attribute('meas:Ellipse.semiAxis', min_occurs=2, max_occurs=2)
-    pos_angle = Attribute('meas:Ellipse.posAngle', min_occurs=1, max_occurs=1)
+    semi_axis = Attribute('semiAxis', min_occurs=2, max_occurs=2)
+    pos_angle = Attribute('posAngle', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:Ellipsoid')
 class Ellipsoid(Uncertainty3D):
-    semi_axis = Attribute('meas:Ellipsoid.semiAxis', min_occurs=3, max_occurs=3)
-    pos_angle = Attribute('meas:Ellipsoid.posAngle', min_occurs=2, max_occurs=2)
+    semi_axis = Attribute('semiAxis', min_occurs=3, max_occurs=3)
+    pos_angle = Attribute('posAngle', min_occurs=2, max_occurs=2)
 
 
 @VO('meas:Matrix')
@@ -113,33 +113,33 @@ class Matrix(BaseType):
 
 @VO('meas:Matrix2x2')
 class Matrix2x2(Matrix):
-    m11 = Attribute('meas:Matrix2x2.m11', min_occurs=1, max_occurs=1)
-    m12 = Attribute('meas:Matrix2x2.m12', min_occurs=1, max_occurs=1)
-    m21 = Attribute('meas:Matrix2x2.m21', min_occurs=1, max_occurs=1)
-    m22 = Attribute('meas:Matrix2x2.m22', min_occurs=1, max_occurs=1)
+    m11 = Attribute('m11', min_occurs=1, max_occurs=1)
+    m12 = Attribute('m12', min_occurs=1, max_occurs=1)
+    m21 = Attribute('m21', min_occurs=1, max_occurs=1)
+    m22 = Attribute('m22', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:Matrix3x3')
 class Matrix3x3(Matrix):
-    m11 = Attribute('meas:Matrix3x3.m11', min_occurs=1, max_occurs=1)
-    m12 = Attribute('meas:Matrix3x3.m12', min_occurs=1, max_occurs=1)
-    m13 = Attribute('meas:Matrix3x3.m13', min_occurs=1, max_occurs=1)
-    m21 = Attribute('meas:Matrix3x3.m21', min_occurs=1, max_occurs=1)
-    m22 = Attribute('meas:Matrix3x3.m22', min_occurs=1, max_occurs=1)
-    m23 = Attribute('meas:Matrix3x3.m23', min_occurs=1, max_occurs=1)
-    m31 = Attribute('meas:Matrix3x3.m31', min_occurs=1, max_occurs=1)
-    m32 = Attribute('meas:Matrix3x3.m32', min_occurs=1, max_occurs=1)
-    m33 = Attribute('meas:Matrix3x3.m33', min_occurs=1, max_occurs=1)
+    m11 = Attribute('m11', min_occurs=1, max_occurs=1)
+    m12 = Attribute('m12', min_occurs=1, max_occurs=1)
+    m13 = Attribute('m13', min_occurs=1, max_occurs=1)
+    m21 = Attribute('m21', min_occurs=1, max_occurs=1)
+    m22 = Attribute('m22', min_occurs=1, max_occurs=1)
+    m23 = Attribute('m23', min_occurs=1, max_occurs=1)
+    m31 = Attribute('m31', min_occurs=1, max_occurs=1)
+    m32 = Attribute('m32', min_occurs=1, max_occurs=1)
+    m33 = Attribute('m33', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:CovarianceMatrix2D')
 class CovarianceMatrix2D(Uncertainty2D):
-    matrix = Attribute('meas:CovarianceMatrix2D.matrix', min_occurs=1, max_occurs=1)
+    matrix = Attribute('matrix', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:CovarianceMatrix3D')
 class CovarianceMatrix3D(Uncertainty3D):
-    matrix = Attribute('meas:CovarianceMatrix3D.matrix', min_occurs=1, max_occurs=1)
+    matrix = Attribute('matrix', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:Measure')
@@ -149,8 +149,8 @@ class Measure(BaseType):
 
 @VO('meas:CoordMeasure')
 class CoordMeasure(Measure):
-    coord = Attribute('meas:CoordMeasure.coord', min_occurs=1, max_occurs=1)
-    error = Composition('meas:CoordMeasure.error', min_occurs=0, max_occurs=1)
+    coord = Attribute('coord', min_occurs=1, max_occurs=1)
+    error = Composition('error', min_occurs=0, max_occurs=1)
 
 
 @VO('meas:Error')
@@ -160,23 +160,23 @@ class Error(BaseType):
 
 @VO('meas:Error1D')
 class Error1D(Error):
-    stat_error = Attribute('meas:Error1D.statError', min_occurs=0, max_occurs=1)
-    sys_error = Attribute('meas:Error1D.sysError', min_occurs=0, max_occurs=1)
-    ran_error = Attribute('meas:Error1D.ranError', min_occurs=0, max_occurs=1)
+    stat_error = Attribute('statError', min_occurs=0, max_occurs=1)
+    sys_error = Attribute('sysError', min_occurs=0, max_occurs=1)
+    ran_error = Attribute('ranError', min_occurs=0, max_occurs=1)
 
 
 @VO('meas:Error2D')
 class Error2D(Error):
-    stat_error = Attribute('meas:Error2D.statError', min_occurs=0, max_occurs=1)
-    sys_error = Attribute('meas:Error2D.sysError', min_occurs=0, max_occurs=1)
-    ran_error = Attribute('meas:Error2D.ranError', min_occurs=0, max_occurs=1)
+    stat_error = Attribute('statError', min_occurs=0, max_occurs=1)
+    sys_error = Attribute('sysError', min_occurs=0, max_occurs=1)
+    ran_error = Attribute('ranError', min_occurs=0, max_occurs=1)
 
 
 @VO('meas:Error3D')
 class Error3D(Error):
-    stat_error = Attribute('meas:Error3D.statError', min_occurs=0, max_occurs=1)
-    sys_error = Attribute('meas:Error3D.sysError', min_occurs=0, max_occurs=1)
-    ran_error = Attribute('meas:Error3D.ranError', min_occurs=0, max_occurs=1)
+    stat_error = Attribute('statError', min_occurs=0, max_occurs=1)
+    sys_error = Attribute('sysError', min_occurs=0, max_occurs=1)
+    ran_error = Attribute('ranError', min_occurs=0, max_occurs=1)
 
 
 @VO('meas:GenericCoordMeasure')
@@ -216,7 +216,7 @@ class TimeMeasure(CoordMeasure):
 
 @VO('meas:Polarization')
 class Polarization(Measure):
-    coord = Attribute('meas:Polarization.coord', min_occurs=1, max_occurs=1)
+    coord = Attribute('coord', min_occurs=1, max_occurs=1)
 
 
 @VO('meas:StdPosition')

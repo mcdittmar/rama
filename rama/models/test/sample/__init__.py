@@ -42,51 +42,51 @@ class SkyError(BaseType):
 
 @VO('sample:catalog.AlignedEllipse')
 class AlignedEllipse(SkyError):
-    long_error = Attribute('sample:catalog.AlignedEllipse.longError', min_occurs=1, max_occurs=1)
-    lat_error = Attribute('sample:catalog.AlignedEllipse.latError', min_occurs=1, max_occurs=1)
+    long_error = Attribute('longError', min_occurs=1, max_occurs=1)
+    lat_error = Attribute('latError', min_occurs=1, max_occurs=1)
 
 
 @VO('sample:catalog.CircleError')
 class CircleError(SkyError):
-    radius = Attribute('sample:catalog.CircleError.radius', min_occurs=1, max_occurs=1)
+    radius = Attribute('radius', min_occurs=1, max_occurs=1)
 
 
 @VO('sample:catalog.GenericEllipse')
 class GenericEllipse(SkyError):
-    major = Attribute('sample:catalog.GenericEllipse.major', min_occurs=1, max_occurs=1)
-    min_occursor = Attribute('sample:catalog.GenericEllipse.min_occursor', min_occurs=1, max_occurs=1)
-    pa = Attribute('sample:catalog.GenericEllipse.pa', min_occurs=0, max_occurs=-1)
+    major = Attribute('major', min_occurs=1, max_occurs=1)
+    min_occursor = Attribute('min_occursor', min_occurs=1, max_occurs=1)
+    pa = Attribute('pa', min_occurs=0, max_occurs=-1)
 
 
 @VO('sample:catalog.SkyCoordinate')
 class SkyCoordinate(BaseType):
-    longitude = Attribute('sample:catalog.SkyCoordinate.longitude', min_occurs=1, max_occurs=1)
-    latitude = Attribute('sample:catalog.SkyCoordinate.latitude', min_occurs=1, max_occurs=1)
-    frame = Reference('sample:catalog.SkyCoordinate.frame', min_occurs=1, max_occurs=1)
+    longitude = Attribute('longitude', min_occurs=1, max_occurs=1)
+    latitude = Attribute('latitude', min_occurs=1, max_occurs=1)
+    frame = Reference('frame', min_occurs=1, max_occurs=1)
 
 
 @VO('sample:catalog.AstroObject')
 class AstroObject(BaseType):
-    label = Attribute('sample:catalog.AstroObject.label', min_occurs=0, max_occurs=1)
+    label = Attribute('label', min_occurs=0, max_occurs=1)
 
 
 @VO('sample:catalog.AbstractSource')
 class AbstractSource(AstroObject):
-    name = Attribute('sample:catalog.AbstractSource.name', min_occurs=1, max_occurs=1)
-    description = Attribute('sample:catalog.AbstractSource.description', min_occurs=0, max_occurs=1)
-    position = Attribute('sample:catalog.AbstractSource.position', min_occurs=1, max_occurs=1)
-    position_error = Attribute('sample:catalog.AbstractSource.positionError', min_occurs=0, max_occurs=1)
-    classification = Attribute('sample:catalog.AbstractSource.classification', min_occurs=1, max_occurs=1)
-    luminosity = Composition('sample:catalog.AbstractSource.luminosity', min_occurs=0, max_occurs=-1)
+    name = Attribute('name', min_occurs=1, max_occurs=1)
+    description = Attribute('description', min_occurs=0, max_occurs=1)
+    position = Attribute('position', min_occurs=1, max_occurs=1)
+    position_error = Attribute('positionError', min_occurs=0, max_occurs=1)
+    classification = Attribute('classification', min_occurs=1, max_occurs=1)
+    luminosity = Composition('luminosity', min_occurs=0, max_occurs=-1)
 
 
 @VO('sample:catalog.LuminosityMeasurement')
 class LuminosityMeasurement(BaseType):
-    value = Attribute('sample:catalog.LuminosityMeasurement.value', min_occurs=1, max_occurs=1)
-    error = Attribute('sample:catalog.LuminosityMeasurement.error', min_occurs=0, max_occurs=1)
-    description = Attribute('sample:catalog.LuminosityMeasurement.description', min_occurs=0, max_occurs=1)
-    type = Attribute('sample:catalog.LuminosityMeasurement.type', min_occurs=1, max_occurs=1)
-    filter = Reference('sample:catalog.LuminosityMeasurement.filter', min_occurs=1, max_occurs=1)
+    value = Attribute('value', min_occurs=1, max_occurs=1)
+    error = Attribute('error', min_occurs=0, max_occurs=1)
+    description = Attribute('description', min_occurs=0, max_occurs=1)
+    type = Attribute('type', min_occurs=1, max_occurs=1)
+    filter = Reference('filter', min_occurs=1, max_occurs=1)
 
 
 @VO('sample:catalog.SDSSSource')
@@ -96,10 +96,10 @@ class SDSSSource(AbstractSource):
 
 @VO('sample:catalog.SkyCoordinateFrame')
 class SkyCoordinateFrame(BaseType):
-    name = Attribute('sample:catalog.SkyCoordinateFrame.name', min_occurs=1, max_occurs=1)
-    document_u_r_i = Attribute('sample:catalog.SkyCoordinateFrame.documentURI', min_occurs=1, max_occurs=1)
-    equinox = Attribute('sample:catalog.SkyCoordinateFrame.equinox', min_occurs=0, max_occurs=1)
-    system = Attribute('sample:catalog.SkyCoordinateFrame.system', min_occurs=0, max_occurs=1)
+    name = Attribute('name', min_occurs=1, max_occurs=1)
+    document_u_r_i = Attribute('documentURI', min_occurs=1, max_occurs=1)
+    equinox = Attribute('equinox', min_occurs=0, max_occurs=1)
+    system = Attribute('system', min_occurs=0, max_occurs=1)
 
 
 @VO('sample:catalog.Source')

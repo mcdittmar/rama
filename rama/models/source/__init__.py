@@ -42,61 +42,61 @@ class LuminosityType2(StringQuantity):
 
 @VO('source:Algorithm')
 class Algorithm(BaseType):
-    description = Attribute('source:Algorithm.description', min_occurs=0, max_occurs=1)
+    description = Attribute('description', min_occurs=0, max_occurs=1)
 
 
 @VO('source:Catalogue')
 class Catalogue(BaseType):
-    source = Composition('source:Catalogue.source', min_occurs=0, max_occurs=-1)
+    source = Composition('source', min_occurs=0, max_occurs=-1)
 
 
 @VO('source:Source')
 class Source(BaseType):
-    name = Attribute('source:Source.name', min_occurs=0, max_occurs=1)
-    classification = Attribute('source:Source.classification', min_occurs=0, max_occurs=1)
-    luminosity = Composition('source:Source.luminosity', min_occurs=0, max_occurs=-1)
-    position = Composition('source:Source.position', min_occurs=1, max_occurs=-1)
+    name = Attribute('name', min_occurs=0, max_occurs=1)
+    classification = Attribute('classification', min_occurs=0, max_occurs=1)
+    luminosity = Composition('luminosity', min_occurs=0, max_occurs=-1)
+    position = Composition('position', min_occurs=1, max_occurs=-1)
 
 
 @VO('source:Detection')
 class Detection(Source):
-    source_image = Composition('source:Detection.sourceImage', min_occurs=1, max_occurs=-1)
+    source_image = Composition('sourceImage', min_occurs=1, max_occurs=-1)
 
 
 @VO('source:Image')
 class Image(BaseType):
-    url = Attribute('source:Image.url', min_occurs=0, max_occurs=1)
-    exposure_time = Attribute('source:Image.exposureTime', min_occurs=0, max_occurs=1)
-    start_time = Attribute('source:Image.startTime', min_occurs=0, max_occurs=1)
-    end_time = Attribute('source:Image.endTime', min_occurs=0, max_occurs=1)
-    filter = Reference('source:Image.filter', min_occurs=1, max_occurs=1)
+    url = Attribute('url', min_occurs=0, max_occurs=1)
+    exposure_time = Attribute('exposureTime', min_occurs=0, max_occurs=1)
+    start_time = Attribute('startTime', min_occurs=0, max_occurs=1)
+    end_time = Attribute('endTime', min_occurs=0, max_occurs=1)
+    filter = Reference('filter', min_occurs=1, max_occurs=1)
 
 
 @VO('source:LuminosityMeasurement')
 class LuminosityMeasurement(BaseType):
-    value = Attribute('source:LuminosityMeasurement.value', min_occurs=1, max_occurs=1)
-    error = Attribute('source:LuminosityMeasurement.error', min_occurs=1, max_occurs=1)
-    type = Attribute('source:LuminosityMeasurement.type', min_occurs=1, max_occurs=1)
-    filter = Reference('source:LuminosityMeasurement.filter', min_occurs=1, max_occurs=1)
-    algorithm = Reference('source:LuminosityMeasurement.algorithm', min_occurs=0, max_occurs=1)
+    value = Attribute('value', min_occurs=1, max_occurs=1)
+    error = Attribute('error', min_occurs=1, max_occurs=1)
+    type = Attribute('type', min_occurs=1, max_occurs=1)
+    filter = Reference('filter', min_occurs=1, max_occurs=1)
+    algorithm = Reference('algorithm', min_occurs=0, max_occurs=1)
 
 
 @VO('source:SourceImage')
 class SourceImage(BaseType):
-    image = Reference('source:SourceImage.image', min_occurs=1, max_occurs=1)
+    image = Reference('image', min_occurs=1, max_occurs=1)
 
 
 @VO('source:SourcePosition')
 class SourcePosition(CoordMeasure):
-    algorithm = Reference('source:SourcePosition.algorithm', min_occurs=1, max_occurs=1)
+    algorithm = Reference('algorithm', min_occurs=1, max_occurs=1)
 
 
 @VO('source:XMatchSource')
 class XMatchSource(BaseType):
-    weight = Attribute('source:XMatchSource.weight', min_occurs=0, max_occurs=1)
-    source = Reference('source:XMatchSource.source', min_occurs=1, max_occurs=1)
+    weight = Attribute('weight', min_occurs=0, max_occurs=1)
+    source = Reference('source', min_occurs=1, max_occurs=1)
 
 
 @VO('source:XMatchTuple')
 class XMatchTuple(Source):
-    source = Composition('source:XMatchTuple.source', min_occurs=1, max_occurs=-1)
+    source = Composition('source', min_occurs=1, max_occurs=-1)

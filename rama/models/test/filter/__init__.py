@@ -25,17 +25,17 @@ from rama.utils.registry import VO
 
 @VO('filter:PhotometricSystem')
 class PhotometricSystem(BaseType):
-    description = Attribute('filter:PhotometricSystem.description', min_occurs=0, max_occurs=1)
-    detector_type = Attribute('filter:PhotometricSystem.detectorType', min_occurs=1, max_occurs=1)
+    description = Attribute('description', min_occurs=0, max_occurs=1)
+    detector_type = Attribute('detectorType', min_occurs=1, max_occurs=1)
 
 
 @VO('filter:PhotometryFilter')
 class PhotometryFilter(BaseType):
-    fps_identifier = Attribute('filter:PhotometryFilter.fpsIdentifier', min_occurs=1, max_occurs=1)
-    identifier = Attribute('filter:PhotometryFilter.identifier', min_occurs=1, max_occurs=1)
-    name = Attribute('filter:PhotometryFilter.name', min_occurs=1, max_occurs=1)
-    description = Attribute('filter:PhotometryFilter.description', min_occurs=1, max_occurs=1)
-    band_name = Attribute('filter:PhotometryFilter.bandName', min_occurs=1, max_occurs=1)
-    data_validity_from = Attribute('filter:PhotometryFilter.dataValidityFrom', min_occurs=1, max_occurs=1)
-    data_validity_to = Attribute('filter:PhotometryFilter.dataValidityTo', min_occurs=1, max_occurs=1)
-    spectral_location = Attribute('filter:PhotometryFilter.spectralLocation', min_occurs=1, max_occurs=1)
+    fps_identifier = Attribute('fpsIdentifier', min_occurs=1, max_occurs=1)
+    identifier = Attribute('identifier', min_occurs=1, max_occurs=1)
+    name = Attribute('name', min_occurs=1, max_occurs=1)
+    description = Attribute('description', min_occurs=1, max_occurs=1)
+    band_name = Attribute('bandName', min_occurs=1, max_occurs=1)
+    data_validity_from = Attribute('dataValidityFrom', min_occurs=1, max_occurs=1)
+    data_validity_to = Attribute('dataValidityTo', min_occurs=1, max_occurs=1)
+    spectral_location = Attribute('spectralLocation', min_occurs=1, max_occurs=1)
