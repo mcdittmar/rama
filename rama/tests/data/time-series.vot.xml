@@ -95,7 +95,7 @@
                 <ATTRIBUTE dmrole="coord">
                   <INSTANCE dmtype="coords:domain.time.JD">
                     <ATTRIBUTE dmrole="date">
-                      <COLUMN dmtype="ivoa:real" ref="_col_TIME"/>
+                      <INSTANCE dmtype="ivoa:real" ref="_col_TIME"/>
                     </ATTRIBUTE>
                     <ATTRIBUTE dmrole="frame">
                       <IDREF>_TIME_FRAME</IDREF>
@@ -136,7 +136,7 @@
                 <ATTRIBUTE dmrole="coord">
                   <INSTANCE dmtype="coords:PhysicalCoordValue">
                     <ATTRIBUTE dmrole="cval">
-                      <COLUMN dmtype="ivoa:RealQuantity" ref="_col_FLUX"/>
+                      <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_FLUX"/>
                     </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
@@ -145,7 +145,7 @@
                     <ATTRIBUTE dmrole="statError">
                       <INSTANCE dmtype="meas:Symmetrical1D">
                         <ATTRIBUTE dmrole="radius">
-                          <COLUMN dmtype="ivoa:RealQuantity" ref="_col_FLUX_ERROR"/>
+                          <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_FLUX_ERROR"/>
                         </ATTRIBUTE>
                       </INSTANCE>
                     </ATTRIBUTE>
@@ -163,7 +163,7 @@
                 <ATTRIBUTE dmrole="coord">
                   <INSTANCE dmtype="coords:PhysicalCoordValue">
                     <ATTRIBUTE dmrole="cval">
-                      <COLUMN dmtype="ivoa:RealQuantity" ref="_col_MAG"/>
+                      <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_MAG"/>
                     </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
@@ -172,7 +172,7 @@
                     <ATTRIBUTE dmrole="statError">
                       <INSTANCE dmtype="meas:Symmetrical1D">
                         <ATTRIBUTE dmrole="radius">
-                          <COLUMN dmtype="ivoa:RealQuantity" ref="_col_MAG_ERROR"/>
+                          <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_MAG_ERROR"/>
                         </ATTRIBUTE>
                       </INSTANCE>
                     </ATTRIBUTE>

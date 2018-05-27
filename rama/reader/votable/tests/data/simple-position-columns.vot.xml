@@ -33,10 +33,10 @@
                 <ATTRIBUTE dmrole="coord">
                     <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
                         <ATTRIBUTE dmrole="ra">
-                            <COLUMN ref="_RA" dmtype="ivoa:RealQuantity"/>
+                            <INSTANCE ref="_RA" dmtype="ivoa:RealQuantity"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="dec">
-                            <COLUMN ref="_DEC" dmtype="ivoa:RealQuantity"/>
+                            <INSTANCE ref="_DEC" dmtype="ivoa:RealQuantity"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="frame">
                             <IDREF>_SPACE_FRAME</IDREF>

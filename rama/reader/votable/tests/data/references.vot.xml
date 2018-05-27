@@ -104,19 +104,19 @@
             <INSTANCE ID="_source" dmtype="sample:catalog.Source">
                 <PRIMARYKEY>
                     <PKFIELD>
-                        <COLUMN ref="_designation" dmtype="ivoa:string"/>
+                        <INSTANCE ref="_designation" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
                 <ATTRIBUTE dmrole="name">
-                    <COLUMN ref="_designation" dmtype="ivoa:string"/>
+                    <INSTANCE ref="_designation" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
                 <ATTRIBUTE dmrole="position">
                     <INSTANCE dmtype="sample:catalog.SkyCoordinate">
                         <ATTRIBUTE dmrole="longitude">
-                            <COLUMN ref="_ra" dmtype="ivoa:real"/>
+                            <INSTANCE ref="_ra" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="latitude">
-                            <COLUMN ref="_dec" dmtype="ivoa:real"/>
+                            <INSTANCE ref="_dec" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="frame">
                             <IDREF>_SPACE_FRAME</IDREF>
@@ -126,7 +126,7 @@
                 <ATTRIBUTE dmrole="luminosity">
 					<INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
 						<ATTRIBUTE dmrole="value">
-							<COLUMN ref="MagAper2" dmtype="ivoa:real"/>
+							<INSTANCE ref="MagAper2" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="type">
 							<INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
@@ -134,10 +134,10 @@
 						<ATTRIBUTE dmrole="filter">
 							<FOREIGNKEY>
 								<PKFIELD>
-									<COLUMN ref="Filter" dmtype="ivoa:string"/>
+									<INSTANCE ref="Filter" dmtype="ivoa:string"/>
 								</PKFIELD>
 								<PKFIELD>
-									<COLUMN ref="Instrument" dmtype="ivoa:string"/>
+									<INSTANCE ref="Instrument" dmtype="ivoa:string"/>
 								</PKFIELD>
 								<TARGETID>_HSC_FILTERS</TARGETID>
 							</FOREIGNKEY>

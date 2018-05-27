@@ -23,7 +23,7 @@
                             <IDREF>_TT_FRAME</IDREF>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="date">
-                            <COLUMN dmtype="ivoa:real" ref="_col_H_TIME"/>
+                            <INSTANCE dmtype="ivoa:real" ref="_col_H_TIME"/>
                         </ATTRIBUTE>
                     </INSTANCE>
                 </ATTRIBUTE>

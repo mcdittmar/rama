@@ -81,7 +81,7 @@
                 <ATTRIBUTE dmrole="coord">
                   <INSTANCE dmtype="coords:domain.time.ISOTime">
                     <ATTRIBUTE dmrole="date">
-                      <COLUMN dmtype="ivoa:datetime" ref="_col_TIME"/>
+                      <INSTANCE dmtype="ivoa:datetime" ref="_col_TIME"/>
                     </ATTRIBUTE>
                     <ATTRIBUTE dmrole="frame">
                       <IDREF>_TT_FRAME</IDREF>
@@ -100,10 +100,10 @@
                 <ATTRIBUTE dmrole="coord">
                   <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
                     <ATTRIBUTE dmrole="ra">
-                      <COLUMN dmtype="ivoa:RealQuantity" ref="_col_RAJ2000"/>
+                      <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_RAJ2000"/>
                     </ATTRIBUTE>
                     <ATTRIBUTE dmrole="dec">
-                      <COLUMN dmtype="ivoa:RealQuantity" ref="_col_DECJ2000"/>
+                      <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_DECJ2000"/>
                     </ATTRIBUTE>
                     <ATTRIBUTE dmrole="frame">
                       <IDREF>_FK4_J2000_FRAME</IDREF>
@@ -122,7 +122,7 @@
                 <ATTRIBUTE dmrole="coord">
                   <INSTANCE dmtype="coords:PhysicalCoordValue">
                     <ATTRIBUTE dmrole="cval">
-                      <COLUMN dmtype="ivoa:RealQuantity" ref="_col_FLUX"/>
+                      <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_FLUX"/>
                     </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
@@ -131,7 +131,7 @@
                     <ATTRIBUTE dmrole="statError">
                       <INSTANCE dmtype="meas:Symmetrical1D">
                         <ATTRIBUTE dmrole="radius">
-                          <COLUMN dmtype="ivoa:RealQuantity" ref="_col_FLUX_ERROR"/>
+                          <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_FLUX_ERROR"/>
                         </ATTRIBUTE>
                       </INSTANCE>
                     </ATTRIBUTE>
@@ -149,7 +149,7 @@
                 <ATTRIBUTE dmrole="coord">
                   <INSTANCE dmtype="coords:PhysicalCoordValue">
                     <ATTRIBUTE dmrole="cval">
-                      <COLUMN dmtype="ivoa:RealQuantity" ref="_col_MAG"/>
+                      <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_MAG"/>
                     </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
@@ -158,7 +158,7 @@
                     <ATTRIBUTE dmrole="statError">
                       <INSTANCE dmtype="meas:Symmetrical1D">
                         <ATTRIBUTE dmrole="radius">
-                          <COLUMN dmtype="ivoa:RealQuantity" ref="_col_MAG_ERROR"/>
+                          <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_MAG_ERROR"/>
                         </ATTRIBUTE>
                       </INSTANCE>
                     </ATTRIBUTE>

@@ -82,16 +82,16 @@
 			<INSTANCE ID="_source" dmtype="source:Detection">
 				<PRIMARYKEY>
 					<PKFIELD>
-						<COLUMN dmtype="ivoa:string" ref="SourceID"/>
+						<INSTANCE dmtype="ivoa:string" ref="SourceID"/>
 					</PKFIELD>
 				</PRIMARYKEY>
 				<ATTRIBUTE dmrole="name">
-					<COLUMN ref="SourceID" dmtype="ivoa:string"/>
+					<INSTANCE ref="SourceID" dmtype="ivoa:string"/>
 				</ATTRIBUTE>
 				<ATTRIBUTE dmrole="luminosity">
 					<INSTANCE dmtype="source:LuminosityMeasurement">
 						<ATTRIBUTE dmrole="value">
-							<COLUMN ref="MagAper2" dmtype="ivoa:real"/>
+							<INSTANCE ref="MagAper2" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="type">
 							<INSTANCE value="magnitude" dmtype="source:LuminosityType"/>
@@ -100,10 +100,10 @@
 						<ATTRIBUTE dmrole="filter">
 							<FOREIGNKEY>
 								<PKFIELD>
-									<COLUMN ref="Filter" dmtype="ivoa:string"/>
+									<INSTANCE ref="Filter" dmtype="ivoa:string"/>
 								</PKFIELD>
 								<PKFIELD>
-									<COLUMN ref="Instrument" dmtype="ivoa:string"/>
+									<INSTANCE ref="Instrument" dmtype="ivoa:string"/>
 								</PKFIELD>
 								<TARGETID>_HSC_FILTERS</TARGETID>
 							</FOREIGNKEY>
@@ -115,10 +115,10 @@
                         <ATTRIBUTE dmrole="coord">
                             <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
                                 <ATTRIBUTE dmrole="ra">
-                                    <COLUMN ref="SourceRA" dmtype="ivoa:real"/>
+                                    <INSTANCE ref="SourceRA" dmtype="ivoa:real"/>
                                 </ATTRIBUTE>
                                 <ATTRIBUTE dmrole="dec">
-                                    <COLUMN ref="SourceDec" dmtype="ivoa:real"/>
+                                    <INSTANCE ref="SourceDec" dmtype="ivoa:real"/>
                                 </ATTRIBUTE>
                                 <ATTRIBUTE dmrole="frame">
                                     <IDREF>_icrs_</IDREF>
@@ -130,17 +130,17 @@
 				<ATTRIBUTE dmrole="sourceImage">
 					<INSTANCE dmtype="source:Image">
 						<ATTRIBUTE dmrole="url">
-							<COLUMN ref="AccessUrlFits" dmtype="ivoa:real"/>
+							<INSTANCE ref="AccessUrlFits" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="exposureTime">
-							<COLUMN ref="ExposureTime" dmtype="ivoa:real"/>
+							<INSTANCE ref="ExposureTime" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="startTime">
 							<!--TBD: What is the right way to define these time stamps?-->
-							<COLUMN ref="StartMJD" dmtype="ivoa:real"/>
+							<INSTANCE ref="StartMJD" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
 						<ATTRIBUTE dmrole="stopTime">
-							<COLUMN ref="StopMJD" dmtype="ivoa:real"/>
+							<INSTANCE ref="StopMJD" dmtype="ivoa:real"/>
 						</ATTRIBUTE>
 					</INSTANCE>
 				</ATTRIBUTE>

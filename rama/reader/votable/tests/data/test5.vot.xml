@@ -87,7 +87,7 @@
             <INSTANCE ID="_source" dmtype="sample:catalog.Source">
                 <PRIMARYKEY>
                     <PKFIELD>
-                        <COLUMN ref="_designation" dmtype="ivoa:string"/>
+                        <INSTANCE ref="_designation" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
                 <!-- possible error -->
@@ -95,15 +95,15 @@
                 <ATTRIBUTE dmrole="name">
                 -->
                 <ATTRIBUTE dmrole="name">
-                    <COLUMN ref="_designation" dmtype="ivoa:string"/>
+                    <INSTANCE ref="_designation" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
                 <ATTRIBUTE dmrole="position">
                     <INSTANCE dmtype="sample:catalog.SkyCoordinate">
                         <ATTRIBUTE dmrole="longitude">
-                            <COLUMN ref="_ra" dmtype="ivoa:real"/>
+                            <INSTANCE ref="_ra" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="latitude">
-                            <COLUMN ref="_dec" dmtype="ivoa:real"/>
+                            <INSTANCE ref="_dec" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="frame">
                             <IDREF>_icrs</IDREF>
@@ -114,10 +114,10 @@
                 <ATTRIBUTE dmrole="luminosity">
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
                         <ATTRIBUTE dmrole="value">
-                            <COLUMN ref="_magH" dmtype="ivoa:real"/>
+                            <INSTANCE ref="_magH" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="error">
-                            <COLUMN ref="_errH" dmtype="ivoa:real"/>
+                            <INSTANCE ref="_errH" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="type">
                             <INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
@@ -128,10 +128,10 @@
                     </INSTANCE>
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
                         <ATTRIBUTE dmrole="value">
-                            <COLUMN ref="_magJ" dmtype="ivoa:real"/>
+                            <INSTANCE ref="_magJ" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="error">
-                            <COLUMN ref="_errJ" dmtype="ivoa:real"/>
+                            <INSTANCE ref="_errJ" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="type">
                             <INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
@@ -142,10 +142,10 @@
                     </INSTANCE>
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
                         <ATTRIBUTE dmrole="value">
-                            <COLUMN ref="_magK" dmtype="ivoa:real"/>
+                            <INSTANCE ref="_magK" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="error">
-                            <COLUMN ref="_errK" dmtype="ivoa:real"/>
+                            <INSTANCE ref="_errK" dmtype="ivoa:real"/>
                         </ATTRIBUTE>
                         <ATTRIBUTE dmrole="type">
                             <INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
@@ -164,16 +164,16 @@
                 <CONTAINER>
                     <FOREIGNKEY>
                         <PKFIELD>
-                            <COLUMN ref="_container" dmtype="ivoa:string"/>
+                            <INSTANCE ref="_container" dmtype="ivoa:string"/>
                         </PKFIELD>
                         <TARGETID>_source</TARGETID>
                     </FOREIGNKEY>
                 </CONTAINER>
                 <ATTRIBUTE dmrole="value">
-                    <COLUMN ref="_mag" dmtype="ivoa:real"/>
+                    <INSTANCE ref="_mag" dmtype="ivoa:real"/>
                 </ATTRIBUTE>
                 <ATTRIBUTE dmrole="error">
-                    <COLUMN ref="_eMag" dmtype="ivoa:real"/>
+                    <INSTANCE ref="_eMag" dmtype="ivoa:real"/>
                 </ATTRIBUTE>
                 <!-- Following is example of OR-like reference, but not to another table but to a singleton object -->
                 <ATTRIBUTE dmrole="filter">

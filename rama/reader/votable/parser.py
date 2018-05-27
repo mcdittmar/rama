@@ -56,7 +56,7 @@ def get_local_name(tag_name):
 TEMPLATES = get_local_name("TEMPLATES")
 INSTANCE = get_local_name("INSTANCE")
 LITERAL = get_local_name("INSTANCE")
-COLUMN = get_local_name("COLUMN")
+COLUMN = get_local_name("INSTANCE")
 REFERENCE = get_local_name("ATTRIBUTE")
 COMPOSITION = get_local_name("ATTRIBUTE")
 ATTRIBUTE = get_local_name("ATTRIBUTE")
@@ -203,10 +203,10 @@ def parse_identifier_field(context, xml_element):
 
 
 def parse_primary_key_field(context, xml_element):
-    literal_elements = xml_element.xpath(f"./{LITERAL}")
+    literal_elements = xml_element.xpath(f"./{LITERAL}[not(@ref)]")
     if literal_elements:
         return parse_literal(context, literal_elements[0])
-    column_elements = xml_element.xpath(f"./{COLUMN}")
+    column_elements = find_columns(xml_element)
     if column_elements:
         return parse_column(context, column_elements[0]).data
 
@@ -232,6 +232,10 @@ def get_children(element, child_tag_name):
     return element.xpath(get_child_selector(child_tag_name))
 
 
+def find_columns(element):
+    return element.xpath(f'.//{COLUMN}[@ref and not(@value)]')
+
+
 def resolve_type(xml_element):
     element_type = xml_element.xpath(TYPE_ATTR)[0]
     return element_type
@@ -252,7 +256,7 @@ def find_element_for_role(xml_element, tag_name, role_id):
 
 def is_template(xml_element):
     has_template_parent = len(xml_element.xpath(f'./parent::{TEMPLATES}')) > 0
-    has_column_descendants = len(xml_element.xpath(f'.//{COLUMN}')) > 0
+    has_column_descendants = len(find_columns(xml_element)) > 0
     return has_template_parent or has_column_descendants
 
 
@@ -313,17 +317,17 @@ def parse_references(xml_element, field_object, context):
 
 
 def parse_structured_instances(xml_element, context):
-    elements = xml_element.xpath(f"./{INSTANCE}[not(@value)]")
+    elements = xml_element.xpath(f"./{INSTANCE}[not(@value) and not(@ref)]")
     return [read_instance(element, context) for element in elements]
 
 
 def parse_literals(xml_element, context):
-    elements = xml_element.xpath(f"./{INSTANCE}[@value]")
+    elements = xml_element.xpath(f"./{INSTANCE}[@value and not(@ref)]")
     return [parse_literal(context, element) for element in elements]
 
 
 def parse_columns(xml_element, context):
-    elements = get_children(xml_element, COLUMN)
+    elements = xml_element.xpath(f"./{INSTANCE}[@ref and not(@value)]")
     return [parse_column(context, element) for element in elements]
 
 
