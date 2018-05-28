@@ -57,11 +57,13 @@ TEMPLATES = get_local_name("TEMPLATES")
 INSTANCE = get_local_name("INSTANCE")
 LITERAL = get_local_name("INSTANCE")
 COLUMN = get_local_name("INSTANCE")
+CONSTANT = get_local_name("CONSTANT")
 REFERENCE = get_local_name("ATTRIBUTE")
 COMPOSITION = get_local_name("ATTRIBUTE")
 ATTRIBUTE = get_local_name("ATTRIBUTE")
 TABLE = get_local_name("TABLE")
 FIELD = get_local_name("FIELD")
+PARAM = get_local_name("PARAM")
 PRIMARYKEY = get_local_name("PRIMARYKEY")
 FOREIGNKEY = get_local_name("FOREIGNKEY")
 PKFIELD = get_local_name("PKFIELD")
@@ -181,6 +183,13 @@ def parse_literal(context, xml_element):
     return context.get_type_by_id(value_type)(value, unit)
 
 
+def parse_constant(dmtype, xml_element, context):
+    value = xml_element.xpath(VALUE_ATTR)[0]
+    units = xml_element.xpath(UNIT_ATTR)
+    unit = units[0] if units else None
+    return context.get_type_by_id(dmtype)(value, unit)
+
+
 def parse_id(context, xml_element, instance_class):
     keys = None
     primary_key_elements = xml_element.xpath(f"./{PRIMARYKEY}")
@@ -290,7 +299,8 @@ def parse_attributes(xml_element, field_object, context):
     if xml_element is not None:
         values = parse_structured_instances(xml_element, context) +\
                  parse_literals(xml_element, context) +\
-                 parse_columns(xml_element, context)
+                 parse_columns(xml_element, context) +\
+                 parse_constants(xml_element, context)
         return field_object.select_return_value(values)
 
 
@@ -329,6 +339,17 @@ def parse_literals(xml_element, context):
 def parse_columns(xml_element, context):
     elements = xml_element.xpath(f"./{INSTANCE}[@ref and not(@value)]")
     return [parse_column(context, element) for element in elements]
+
+
+def parse_constants(xml_element, context):
+    elements = xml_element.xpath(f"./{CONSTANT}")
+    if elements:
+        dmtypes = [element.xpath(f"{TYPE_ATTR}")[0] for element in elements]
+        refs = [element.xpath(f"{REF_ATTR}")[0] for element in elements]
+        params = [xml_element.xpath(f"//{PARAM}[{ID_ATTR}='{str(ref)}']")[0] for ref in refs]
+        params_with_type = zip(params, dmtypes)
+        return [parse_constant(dmtype, element, context) for element, dmtype in params_with_type]
+    return elements
 
 
 def parse_idref_instances(xml_element, context):
