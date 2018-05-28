@@ -19,9 +19,9 @@
 		</MODEL>
 		<GLOBALS>
 			<INSTANCE ID="_icrs_" dmtype="coords:domain.space.SpaceFrame">
-				<ATTRIBUTE dmrole="spaceRefFrame">
+				<ROLE dmrole="spaceRefFrame">
 					<INSTANCE value="ICRS" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
+				</ROLE>
 			</INSTANCE>
 		</GLOBALS>
 		<GLOBALS ID="_HSC_FILTERS">
@@ -34,22 +34,22 @@
 						<INSTANCE value="ACS" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="name">
+				<ROLE dmrole="name">
 					<INSTANCE value="F606W" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="bandName">
+				</ROLE>
+				<ROLE dmrole="bandName">
 					<INSTANCE value="R" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="transmissionPoint">
+				</ROLE>
+				<ROLE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="spectral">
+						<ROLE dmrole="spectral">
 							<INSTANCE value="606" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="spectralError">
+						</ROLE>
+						<ROLE dmrole="spectralError">
 							<INSTANCE value="0" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
+						</ROLE>
 					</INSTANCE>
-				</ATTRIBUTE>
+				</ROLE>
 			</INSTANCE>
 			<INSTANCE ID="_W2_F814W" dmtype="photdm-alt:PhotometryFilter">
 				<PRIMARYKEY>
@@ -60,22 +60,22 @@
 						<INSTANCE value="WFPC2" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="name">
+				<ROLE dmrole="name">
 					<INSTANCE value="F814W" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="bandName">
+				</ROLE>
+				<ROLE dmrole="bandName">
 					<INSTANCE value="I" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="transmissionPoint">
+				</ROLE>
+				<ROLE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="spectral">
+						<ROLE dmrole="spectral">
 							<INSTANCE value="814" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="spectralError">
+						</ROLE>
+						<ROLE dmrole="spectralError">
 							<INSTANCE value="0" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
+						</ROLE>
 					</INSTANCE>
-				</ATTRIBUTE>
+				</ROLE>
 			</INSTANCE>
 		</GLOBALS>
 		<TEMPLATES tableref="matches">
@@ -85,19 +85,19 @@
 						<INSTANCE dmtype="ivoa:string" ref="SourceID"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="name">
+				<ROLE dmrole="name">
 					<INSTANCE ref="SourceID" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="luminosity">
+				</ROLE>
+				<ROLE dmrole="luminosity">
 					<INSTANCE dmtype="source:LuminosityMeasurement">
-						<ATTRIBUTE dmrole="value">
+						<ROLE dmrole="value">
 							<INSTANCE ref="MagAper2" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="type">
+						</ROLE>
+						<ROLE dmrole="type">
 							<INSTANCE value="magnitude" dmtype="source:LuminosityType"/>
-						</ATTRIBUTE>
+						</ROLE>
 						<!--Use the Filter and instrument and foreign keys to find the appropriate filter from the GLOBALS (ID=_HSC_FILTERS).-->
-						<ATTRIBUTE dmrole="filter">
+						<ROLE dmrole="filter">
 							<FOREIGNKEY>
 								<PKFIELD>
 									<INSTANCE ref="Filter" dmtype="ivoa:string"/>
@@ -107,43 +107,43 @@
 								</PKFIELD>
 								<TARGETID>_HSC_FILTERS</TARGETID>
 							</FOREIGNKEY>
-						</ATTRIBUTE>
+						</ROLE>
 					</INSTANCE>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="position">
+				</ROLE>
+				<ROLE dmrole="position">
 					<INSTANCE dmtype="source:SourcePosition">
-                        <ATTRIBUTE dmrole="coord">
+                        <ROLE dmrole="coord">
                             <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-                                <ATTRIBUTE dmrole="ra">
+                                <ROLE dmrole="ra">
                                     <INSTANCE ref="SourceRA" dmtype="ivoa:real"/>
-                                </ATTRIBUTE>
-                                <ATTRIBUTE dmrole="dec">
+                                </ROLE>
+                                <ROLE dmrole="dec">
                                     <INSTANCE ref="SourceDec" dmtype="ivoa:real"/>
-                                </ATTRIBUTE>
-                                <ATTRIBUTE dmrole="frame">
+                                </ROLE>
+                                <ROLE dmrole="frame">
                                     <IDREF>_icrs_</IDREF>
-                                </ATTRIBUTE>
+                                </ROLE>
                             </INSTANCE>
-                        </ATTRIBUTE>
+                        </ROLE>
 					</INSTANCE>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="sourceImage">
+				</ROLE>
+				<ROLE dmrole="sourceImage">
 					<INSTANCE dmtype="source:Image">
-						<ATTRIBUTE dmrole="url">
+						<ROLE dmrole="url">
 							<INSTANCE ref="AccessUrlFits" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="exposureTime">
+						</ROLE>
+						<ROLE dmrole="exposureTime">
 							<INSTANCE ref="ExposureTime" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="startTime">
+						</ROLE>
+						<ROLE dmrole="startTime">
 							<!--TBD: What is the right way to define these time stamps?-->
 							<INSTANCE ref="StartMJD" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="stopTime">
+						</ROLE>
+						<ROLE dmrole="stopTime">
 							<INSTANCE ref="StopMJD" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
+						</ROLE>
 					</INSTANCE>
-				</ATTRIBUTE>
+				</ROLE>
 			</INSTANCE>
 		</TEMPLATES>
 	</VODML>

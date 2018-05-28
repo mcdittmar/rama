@@ -20,9 +20,9 @@
         <GLOBALS>
 
             <INSTANCE ID="_icrs" dmtype="sample:catalog.SkyCoordinateFrame">
-                <ATTRIBUTE dmrole="name">
+                <ROLE dmrole="name">
                     <INSTANCE value="ICRS" dmtype="ivoa:string"/>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
 
             <INSTANCE ID="_2massH" dmtype="filter:PhotometryFilter">
@@ -31,9 +31,9 @@
                         <INSTANCE value="_2massH" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="name">
+                <ROLE dmrole="name">
                     <INSTANCE value="2mass:H" dmtype="ivoa:string"/>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
 
             <INSTANCE ID="_2massJ" dmtype="filter:PhotometryFilter">
@@ -42,9 +42,9 @@
                         <INSTANCE value="_2massJ" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="name">
+                <ROLE dmrole="name">
                     <INSTANCE value="2mass:J" dmtype="ivoa:string"/>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
 
             <INSTANCE ID="_2massK" dmtype="filter:PhotometryFilter">
@@ -53,9 +53,9 @@
                         <INSTANCE value="_2massK" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="name">
+                <ROLE dmrole="name">
                     <INSTANCE value="2mass:K" dmtype="ivoa:string"/>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
 
         </GLOBALS>
@@ -66,9 +66,9 @@
                         <INSTANCE value="sdss:g" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="name">
+                <ROLE dmrole="name">
                     <INSTANCE value="sdss:g" dmtype="ivoa:string"/>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
             <INSTANCE dmtype="filter:PhotometryFilter">
                 <PRIMARYKEY>
@@ -76,9 +76,9 @@
                         <INSTANCE value="sdss:r" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="name">
+                <ROLE dmrole="name">
                     <INSTANCE value="sdss:r" dmtype="ivoa:string"/>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
 
         </GLOBALS>
@@ -92,70 +92,70 @@
                 </PRIMARYKEY>
                 <!-- possible error -->
                 <!--
-                <ATTRIBUTE dmrole="name">
+                <ROLE dmrole="name">
                 -->
-                <ATTRIBUTE dmrole="name">
+                <ROLE dmrole="name">
                     <INSTANCE ref="_designation" dmtype="ivoa:string"/>
-                </ATTRIBUTE>
-                <ATTRIBUTE dmrole="position">
+                </ROLE>
+                <ROLE dmrole="position">
                     <INSTANCE dmtype="sample:catalog.SkyCoordinate">
-                        <ATTRIBUTE dmrole="longitude">
+                        <ROLE dmrole="longitude">
                             <INSTANCE ref="_ra" dmtype="ivoa:real"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="latitude">
+                        </ROLE>
+                        <ROLE dmrole="latitude">
                             <INSTANCE ref="_dec" dmtype="ivoa:real"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="frame">
+                        </ROLE>
+                        <ROLE dmrole="frame">
                             <IDREF>_icrs</IDREF>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
-                </ATTRIBUTE>
+                </ROLE>
 
-                <ATTRIBUTE dmrole="luminosity">
+                <ROLE dmrole="luminosity">
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
-                        <ATTRIBUTE dmrole="value">
+                        <ROLE dmrole="value">
                             <INSTANCE ref="_magH" dmtype="ivoa:real"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="error">
+                        </ROLE>
+                        <ROLE dmrole="error">
                             <INSTANCE ref="_errH" dmtype="ivoa:real"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="type">
+                        </ROLE>
+                        <ROLE dmrole="type">
                             <INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="filter">
+                        </ROLE>
+                        <ROLE dmrole="filter">
                             <IDREF>_2massH</IDREF>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
-                        <ATTRIBUTE dmrole="value">
+                        <ROLE dmrole="value">
                             <INSTANCE ref="_magJ" dmtype="ivoa:real"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="error">
+                        </ROLE>
+                        <ROLE dmrole="error">
                             <INSTANCE ref="_errJ" dmtype="ivoa:real"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="type">
+                        </ROLE>
+                        <ROLE dmrole="type">
                             <INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="filter">
+                        </ROLE>
+                        <ROLE dmrole="filter">
                             <IDREF>_2massJ</IDREF>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
                     <INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
-                        <ATTRIBUTE dmrole="value">
+                        <ROLE dmrole="value">
                             <INSTANCE ref="_magK" dmtype="ivoa:real"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="error">
+                        </ROLE>
+                        <ROLE dmrole="error">
                             <INSTANCE ref="_errK" dmtype="ivoa:real"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="type">
+                        </ROLE>
+                        <ROLE dmrole="type">
                             <INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="filter">
+                        </ROLE>
+                        <ROLE dmrole="filter">
                             <IDREF>_2massK</IDREF>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
                     <EXTINSTANCES>SDSS_MAGS</EXTINSTANCES>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
         </TEMPLATES>
         <TEMPLATES tableref="_sdss_mags">
@@ -169,16 +169,16 @@
                         <TARGETID>_source</TARGETID>
                     </FOREIGNKEY>
                 </CONTAINER>
-                <ATTRIBUTE dmrole="value">
+                <ROLE dmrole="value">
                     <INSTANCE ref="_mag" dmtype="ivoa:real"/>
-                </ATTRIBUTE>
-                <ATTRIBUTE dmrole="error">
+                </ROLE>
+                <ROLE dmrole="error">
                     <INSTANCE ref="_eMag" dmtype="ivoa:real"/>
-                </ATTRIBUTE>
+                </ROLE>
                 <!-- Following is example of OR-like reference, but not to another table but to a singleton object -->
-                <ATTRIBUTE dmrole="filter">
+                <ROLE dmrole="filter">
                     <IDREF></IDREF>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
 
         </TEMPLATES>

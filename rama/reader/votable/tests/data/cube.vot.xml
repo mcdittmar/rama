@@ -22,152 +22,152 @@
     </MODEL>
     <GLOBALS>
       <INSTANCE dmtype="coords:domain.time.TimeFrame" ID="_TT_FRAME">
-        <ATTRIBUTE dmrole="refPosition">
+        <ROLE dmrole="refPosition">
           <INSTANCE dmtype="coords:domain.space.StdRefLocation">
-            <ATTRIBUTE dmrole="position">
+            <ROLE dmrole="position">
               <INSTANCE value="TOPOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
-            </ATTRIBUTE>
+            </ROLE>
           </INSTANCE>
-        </ATTRIBUTE>
-        <ATTRIBUTE dmrole="timescale">
+        </ROLE>
+        <ROLE dmrole="timescale">
           <INSTANCE value="TT" dmtype="coords:domain.time.TimeScale"/>
-        </ATTRIBUTE>
+        </ROLE>
       </INSTANCE>
       <INSTANCE dmtype="coords:domain.space.SpaceFrame" ID="_FK4_J2000_FRAME">
-        <ATTRIBUTE dmrole="spaceRefFrame">
+        <ROLE dmrole="spaceRefFrame">
           <INSTANCE value="FK4" dmtype="coords:domain.space.StdRefFrame"/>
-        </ATTRIBUTE>
-        <ATTRIBUTE dmrole="equinox">
+        </ROLE>
+        <ROLE dmrole="equinox">
           <INSTANCE value="J2000" dmtype="coords:domain.space.Epoch"/>
-        </ATTRIBUTE>
-        <ATTRIBUTE dmrole="refPosition">
+        </ROLE>
+        <ROLE dmrole="refPosition">
           <INSTANCE dmtype="coords:domain.space.StdRefLocation">
-            <ATTRIBUTE dmrole="position">
+            <ROLE dmrole="position">
               <INSTANCE value="TOPOCENTER" dmtype="coords:domain.space.StdRefPosition"/>
-            </ATTRIBUTE>
+            </ROLE>
           </INSTANCE>
-        </ATTRIBUTE>
+        </ROLE>
       </INSTANCE>
       <INSTANCE dmtype="cube:SparseCube">
-        <ATTRIBUTE dmrole="data">
+        <ROLE dmrole="data">
           <EXTINSTANCES>_DATA_INSTANCE</EXTINSTANCES>
-        </ATTRIBUTE>
+        </ROLE>
       </INSTANCE>
     </GLOBALS>
     <TEMPLATES tableref="_DATA_TABLE">
       <INSTANCE dmtype="ds:experiment.ObsDataset">
-        <ATTRIBUTE dmrole="dataProductType">
+        <ROLE dmrole="dataProductType">
           <INSTANCE value="TIMESERIES" dmtype="ds:dataset.DataProductType"/>
-        </ATTRIBUTE>
-        <ATTRIBUTE dmrole="calibLevel">
+        </ROLE>
+        <ROLE dmrole="calibLevel">
           <INSTANCE value="3" dmtype="ivoa:integer"/>
-        </ATTRIBUTE>
-        <ATTRIBUTE dmrole="dataID">
+        </ROLE>
+        <ROLE dmrole="dataID">
           <INSTANCE dmtype="ds:dataset.DataID">
-            <ATTRIBUTE dmrole="date">
+            <ROLE dmrole="date">
               <INSTANCE value="2017-03-27T15:35:56" dmtype="ivoa:datetime"/>
-            </ATTRIBUTE>
+            </ROLE>
           </INSTANCE>
-        </ATTRIBUTE>
+        </ROLE>
       </INSTANCE>
       <INSTANCE dmtype="cube:NDPoint" ID="_DATA_INSTANCE">
-        <ATTRIBUTE dmrole="observable">
+        <ROLE dmrole="observable">
           <INSTANCE dmtype="cube:Observable">
-            <ATTRIBUTE dmrole="dependent">
+            <ROLE dmrole="dependent">
               <INSTANCE value="False" dmtype="ivoa:boolean"/>
-            </ATTRIBUTE>
-            <ATTRIBUTE dmrole="measure">
+            </ROLE>
+            <ROLE dmrole="measure">
               <INSTANCE dmtype="meas:StdTimeMeasure">
-                <ATTRIBUTE dmrole="coord">
+                <ROLE dmrole="coord">
                   <INSTANCE dmtype="coords:domain.time.ISOTime">
-                    <ATTRIBUTE dmrole="date">
+                    <ROLE dmrole="date">
                       <INSTANCE dmtype="ivoa:datetime" ref="_col_TIME"/>
-                    </ATTRIBUTE>
-                    <ATTRIBUTE dmrole="frame">
+                    </ROLE>
+                    <ROLE dmrole="frame">
                       <IDREF>_TT_FRAME</IDREF>
-                    </ATTRIBUTE>
+                    </ROLE>
                   </INSTANCE>
-                </ATTRIBUTE>
+                </ROLE>
               </INSTANCE>
-            </ATTRIBUTE>
+            </ROLE>
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
-            <ATTRIBUTE dmrole="dependent">
+            <ROLE dmrole="dependent">
               <INSTANCE value="False" dmtype="ivoa:boolean"/>
-            </ATTRIBUTE>
-            <ATTRIBUTE dmrole="measure">
+            </ROLE>
+            <ROLE dmrole="measure">
               <INSTANCE dmtype="meas:StdPosition">
-                <ATTRIBUTE dmrole="coord">
+                <ROLE dmrole="coord">
                   <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-                    <ATTRIBUTE dmrole="ra">
+                    <ROLE dmrole="ra">
                       <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_RAJ2000"/>
-                    </ATTRIBUTE>
-                    <ATTRIBUTE dmrole="dec">
+                    </ROLE>
+                    <ROLE dmrole="dec">
                       <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_DECJ2000"/>
-                    </ATTRIBUTE>
-                    <ATTRIBUTE dmrole="frame">
+                    </ROLE>
+                    <ROLE dmrole="frame">
                       <IDREF>_FK4_J2000_FRAME</IDREF>
-                    </ATTRIBUTE>
+                    </ROLE>
                   </INSTANCE>
-                </ATTRIBUTE>
+                </ROLE>
               </INSTANCE>
-            </ATTRIBUTE>
+            </ROLE>
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
-            <ATTRIBUTE dmrole="dependent">
+            <ROLE dmrole="dependent">
               <INSTANCE value="True" dmtype="ivoa:boolean"/>
-            </ATTRIBUTE>
-            <ATTRIBUTE dmrole="measure">
+            </ROLE>
+            <ROLE dmrole="measure">
               <INSTANCE dmtype="meas:GenericCoordMeasure">
-                <ATTRIBUTE dmrole="coord">
+                <ROLE dmrole="coord">
                   <INSTANCE dmtype="coords:PhysicalCoordValue">
-                    <ATTRIBUTE dmrole="cval">
+                    <ROLE dmrole="cval">
                       <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_FLUX"/>
-                    </ATTRIBUTE>
+                    </ROLE>
                   </INSTANCE>
-                </ATTRIBUTE>
-                <ATTRIBUTE dmrole="error">
+                </ROLE>
+                <ROLE dmrole="error">
                   <INSTANCE dmtype="meas:Error1D">
-                    <ATTRIBUTE dmrole="statError">
+                    <ROLE dmrole="statError">
                       <INSTANCE dmtype="meas:Symmetrical1D">
-                        <ATTRIBUTE dmrole="radius">
+                        <ROLE dmrole="radius">
                           <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_FLUX_ERROR"/>
-                        </ATTRIBUTE>
+                        </ROLE>
                       </INSTANCE>
-                    </ATTRIBUTE>
+                    </ROLE>
                   </INSTANCE>
-                </ATTRIBUTE>
+                </ROLE>
               </INSTANCE>
-            </ATTRIBUTE>
+            </ROLE>
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
-            <ATTRIBUTE dmrole="dependent">
+            <ROLE dmrole="dependent">
               <INSTANCE value="True" dmtype="ivoa:boolean"/>
-            </ATTRIBUTE>
-            <ATTRIBUTE dmrole="measure">
+            </ROLE>
+            <ROLE dmrole="measure">
               <INSTANCE dmtype="meas:GenericCoordMeasure">
-                <ATTRIBUTE dmrole="coord">
+                <ROLE dmrole="coord">
                   <INSTANCE dmtype="coords:PhysicalCoordValue">
-                    <ATTRIBUTE dmrole="cval">
+                    <ROLE dmrole="cval">
                       <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_MAG"/>
-                    </ATTRIBUTE>
+                    </ROLE>
                   </INSTANCE>
-                </ATTRIBUTE>
-                <ATTRIBUTE dmrole="error">
+                </ROLE>
+                <ROLE dmrole="error">
                   <INSTANCE dmtype="meas:Error1D">
-                    <ATTRIBUTE dmrole="statError">
+                    <ROLE dmrole="statError">
                       <INSTANCE dmtype="meas:Symmetrical1D">
-                        <ATTRIBUTE dmrole="radius">
+                        <ROLE dmrole="radius">
                           <INSTANCE dmtype="ivoa:RealQuantity" ref="_col_MAG_ERROR"/>
-                        </ATTRIBUTE>
+                        </ROLE>
                       </INSTANCE>
-                    </ATTRIBUTE>
+                    </ROLE>
                   </INSTANCE>
-                </ATTRIBUTE>
+                </ROLE>
               </INSTANCE>
-            </ATTRIBUTE>
+            </ROLE>
           </INSTANCE>
-        </ATTRIBUTE>
+        </ROLE>
       </INSTANCE>
     </TEMPLATES>
   </VODML>

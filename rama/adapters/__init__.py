@@ -46,9 +46,9 @@ Every time the parser will build an instance of the ``Standard`` class, it will 
 
     >>> from io import StringIO
     >>> xml = StringIO('''<INSTANCE dmtype="some:id">
-    ... <ATTRIBUTE dmrole="foo:bar">
+    ... <ROLE dmrole="foo:bar">
     ...   <INSTANCE dmtype="ivoa:integer" value="42"/>
-    ... </ATTRIBUTE>
+    ... </ROLE>
     ... </INSTANCE>
     ... ''')
     >>> from rama import read

@@ -15,36 +15,36 @@
         </MODEL>
         <GLOBALS>
             <INSTANCE dmtype="meas:StdPosition">
-                <ATTRIBUTE dmrole="coord">
+                <ROLE dmrole="coord">
                     <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-                        <ATTRIBUTE dmrole="ra">
+                        <ROLE dmrole="ra">
                             <INSTANCE value="12.9768538031" dmtype="ivoa:RealQuantity" unit="deg"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="dec">
+                        </ROLE>
+                        <ROLE dmrole="dec">
                             <INSTANCE value="-72.9580158133" dmtype="ivoa:RealQuantity" unit="deg"/>
-                        </ATTRIBUTE>
+                        </ROLE>
                         <!-- Note reference is dangling! -->
-                        <ATTRIBUTE dmrole="frame">
+                        <ROLE dmrole="frame">
                             <IDREF>_SPACE_FRAME</IDREF>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
-                </ATTRIBUTE>
-                <ATTRIBUTE dmrole="error">
+                </ROLE>
+                <ROLE dmrole="error">
                     <INSTANCE dmtype="meas:Error2D">
-                        <ATTRIBUTE dmrole="statError">
+                        <ROLE dmrole="statError">
                             <INSTANCE dmtype="meas:Asymmetrical2D">
-                                <ATTRIBUTE dmrole="plus">
+                                <ROLE dmrole="plus">
                                     <INSTANCE value="0.01" dmtype="ivoa:RealQuantity" unit="deg"/>
                                     <INSTANCE value="0.02" dmtype="ivoa:RealQuantity" unit="deg"/>
-                                </ATTRIBUTE>
-                                <ATTRIBUTE dmrole="minus">
+                                </ROLE>
+                                <ROLE dmrole="minus">
                                     <INSTANCE value="0.11" dmtype="ivoa:RealQuantity" unit="deg"/>
                                     <INSTANCE value="0.12" dmtype="ivoa:RealQuantity" unit="deg"/>
-                                </ATTRIBUTE>
+                                </ROLE>
                             </INSTANCE>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
         </GLOBALS>
     </VODML>

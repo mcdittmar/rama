@@ -3,30 +3,30 @@
     <VODML>
         <GLOBALS>
             <INSTANCE dmtype="coords:domain.time.TimeFrame" ID="_TT_FRAME">
-                <ATTRIBUTE dmrole="refPosition">
+                <ROLE dmrole="refPosition">
                     <INSTANCE dmtype="coords:domain.space.StdRefLocation">
-                        <ATTRIBUTE dmrole="position">
+                        <ROLE dmrole="position">
                             <INSTANCE value="BARYCENTER" dmtype="coords:domain.space.StdRefPosition"/>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
-                </ATTRIBUTE>
-                <ATTRIBUTE dmrole="timescale">
+                </ROLE>
+                <ROLE dmrole="timescale">
                     <INSTANCE value="TT" dmtype="coords:domain.time.TimeScale"/>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
         </GLOBALS>
         <TEMPLATES tableref="_DATA_TABLE">
             <INSTANCE dmtype="meas:StdTimeMeasure">
-                <ATTRIBUTE dmrole="coord">
+                <ROLE dmrole="coord">
                     <INSTANCE dmtype="coords:domain.time.JD">
-                        <ATTRIBUTE dmrole="frame">
+                        <ROLE dmrole="frame">
                             <IDREF>_TT_FRAME</IDREF>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="date">
+                        </ROLE>
+                        <ROLE dmrole="date">
                             <INSTANCE dmtype="ivoa:real" ref="_col_H_TIME"/>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
         </TEMPLATES>
     </VODML>

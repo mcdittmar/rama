@@ -31,22 +31,22 @@
 						<INSTANCE value="ACS" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="name">
+				<ROLE dmrole="name">
 					<INSTANCE value="F606W" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="bandName">
+				</ROLE>
+				<ROLE dmrole="bandName">
 					<INSTANCE value="R" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="transmissionPoint">
+				</ROLE>
+				<ROLE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="spectral">
+						<ROLE dmrole="spectral">
 							<INSTANCE value="606" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="spectralError">
+						</ROLE>
+						<ROLE dmrole="spectralError">
 							<INSTANCE value="0" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
+						</ROLE>
 					</INSTANCE>
-				</ATTRIBUTE>
+				</ROLE>
 			</INSTANCE>
 			<INSTANCE ID="_W2_F814W" dmtype="photdm-alt:PhotometryFilter">
 				<PRIMARYKEY>
@@ -57,47 +57,47 @@
 						<INSTANCE value="WFPC2" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="name">
+				<ROLE dmrole="name">
 					<INSTANCE value="F814W" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="bandName">
+				</ROLE>
+				<ROLE dmrole="bandName">
 					<INSTANCE value="I" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="transmissionPoint">
+				</ROLE>
+				<ROLE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="spectral">
+						<ROLE dmrole="spectral">
 							<INSTANCE value="814" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="spectralError">
+						</ROLE>
+						<ROLE dmrole="spectralError">
 							<INSTANCE value="0" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
+						</ROLE>
 					</INSTANCE>
-				</ATTRIBUTE>
+				</ROLE>
 			</INSTANCE>
 		</GLOBALS>
         <GLOBALS>
             <INSTANCE dmtype="coords:domain.space.SpaceFrame" ID="_SPACE_FRAME">
-                <ATTRIBUTE dmrole="spaceRefFrame">
+                <ROLE dmrole="spaceRefFrame">
                     <INSTANCE value="FK5" dmtype="coords:domain.space.StdRefFrame"/>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
             <INSTANCE dmtype="meas:StdPosition">
-                <ATTRIBUTE dmrole="coord">
+                <ROLE dmrole="coord">
                     <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-                        <ATTRIBUTE dmrole="frame">
+                        <ROLE dmrole="frame">
                             <IDREF>_SPACE_FRAME</IDREF>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
             <INSTANCE dmtype="meas:StdPosition">
-                <ATTRIBUTE dmrole="coord">
+                <ROLE dmrole="coord">
                     <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-                        <ATTRIBUTE dmrole="frame">
+                        <ROLE dmrole="frame">
                             <IDREF>_SPACE_FRAME</IDREF>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
-                </ATTRIBUTE>
+                </ROLE>
             </INSTANCE>
         </GLOBALS>
         <TEMPLATES tableref="_table1">
@@ -107,31 +107,31 @@
                         <INSTANCE ref="_designation" dmtype="ivoa:string"/>
                     </PKFIELD>
                 </PRIMARYKEY>
-                <ATTRIBUTE dmrole="name">
+                <ROLE dmrole="name">
                     <INSTANCE ref="_designation" dmtype="ivoa:string"/>
-                </ATTRIBUTE>
-                <ATTRIBUTE dmrole="position">
+                </ROLE>
+                <ROLE dmrole="position">
                     <INSTANCE dmtype="sample:catalog.SkyCoordinate">
-                        <ATTRIBUTE dmrole="longitude">
+                        <ROLE dmrole="longitude">
                             <INSTANCE ref="_ra" dmtype="ivoa:real"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="latitude">
+                        </ROLE>
+                        <ROLE dmrole="latitude">
                             <INSTANCE ref="_dec" dmtype="ivoa:real"/>
-                        </ATTRIBUTE>
-                        <ATTRIBUTE dmrole="frame">
+                        </ROLE>
+                        <ROLE dmrole="frame">
                             <IDREF>_SPACE_FRAME</IDREF>
-                        </ATTRIBUTE>
+                        </ROLE>
                     </INSTANCE>
-                </ATTRIBUTE>
-                <ATTRIBUTE dmrole="luminosity">
+                </ROLE>
+                <ROLE dmrole="luminosity">
 					<INSTANCE dmtype="sample:catalog.LuminosityMeasurement">
-						<ATTRIBUTE dmrole="value">
+						<ROLE dmrole="value">
 							<INSTANCE ref="MagAper2" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="type">
+						</ROLE>
+						<ROLE dmrole="type">
 							<INSTANCE value="magnitude" dmtype="sample:catalog.LuminosityType"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="filter">
+						</ROLE>
+						<ROLE dmrole="filter">
 							<FOREIGNKEY>
 								<PKFIELD>
 									<INSTANCE ref="Filter" dmtype="ivoa:string"/>
@@ -141,9 +141,9 @@
 								</PKFIELD>
 								<TARGETID>_HSC_FILTERS</TARGETID>
 							</FOREIGNKEY>
-						</ATTRIBUTE>
+						</ROLE>
 					</INSTANCE>
-				</ATTRIBUTE>
+				</ROLE>
             </INSTANCE>
         </TEMPLATES>
         <RESOURCE>

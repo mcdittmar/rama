@@ -27,24 +27,24 @@
 		</MODEL>
 		<GLOBALS>
 			<INSTANCE ID="_icrs_" dmtype="coords:domain.space.SpaceFrame">
-				<ATTRIBUTE dmrole="spaceRefFrame">
+				<ROLE dmrole="spaceRefFrame">
 					<INSTANCE value="ICRS" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
+				</ROLE>
 			</INSTANCE>
 			<INSTANCE dmtype="source:SourcePosition">
-				<ATTRIBUTE dmrole="coord">
+				<ROLE dmrole="coord">
 					<INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-						<ATTRIBUTE dmrole="ra">
+						<ROLE dmrole="ra">
 							<INSTANCE value="123.45" dmtype="ivoa:RealQuantity" unit="deg"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="dec">
+						</ROLE>
+						<ROLE dmrole="dec">
 							<INSTANCE value="67.89" dmtype="ivoa:RealQuantity" unit="deg"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="frame">
+						</ROLE>
+						<ROLE dmrole="frame">
 							<IDREF>_icrs_</IDREF>
-						</ATTRIBUTE>
+						</ROLE>
 					</INSTANCE>
-				</ATTRIBUTE>
+				</ROLE>
 			</INSTANCE>
 			<INSTANCE ID="_F606W" dmtype="photdm-alt:PhotometryFilter">
 				<PRIMARYKEY>
@@ -55,25 +55,25 @@
 						<INSTANCE value="ACS" dmtype="ivoa:string"/>
 					</PKFIELD>
 				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="name">
+				<ROLE dmrole="name">
 					<INSTANCE value="F606W" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="bandName">
+				</ROLE>
+				<ROLE dmrole="bandName">
 					<INSTANCE value="R" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="spectralLocation">
+				</ROLE>
+				<ROLE dmrole="spectralLocation">
 					<INSTANCE value="606" dmtype="ivoa:RealQuantity" unit="nm"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="transmissionPoint">
+				</ROLE>
+				<ROLE dmrole="transmissionPoint">
 					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="spectral">
+						<ROLE dmrole="spectral">
 							<INSTANCE value="5432.0" dmtype="ivoa:RealQuantity" unit="nm"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="spectralError">
+						</ROLE>
+						<ROLE dmrole="spectralError">
 							<INSTANCE value="84.6" dmtype="ivoa:RealQuantity" unit="nm"/>
-						</ATTRIBUTE>
+						</ROLE>
 					</INSTANCE>
-				</ATTRIBUTE>
+				</ROLE>
 			</INSTANCE>
 		</GLOBALS>
 	</VODML>
