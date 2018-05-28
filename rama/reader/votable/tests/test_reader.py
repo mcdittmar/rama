@@ -139,7 +139,7 @@ def test_invalid_file(invalid_file):
     numpy.testing.assert_array_equal(expected_dec.value, position.coord.dec.value)
 
 
-def test_references_orm(references_file):
+def test_references_orm(references_file, recwarn):
     sources = references_file.find_instances(Source)
     filters = references_file.find_instances(PhotometryFilter)
 
@@ -157,7 +157,7 @@ def test_references_orm(references_file):
     assert source.luminosity[0].filter[1] is f814w
 
 
-def test_references_orm_unroll(references_file):
+def test_references_orm_unroll(references_file, recwarn):
     sources = references_file.find_instances(Source)
     filters = references_file.find_instances(PhotometryFilter)
 
@@ -175,7 +175,7 @@ def test_references_orm_unroll(references_file):
     assert source[1].luminosity[0].filter is f814w
 
 
-def test_references_orm_hsc(hsc_data_file):
+def test_references_orm_hsc(hsc_data_file, recwarn):
     sources = hsc_data_file.find_instances(Detection)
     filters = hsc_data_file.find_instances(PhotometryFilter)
 
@@ -198,7 +198,7 @@ def test_references_orm_hsc(hsc_data_file):
     assert source.luminosity[0].filter[6] is f606w
 
 
-def test_references_orm_unroll_hsc(hsc_data_file):
+def test_references_orm_unroll_hsc(hsc_data_file, recwarn):
     sources = hsc_data_file.find_instances(Detection)
     filters = hsc_data_file.find_instances(PhotometryFilter)
 
@@ -223,7 +223,7 @@ def test_references_orm_unroll_hsc(hsc_data_file):
     assert source[6].luminosity[0].filter is f606w
 
 
-def test_polymorphism(hsc_data_file):
+def test_polymorphism(hsc_data_file, recwarn):
     # There is no explicit instantiation of Source in the hsc file, but there is and instantiation of Detection,
     # which is a subtype of Source.
     from rama.models.source import Source
