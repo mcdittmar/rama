@@ -57,7 +57,7 @@ TEMPLATES = get_local_name("TEMPLATES")
 INSTANCE = get_local_name("INSTANCE")
 LITERAL = get_local_name("INSTANCE")
 COLUMN = get_local_name("INSTANCE")
-CONSTANT = get_local_name("CONSTANT")
+CONSTANT = get_local_name("INSTANCE")
 REFERENCE = get_local_name("ATTRIBUTE")
 COMPOSITION = get_local_name("ATTRIBUTE")
 ATTRIBUTE = get_local_name("ATTRIBUTE")
@@ -242,7 +242,13 @@ def get_children(element, child_tag_name):
 
 
 def find_columns(element):
-    return element.xpath(f'.//{COLUMN}[@ref and not(@value)]')
+    def ref_is_not_param(column_element):
+        ref = column_element.xpath(f"{REF_ATTR}")[0]
+        params = column_element.xpath(f"{PARAM}[{ID_ATTR}='{str(ref)}']")
+        return not params
+
+    candidates = element.xpath(f'.//{COLUMN}[@ref and not(@value)]')
+    return list(filter(ref_is_not_param, candidates))
 
 
 def resolve_type(xml_element):
@@ -342,14 +348,21 @@ def parse_columns(xml_element, context):
 
 
 def parse_constants(xml_element, context):
-    elements = xml_element.xpath(f"./{CONSTANT}")
-    if elements:
-        dmtypes = [element.xpath(f"{TYPE_ATTR}")[0] for element in elements]
-        refs = [element.xpath(f"{REF_ATTR}")[0] for element in elements]
+    def ref_is_param(column_element):
+        ref = column_element.xpath(f"{REF_ATTR}")[0]
+        params = column_element.xpath(f"{PARAM}[{ID_ATTR}='{str(ref)}']")
+        return params
+
+    candidate_constants = xml_element.xpath(f"./{CONSTANT}[@ref and not(@value)]")
+    actual_constants = list(filter(ref_is_param, candidate_constants))
+
+    if actual_constants:
+        dmtypes = [element.xpath(f"{TYPE_ATTR}")[0] for element in actual_constants]
+        refs = [element.xpath(f"{REF_ATTR}")[0] for element in actual_constants]
         params = [xml_element.xpath(f"//{PARAM}[{ID_ATTR}='{str(ref)}']")[0] for ref in refs]
         params_with_type = zip(params, dmtypes)
         return [parse_constant(dmtype, element, context) for element, dmtype in params_with_type]
-    return elements
+    return actual_constants
 
 
 def parse_idref_instances(xml_element, context):
