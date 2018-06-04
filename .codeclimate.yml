@@ -1,4 +1,17 @@
 exclude_patterns:
     - "rama/_version.py"
     - "versioneer.py"
-
+    - config/
+    - db/
+    - dist/
+    - features/
+    - **/node_modules/
+    - script/
+    - **/spec/
+    - **/test/
+    - **/tests/
+    - Tests/
+    - **/vendor/
+    - **/*_test.go
+    - **/*.d.ts
+    - rama/models/
