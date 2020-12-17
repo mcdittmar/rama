@@ -44,7 +44,10 @@ def test_time(time_file, recwarn):
 
     assert_array_equal(time.coord, expected_time)
 
-    assert "W20" in str(recwarn[0].message)
-    assert "W41" in str(recwarn[1].message)
-    for i in range(2, 12):
-        assert "W10" in str(recwarn[i].message)
+    assert len(recwarn) == 1
+    assert "_col_H_TIME" in str(recwarn[0].message )
+
+    #assert "W20" in str(recwarn[0].message)
+    #assert "W41" in str(recwarn[1].message)
+    #for i in range(2, 12):
+    #    assert "W10" in str(recwarn[i].message)

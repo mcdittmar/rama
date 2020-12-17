@@ -99,10 +99,12 @@ def test_source(context_test5, recwarn):
     assert_array_equal(k_mag.error, MaskedColumn([0.048, 0.127, 0.212],
                                                  dtype='float32', unit='mag'))
 
-    assert "W20" in str(recwarn[0].message)
-    assert "W41" in str(recwarn[1].message)
-    for i in range(2, 12):
-        assert "W10" in str(recwarn[i].message)
+    assert len(recwarn) == 0
+    
+    #assert "W20" in str(recwarn[0].message)
+    #assert "W41" in str(recwarn[1].message)
+    #for i in range(2, 12):
+    #    assert "W10" in str(recwarn[i].message)
 
     # TODO MISSING multi-table relationship
 

@@ -224,9 +224,15 @@ class InstanceId:
     def __hash__(self):
         id_to_hash = self.id
         keys_to_hash = self.keys
-        if hasattr(self.id, "tostring"):
+
+        if hasattr(self.id, "tobytes"):
+            id_to_hash = self.id.tobytes()
+        elif hasattr(self.id, "tostring"):
             id_to_hash = self.id.tostring()
-        if hasattr(self.keys, "tostring"):
+
+        if hasattr(self.keys, "tobytes"):
+            keys_to_hash = self.keys.tobytes()
+        elif hasattr(self.keys, "tostring"):
             keys_to_hash = self.keys.tostring()
 
         return hash((id_to_hash, keys_to_hash))

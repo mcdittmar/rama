@@ -48,10 +48,12 @@ def test_is_template(time_series, recwarn):
 
     assert not is_template(gavo)  # an unrelated instance is never a template
 
-    assert "W20" in str(recwarn[0].message)
-    assert "W41" in str(recwarn[1].message)
-    for i in range(2, 12):
-        assert "W10" in str(recwarn[i].message)
+    assert len(recwarn) == 0
+
+    #assert "W20" in str(recwarn[0].message)
+    #assert "W41" in str(recwarn[1].message)
+    #for i in range(2, 12):
+    #    assert "W10" in str(recwarn[i].message)
 
 
 def test_time_series(time_series, recwarn):
@@ -63,7 +65,9 @@ def test_time_series(time_series, recwarn):
     assert_array_equal(time_series.dependent[0], cube_point['flux'])
     assert_array_equal(time_series['flux'], cube_point['flux'])
 
-    assert "W20" in str(recwarn[0].message)
-    assert "W41" in str(recwarn[1].message)
-    for i in range(2, 12):
-        assert "W10" in str(recwarn[i].message)
+    assert len(recwarn) == 0
+
+    #assert "W20" in str(recwarn[0].message)
+    #assert "W41" in str(recwarn[1].message)
+    #for i in range(2, 12):
+    #    assert "W10" in str(recwarn[i].message)

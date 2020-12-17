@@ -50,10 +50,12 @@ def test_ndpoint(context_cube, recwarn):
     assert isinstance(ndpoint['mag'].measure, MaskedColumn)
     assert isinstance(ndpoint['flux'].measure, MaskedColumn)
 
-    assert "W20" in str(recwarn[0].message)
-    assert "W41" in str(recwarn[1].message)
-    for i in range(2, 12):
-        assert "W10" in str(recwarn[i].message)
+    assert len(recwarn) == 0
+    
+    #assert "W20" in str(recwarn[0].message)
+    #assert "W41" in str(recwarn[1].message)
+    #for i in range(2, 12):
+    #    assert "W10" in str(recwarn[i].message)
 
 
 def test_dataset(context_cube):
