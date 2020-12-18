@@ -3,558 +3,558 @@
     While the data itself may have originated from another source, we make
     every attempt to accurately reproduce the original content.-->
 <VOTABLE version="1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://www.ivoa.net/xml/VOTable/v1.4_vodml" xsi:schemaLocation="http://www.ivoa.net/xml/VOTable/v1.4_vodml http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/xsd/ext/VOTable-1.4_vodml.xsd">
-	<VODML>
-		<MODEL>
-			<NAME>ivoa</NAME>
-			<URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/models/ivoa/IVOA.vo-dml.xml</URL>
-		</MODEL>
-		<MODEL>
-			<NAME>source</NAME>
-			<URL>https://volute.g-vo.org/svn/trunk/projects/dm/SourceDM/vo-dml/Source-0.1.vo-dml.xml</URL>
-		</MODEL>
-		<MODEL>
-			<NAME>photdm-alt</NAME>
-			<URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/models/photdm-alt/PhotDM-alt.vo-dml.xml</URL>
-		</MODEL>
-		<GLOBALS>
-			<INSTANCE ID="_icrs_" dmtype="coords:domain.space.SpaceFrame">
-				<ATTRIBUTE dmrole="coords:domain.space.SpaceFrame.spaceRefFrame">
-					<LITERAL value="ICRS" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-			</INSTANCE>
-		</GLOBALS>
-		<GLOBALS ID="_HSC_FILTERS">
-			<INSTANCE ID="_F606W" dmtype="photdm-alt:PhotometryFilter">
-				<PRIMARYKEY>
-					<PKFIELD>
-						<LITERAL value="F606W" dmtype="ivoa:string"/>
-					</PKFIELD>
-					<PKFIELD>
-						<LITERAL value="ACS" dmtype="ivoa:string"/>
-					</PKFIELD>
-				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
-					<LITERAL value="F606W" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
-					<LITERAL value="R" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
-					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
-							<LITERAL value="606" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
-							<LITERAL value="0" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
-					</INSTANCE>
-				</ATTRIBUTE>
-			</INSTANCE>
-			<INSTANCE ID="_W2_F814W" dmtype="photdm-alt:PhotometryFilter">
-				<PRIMARYKEY>
-					<PKFIELD>
-						<LITERAL value="F814W" dmtype="ivoa:string"/>
-					</PKFIELD>
-					<PKFIELD>
-						<LITERAL value="WFPC2" dmtype="ivoa:string"/>
-					</PKFIELD>
-				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
-					<LITERAL value="F814W" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
-					<LITERAL value="I" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
-					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
-							<LITERAL value="814" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
-							<LITERAL value="0" dmtype="ivoa:RealQuantity"/>
-						</ATTRIBUTE>
-					</INSTANCE>
-				</ATTRIBUTE>
-			</INSTANCE>
-		</GLOBALS>
-		<TEMPLATES tableref="matches">
-			<INSTANCE ID="_source" dmtype="source:Detection">
-				<PRIMARYKEY>
-					<PKFIELD>
-						<COLUMN dmtype="ivoa:string" ref="SourceID"/>
-					</PKFIELD>
-				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="source:Source.name">
-					<COLUMN ref="SourceID" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<COMPOSITION dmrole="source:Source.luminosity">
-					<INSTANCE dmtype="source:LuminosityMeasurement">
-						<ATTRIBUTE dmrole="source:LuminosityMeasurement.value">
-							<COLUMN ref="MagAper2" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="source:LuminosityMeasurement.type">
-							<LITERAL value="magnitude" dmtype="source:LuminosityType"/>
-						</ATTRIBUTE>
-						<!--Use the Filter and instrument and foreign keys to find the appropriate filter from the GLOBALS (ID=_HSC_FILTERS).-->
-						<REFERENCE dmrole="source:LuminosityMeasurement.filter">
-							<FOREIGNKEY>
-								<PKFIELD>
-									<COLUMN ref="Filter" dmtype="ivoa:string"/>
-								</PKFIELD>
-								<PKFIELD>
-									<COLUMN ref="Instrument" dmtype="ivoa:string"/>
-								</PKFIELD>
-								<TARGETID>_HSC_FILTERS</TARGETID>
-							</FOREIGNKEY>
-						</REFERENCE>
-					</INSTANCE>
-				</COMPOSITION>
-				<COMPOSITION dmrole="source:Source.position">
-					<INSTANCE dmtype="source:SourcePosition">
-                        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
-                            <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-                                <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.ra">
-                                    <COLUMN ref="SourceRA" dmtype="ivoa:real"/>
-                                </ATTRIBUTE>
-                                <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
-                                    <COLUMN ref="SourceDec" dmtype="ivoa:real"/>
-                                </ATTRIBUTE>
-                                <REFERENCE dmrole="coords:Coordinate.frame">
-                                    <IDREF>_icrs_</IDREF>
-                                </REFERENCE>
-                            </INSTANCE>
-                        </ATTRIBUTE>
-					</INSTANCE>
-				</COMPOSITION>
-				<COMPOSITION dmrole="source:Detection.sourceImage">
-					<INSTANCE dmtype="source:Image">
-						<ATTRIBUTE dmrole="source:Image.url">
-							<COLUMN ref="AccessUrlFits" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="source:Image.exposureTime">
-							<COLUMN ref="ExposureTime" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="source:Image.startTime">
-							<!--TBD: What is the right way to define these time stamps?-->
-							<COLUMN ref="StartMJD" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="source:Image.stopTime">
-							<COLUMN ref="StopMJD" dmtype="ivoa:real"/>
-						</ATTRIBUTE>
-					</INSTANCE>
-				</COMPOSITION>
-			</INSTANCE>
-		</TEMPLATES>
-	</VODML>
-	<DESCRIPTION>NewDataSet</DESCRIPTION>
-	<RESOURCE>
-		<TABLE ID="matches">
-			<FIELD name="CatID" datatype="long" ucd="ID_MAIN" ID="CatID">
-				<DESCRIPTION>Unique identifier for each catalog entry</DESCRIPTION>
-			</FIELD>
-			<FIELD name="MatchID" datatype="long" ID="MatchID">
-				<DESCRIPTION>identifier for the match</DESCRIPTION>
-			</FIELD>
-			<FIELD name="MemID" datatype="int" ID="MemID">
-				<DESCRIPTION>Unique identifier for each source of a match</DESCRIPTION>
-			</FIELD>
-			<FIELD name="SourceID" datatype="long" ID="SourceID">
-				<DESCRIPTION>Source identifier from white light (detection) image</DESCRIPTION>
-			</FIELD>
-			<FIELD name="ImageID" datatype="long" unit="none" ID="ImageID"/>
-			<FIELD name="Det" datatype="char" ID="Det" arraysize="*">
-				<DESCRIPTION>Is source detected  in this observation ?</DESCRIPTION>
-			</FIELD>
-			<FIELD name="MatchRA" datatype="double" unit="deg" ucd="pos.eq.ra;meta.main"
-				ID="MatchRA">
-				<DESCRIPTION>Right Ascension for the match</DESCRIPTION>
-			</FIELD>
-			<FIELD name="MatchDec" datatype="double" unit="deg" ucd="pos.eq.dec;meta.main"
-				ID="MatchDec">
-				<DESCRIPTION>Declination  for the match</DESCRIPTION>
-			</FIELD>
-			<FIELD name="SourceRA" datatype="double" unit="deg" ucd="pos.eq.ra"
-				ID="SourceRA">
-				<DESCRIPTION>Right Ascension for this source detection</DESCRIPTION>
-			</FIELD>
-			<FIELD name="SourceDec" datatype="double" unit="deg" ucd="pos.eq.dec"
-				ID="SourceDec">
-				<DESCRIPTION>Declination for this source detection</DESCRIPTION>
-			</FIELD>
-			<FIELD name="D" datatype="double" unit="mas" ID="D">
-				<DESCRIPTION>Distance  from source position  to the match position  in milli arcsec (mas)</DESCRIPTION>
-			</FIELD>
-			<FIELD name="DSigma" datatype="double"/>
-			<FIELD name="AbsCorr" datatype="char" ID="AbsCorr" arraysize="*">
-				<DESCRIPTION>Was absolute astrometry correction made ?</DESCRIPTION>
-			</FIELD>
-			<FIELD name="XImage" datatype="double"/>
-			<FIELD name="YImage" datatype="double"/>
-			<FIELD name="ImageName" datatype="char" ID="ImageName"
-				arraysize="*">
-				<DESCRIPTION>HLA image Name</DESCRIPTION>
-			</FIELD>
-			<FIELD name="Instrument" datatype="char" ID="Instrument"
-				arraysize="*">
-				<DESCRIPTION>Name of instrument</DESCRIPTION>
-			</FIELD>
-			<FIELD name="Mode" datatype="char" ID="Mode" arraysize="*">
-				<DESCRIPTION>Observing mode</DESCRIPTION>
-			</FIELD>
-			<FIELD name="Detector" datatype="char" ID="Detector"
-				arraysize="*">
-				<DESCRIPTION>Detector</DESCRIPTION>
-			</FIELD>
-			<FIELD name="Aperture" datatype="char" ID="Aperture"
-				arraysize="*">
-				<DESCRIPTION>Aperture</DESCRIPTION>
-			</FIELD>
-			<FIELD name="ExposureTime" datatype="double" ucd="TIME_EXPTIME"
-				unit="sec" ID="ExposureTime">
-				<DESCRIPTION>Exposure time</DESCRIPTION>
-			</FIELD>
-			<FIELD name="StartMJD" datatype="double" unit="days" ucd="TIME_DATE"
-				ID="StartMJD">
-				<DESCRIPTION>Observation start time in MJD</DESCRIPTION>
-			</FIELD>
-			<FIELD name="StopMJD" datatype="double" unit="days" ucd="TIME_DATE"
-				ID="StopMJD">
-				<DESCRIPTION>Observation stop time in MJD</DESCRIPTION>
-			</FIELD>
-			<FIELD name="WaveLength" datatype="double"/>
-			<FIELD name="Filter" datatype="char" ID="Filter" arraysize="*">
-				<DESCRIPTION>Filter</DESCRIPTION>
-			</FIELD>
-			<FIELD name="TargetName" datatype="char" ID="TargetName"
-				arraysize="*">
-				<DESCRIPTION>Target Name for this observation</DESCRIPTION>
-			</FIELD>
-			<FIELD name="FluxAper2" datatype="double" ucd="PHOT_MAG_VISUAL"
-				unit="counts/s" ID="FluxAper2">
-				<DESCRIPTION>Count rate with an aperture radius 0.3 arcsec (WFPC2),  0.15 arcsec (ACS, WFC3/UVIS) and 0.45 arcsec (WFC3/IR)</DESCRIPTION>
-			</FIELD>
-			<FIELD name="MagAper2" datatype="double" ucd="PHOT_MAG_VISUAL"
-				unit="ABMAG" ID="MagAper2">
-				<DESCRIPTION>Magnitude with an aperture radius 0.3 arcsec (WFPC2),  0.15 arcsec (ACS, WFC3/UVIS) and 0.45 arcsec (WFC3/IR)</DESCRIPTION>
-			</FIELD>
-			<FIELD name="MagAuto" datatype="double" ucd="PHOT_MAG_VISUAL" unit="ABMAG"
-				ID="MagAuto">
-				<DESCRIPTION>Estimated total magnitude using Source Extractor algorithm</DESCRIPTION>
-			</FIELD>
-			<FIELD name="PropID" datatype="int" unit="none" ID="PropID">
-				<DESCRIPTION>HST proposal number</DESCRIPTION>
-			</FIELD>
-			<FIELD name="CI" datatype="double" unit="ABMAG" ID="CI">
-				<DESCRIPTION>Concentration Index - difference between magntiude in  small and large apertures</DESCRIPTION>
-			</FIELD>
-			<FIELD name="KronRadius" datatype="double" unit="arcsec" ID="KronRadius">
-				<DESCRIPTION>Mean value of the Kron Radius from Source Extractor </DESCRIPTION>
-			</FIELD>
-			<FIELD name="Flags" datatype="int" unit="none" ID="Flags">
-				<DESCRIPTION>Bit encoded flag: bit 0 (value 0) = point source, (value 1) = extended, bits 1 or 2 (values 2 or 4) = saturated</DESCRIPTION>
-			</FIELD>
-			<FIELD name="naxis" datatype="char" ucd="VOX:Image_Naxis" arraysize="*"/>
-			<FIELD name="crpix" datatype="char" ucd="VOX:WCS_CoordRefPixel"
-				arraysize="*"/>
-			<FIELD name="crval" datatype="char" ucd="VOX:WCS_CoordRefValue"
-				arraysize="*"/>
-			<FIELD name="cd_matrix" datatype="char" ucd="VOX:WCS_CDMatrix"
-				arraysize="*"/>
-			<FIELD name="_selected_" datatype="boolean"/>
-			<FIELD name="AccessUrlFits" datatype="char" ID="AccessUrlFits"
-				arraysize="*"/>
-			<DATA>
-				<TABLEDATA>
-					<TR>
-						<TD>247770718</TD>
-						<TD>42686270</TD>
-						<TD>1</TD>
-						<TD>2812937530</TD>
-						<TD>14001</TD>
-						<TD>Y</TD>
-						<TD>12.2838618016467</TD>
-						<TD>42.7488037990913</TD>
-						<TD>12.283862346188</TD>
-						<TD>42.7488034148881</TD>
-						<TD>1.99634031967908</TD>
-						<TD>6.46344223620122</TD>
-						<TD>Y</TD>
-						<TD>3000.51806640625</TD>
-						<TD>2728.00708007813</TD>
-						<TD>hst_10265_15_acs_wfc_f606w</TD>
-						<TD>WFPC2</TD>
-						<TD>ACCUM</TD>
-						<TD>WFPC2</TD>
-						<TD>WFCENTER</TD>
-						<TD>5060</TD>
-						<TD>53363.4242828032</TD>
-						<TD>53363.519480479</TD>
-						<TD>5919.7153</TD>
-						<TD>F814W</TD>
-						<TD>NGC224-DISK</TD>
-						<TD>0.496535003185272</TD>
-						<TD>27.265100479126</TD>
-						<TD>27.24880027771</TD>
-						<TD>10265</TD>
-						<TD>1.00064818505888</TD>
-						<TD>0.222499996423721</TD>
-						<TD>0</TD>
-						<TD>5550 5535</TD>
-						<TD>2775.00 2767.50</TD>
-						<TD>12.28812764 42.74935190</TD>
-						<TD>-1.38889e-005 8.10979e-011 8.10979e-011 1.38889e-005</TD>
-						<TD/>
-						<TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_15_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
-					</TR>
-					<TR>
-						<TD>255488227</TD>
-						<TD>42686270</TD>
-						<TD>2</TD>
-						<TD>2766036134</TD>
-						<TD>13989</TD>
-						<TD>Y</TD>
-						<TD>12.2838618016467</TD>
-						<TD>42.7488037990913</TD>
-						<TD>12.2838606654259</TD>
-						<TD>42.7488033280184</TD>
-						<TD>3.44939487361395</TD>
-						<TD>6.46344223620122</TD>
-						<TD>Y</TD>
-						<TD>2945.00610351563</TD>
-						<TD>2749.32104492188</TD>
-						<TD>hst_10265_13_acs_wfc_f606w</TD>
-						<TD>ACS</TD>
-						<TD>ACCUM</TD>
-						<TD>ACS/WFC</TD>
-						<TD>WFCENTER</TD>
-						<TD>5060</TD>
-						<TD>53363.1578242732</TD>
-						<TD>53363.2530104467</TD>
-						<TD>5919.71505</TD>
-						<TD>F606W</TD>
-						<TD>NGC224-DISK</TD>
-						<TD>0.500751972198486</TD>
-						<TD>27.2558994293213</TD>
-						<TD>27.2371006011963</TD>
-						<TD>10265</TD>
-						<TD>1.09296297585523</TD>
-						<TD>0.244499996304512</TD>
-						<TD>0</TD>
-						<TD>5550 5535</TD>
-						<TD>2775.00 2767.50</TD>
-						<TD>12.28707645 42.74905626</TD>
-						<TD>-1.38889e-005 -1.91185e-010 -1.91185e-010 1.38889e-005</TD>
-						<TD/>
-						<TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_13_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
-					</TR>
-					<TR>
-						<TD>252524170</TD>
-						<TD>42686270</TD>
-						<TD>3</TD>
-						<TD>2811739259</TD>
-						<TD>13961</TD>
-						<TD>Y</TD>
-						<TD>12.2838618016467</TD>
-						<TD>42.7488037990913</TD>
-						<TD>12.283862555358</TD>
-						<TD>42.7488024934056</TD>
-						<TD>5.10534472436811</TD>
-						<TD>6.46344223620122</TD>
-						<TD>Y</TD>
-						<TD>2833.17700195313</TD>
-						<TD>2791.17309570313</TD>
-						<TD>hst_10265_09_acs_wfc_f606w</TD>
-						<TD>ACS</TD>
-						<TD>ACCUM</TD>
-						<TD>ACS/WFC</TD>
-						<TD>WFCENTER</TD>
-						<TD>5060</TD>
-						<TD>53363.5575120393</TD>
-						<TD>53363.7068067803</TD>
-						<TD>5919.7153</TD>
-						<TD>F606W</TD>
-						<TD>NGC224-DISK</TD>
-						<TD>0.497000008821487</TD>
-						<TD>27.2639999389648</TD>
-						<TD>27.2089004516602</TD>
-						<TD>10265</TD>
-						<TD>1.00000003973643</TD>
-						<TD>0.238000020384789</TD>
-						<TD>0</TD>
-						<TD>5550 5535</TD>
-						<TD>2775.00 2767.50</TD>
-						<TD>12.28496336 42.74847331</TD>
-						<TD>-1.38889e-005 -3.26388e-010 -3.26388e-010 1.38889e-005</TD>
-						<TD/>
-						<TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_09_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
-					</TR>
-					<TR>
-						<TD>250617668</TD>
-						<TD>42686270</TD>
-						<TD>4</TD>
-						<TD>4000297355782</TD>
-						<TD>13949</TD>
-						<TD>Y</TD>
-						<TD>12.2838618016467</TD>
-						<TD>42.7488037990913</TD>
-						<TD>12.283861255365</TD>
-						<TD>42.7488051938301</TD>
-						<TD>5.22461757187077</TD>
-						<TD>6.46344223620122</TD>
-						<TD>Y</TD>
-						<TD>2999.498046875</TD>
-						<TD>2723.98608398438</TD>
-						<TD>hst_10265_07_acs_wfc_f606w</TD>
-						<TD>ACS</TD>
-						<TD>ACCUM</TD>
-						<TD>ACS/WFC</TD>
-						<TD>WFCENTER</TD>
-						<TD>5060</TD>
-						<TD>53362.0920027895</TD>
-						<TD>53362.1871075346</TD>
-						<TD>5919.7148</TD>
-						<TD>F606W</TD>
-						<TD>NGC224-DISK</TD>
-						<TD>0.511794984340668</TD>
-						<TD>27.2322006225586</TD>
-						<TD>27.2304000854492</TD>
-						<TD>10265</TD>
-						<TD>0.939166656246892</TD>
-						<TD>0.211999997496605</TD>
-						<TD>0</TD>
-						<TD>5550 5535</TD>
-						<TD>2775.00 2767.50</TD>
-						<TD>12.28810685 42.74940950</TD>
-						<TD>-1.38889e-005 -2.16418e-011 -2.16418e-011 1.38889e-005</TD>
-						<TD/>
-						<TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_07_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
-					</TR>
-					<TR>
-						<TD>255476299</TD>
-						<TD>42686270</TD>
-						<TD>5</TD>
-						<TD>2769863335</TD>
-						<TD>14025</TD>
-						<TD>Y</TD>
-						<TD>12.2838618016467</TD>
-						<TD>42.7488037990913</TD>
-						<TD>12.2838635209551</TD>
-						<TD>42.7488027009272</TD>
-						<TD>6.02395247484734</TD>
-						<TD>6.46344223620122</TD>
-						<TD>Y</TD>
-						<TD>2885.19702148438</TD>
-						<TD>2762.18188476563</TD>
-						<TD>hst_10265_19_acs_wfc_f606w</TD>
-						<TD>ACS</TD>
-						<TD>ACCUM</TD>
-						<TD>ACS/WFC</TD>
-						<TD>WFCENTER</TD>
-						<TD>5060</TD>
-						<TD>53373.4325932013</TD>
-						<TD>53373.5619346043</TD>
-						<TD>5919.718675</TD>
-						<TD>F606W</TD>
-						<TD>NGC224-DISK</TD>
-						<TD>0.509698987007141</TD>
-						<TD>27.2366008758545</TD>
-						<TD>27.059700012207</TD>
-						<TD>10265</TD>
-						<TD>1.11231483795025</TD>
-						<TD>0.299499988555908</TD>
-						<TD>0</TD>
-						<TD>5549 5535</TD>
-						<TD>2774.50 2767.50</TD>
-						<TD>12.28595692 42.74887651</TD>
-						<TD>-1.38889e-005 -8.38352e-011 -8.38352e-011 1.38889e-005</TD>
-						<TD/>
-						<TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_19_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
-					</TR>
-					<TR>
-						<TD>252593591</TD>
-						<TD>42686270</TD>
-						<TD>6</TD>
-						<TD>4000202142548</TD>
-						<TD>13913</TD>
-						<TD>Y</TD>
-						<TD>12.2838618016467</TD>
-						<TD>42.7488037990913</TD>
-						<TD>12.2838640189983</TD>
-						<TD>42.7488047725245</TD>
-						<TD>6.82945400375354</TD>
-						<TD>6.46344223620122</TD>
-						<TD>Y</TD>
-						<TD>2832.19409179688</TD>
-						<TD>2786.81103515625</TD>
-						<TD>hst_10265_01_acs_wfc_f606w</TD>
-						<TD>ACS</TD>
-						<TD>ACCUM</TD>
-						<TD>ACS/WFC</TD>
-						<TD>WFCENTER</TD>
-						<TD>5060</TD>
-						<TD>53359.4941787058</TD>
-						<TD>53359.5889930762</TD>
-						<TD>5919.7139</TD>
-						<TD>F606W</TD>
-						<TD>NGC224-DISK</TD>
-						<TD>0.508464992046356</TD>
-						<TD>27.2392997741699</TD>
-						<TD>27.2033996582031</TD>
-						<TD>10265</TD>
-						<TD>1.05444446757988</TD>
-						<TD>0.256999999284744</TD>
-						<TD>0</TD>
-						<TD>5550 5535</TD>
-						<TD>2775.00 2767.50</TD>
-						<TD>12.28494592 42.74853688</TD>
-						<TD>-1.38889e-005 -1.36092e-010 -1.36092e-010 1.38889e-005</TD>
-						<TD/>
-						<TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_01_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
-					</TR>
-					<TR>
-						<TD>250095977</TD>
-						<TD>42686270</TD>
-						<TD>7</TD>
-						<TD>4000227784686</TD>
-						<TD>13925</TD>
-						<TD>Y</TD>
-						<TD>12.2838618016467</TD>
-						<TD>42.7488037990913</TD>
-						<TD>12.2838582492358</TD>
-						<TD>42.7488046900453</TD>
-						<TD>9.92381955915309</TD>
-						<TD>6.46344223620122</TD>
-						<TD>Y</TD>
-						<TD>2887.9169921875</TD>
-						<TD>2766.31103515625</TD>
-						<TD>hst_10265_03_acs_wfc_f606w</TD>
-						<TD>ACS</TD>
-						<TD>ACCUM</TD>
-						<TD>ACS/WFC</TD>
-						<TD>WFCENTER</TD>
-						<TD>5060</TD>
-						<TD>53360.5597342476</TD>
-						<TD>53360.7104179049</TD>
-						<TD>5919.7144</TD>
-						<TD>F606W</TD>
-						<TD>NGC224-DISK</TD>
-						<TD>0.472894996404648</TD>
-						<TD>27.318000793457</TD>
-						<TD>27.2908000946045</TD>
-						<TD>10265</TD>
-						<TD>0.973055539307771</TD>
-						<TD>0.219499990344048</TD>
-						<TD>0</TD>
-						<TD>5550 5535</TD>
-						<TD>2775.00 2767.50</TD>
-						<TD>12.28599394 42.74882159</TD>
-						<TD>-1.38889e-005 -1.72982e-011 -1.72982e-011 1.38889e-005</TD>
-						<TD/>
-						<TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_03_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
-					</TR>
-				</TABLEDATA>
-			</DATA>
-		</TABLE>
-	</RESOURCE>
+	 xmlns="http://www.ivoa.net/xml/VOTable/v1.4_vodml" xsi:schemaLocation="http://www.ivoa.net/xml/VOTable/v1.4_vodml http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/xsd/ext/VOTable-1.4_vodml.xsd">
+  <VODML>
+    <MODEL>
+      <NAME>ivoa</NAME>
+      <URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/models/ivoa/IVOA.vo-dml.xml</URL>
+    </MODEL>
+    <MODEL>
+      <NAME>source</NAME>
+      <URL>https://volute.g-vo.org/svn/trunk/projects/dm/SourceDM/vo-dml/Source-0.1.vo-dml.xml</URL>
+    </MODEL>
+    <MODEL>
+      <NAME>photdm-alt</NAME>
+      <URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/models/photdm-alt/PhotDM-alt.vo-dml.xml</URL>
+    </MODEL>
+    <GLOBALS>
+      <INSTANCE ID="_icrs_" dmtype="coords:domain.space.SpaceFrame">
+	<ATTRIBUTE dmrole="coords:domain.space.SpaceFrame.spaceRefFrame">
+	  <LITERAL value="ICRS" dmtype="ivoa:string"/>
+	</ATTRIBUTE>
+      </INSTANCE>
+    </GLOBALS>
+    <GLOBALS ID="_HSC_FILTERS">
+      <INSTANCE ID="_F606W" dmtype="photdm-alt:PhotometryFilter">
+	<PRIMARYKEY>
+	  <PKFIELD>
+	    <LITERAL value="F606W" dmtype="ivoa:string"/>
+	  </PKFIELD>
+	  <PKFIELD>
+	    <LITERAL value="ACS" dmtype="ivoa:string"/>
+	  </PKFIELD>
+	</PRIMARYKEY>
+	<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
+	  <LITERAL value="F606W" dmtype="ivoa:string"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
+	  <LITERAL value="R" dmtype="ivoa:string"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
+	  <INSTANCE dmtype="photdm-alt:TransmissionPoint">
+	    <ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
+	      <LITERAL value="606" dmtype="ivoa:RealQuantity"/>
+	    </ATTRIBUTE>
+	    <ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
+	      <LITERAL value="0" dmtype="ivoa:RealQuantity"/>
+	    </ATTRIBUTE>
+	  </INSTANCE>
+	</ATTRIBUTE>
+      </INSTANCE>
+      <INSTANCE ID="_W2_F814W" dmtype="photdm-alt:PhotometryFilter">
+	<PRIMARYKEY>
+	  <PKFIELD>
+	    <LITERAL value="F814W" dmtype="ivoa:string"/>
+	  </PKFIELD>
+	  <PKFIELD>
+	    <LITERAL value="WFPC2" dmtype="ivoa:string"/>
+	  </PKFIELD>
+	</PRIMARYKEY>
+	<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
+	  <LITERAL value="F814W" dmtype="ivoa:string"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
+	  <LITERAL value="I" dmtype="ivoa:string"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
+	  <INSTANCE dmtype="photdm-alt:TransmissionPoint">
+	    <ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
+	      <LITERAL value="814" dmtype="ivoa:RealQuantity"/>
+	    </ATTRIBUTE>
+	    <ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
+	      <LITERAL value="0" dmtype="ivoa:RealQuantity"/>
+	    </ATTRIBUTE>
+	  </INSTANCE>
+	</ATTRIBUTE>
+      </INSTANCE>
+    </GLOBALS>
+    <TEMPLATES tableref="matches">
+      <INSTANCE ID="_source" dmtype="source:Detection">
+	<PRIMARYKEY>
+	  <PKFIELD>
+	    <COLUMN dmtype="ivoa:string" ref="SourceID"/>
+	  </PKFIELD>
+	</PRIMARYKEY>
+	<ATTRIBUTE dmrole="source:Source.name">
+	  <COLUMN ref="SourceID" dmtype="ivoa:string"/>
+	</ATTRIBUTE>
+	<COMPOSITION dmrole="source:Source.luminosity">
+	  <INSTANCE dmtype="source:LuminosityMeasurement">
+	    <ATTRIBUTE dmrole="source:LuminosityMeasurement.value">
+	      <COLUMN ref="MagAper2" dmtype="ivoa:real"/>
+	    </ATTRIBUTE>
+	    <ATTRIBUTE dmrole="source:LuminosityMeasurement.type">
+	      <LITERAL value="magnitude" dmtype="source:LuminosityType"/>
+	    </ATTRIBUTE>
+	    <!--Use the Filter and instrument and foreign keys to find the appropriate filter from the GLOBALS (ID=_HSC_FILTERS).-->
+	    <REFERENCE dmrole="source:LuminosityMeasurement.filter">
+	      <FOREIGNKEY>
+		<PKFIELD>
+		  <COLUMN ref="Filter" dmtype="ivoa:string"/>
+		</PKFIELD>
+		<PKFIELD>
+		  <COLUMN ref="Instrument" dmtype="ivoa:string"/>
+		</PKFIELD>
+		<TARGETID>_HSC_FILTERS</TARGETID>
+	      </FOREIGNKEY>
+	    </REFERENCE>
+	  </INSTANCE>
+	</COMPOSITION>
+	<COMPOSITION dmrole="source:Source.position">
+	  <INSTANCE dmtype="source:SourcePosition">
+            <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+              <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
+                <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.ra">
+                  <COLUMN ref="SourceRA" dmtype="ivoa:real"/>
+                </ATTRIBUTE>
+                <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
+                  <COLUMN ref="SourceDec" dmtype="ivoa:real"/>
+                </ATTRIBUTE>
+                <REFERENCE dmrole="coords:Coordinate.frame">
+                  <IDREF>_icrs_</IDREF>
+                </REFERENCE>
+              </INSTANCE>
+            </ATTRIBUTE>
+	  </INSTANCE>
+	</COMPOSITION>
+	<COMPOSITION dmrole="source:Detection.sourceImage">
+	  <INSTANCE dmtype="source:Image">
+	    <ATTRIBUTE dmrole="source:Image.url">
+	      <COLUMN ref="AccessUrlFits" dmtype="ivoa:real"/>
+	    </ATTRIBUTE>
+	    <ATTRIBUTE dmrole="source:Image.exposureTime">
+	      <COLUMN ref="ExposureTime" dmtype="ivoa:real"/>
+	    </ATTRIBUTE>
+	    <ATTRIBUTE dmrole="source:Image.startTime">
+	      <!--TBD: What is the right way to define these time stamps?-->
+	      <COLUMN ref="StartMJD" dmtype="ivoa:real"/>
+	    </ATTRIBUTE>
+	    <ATTRIBUTE dmrole="source:Image.stopTime">
+	      <COLUMN ref="StopMJD" dmtype="ivoa:real"/>
+	    </ATTRIBUTE>
+	  </INSTANCE>
+	</COMPOSITION>
+      </INSTANCE>
+    </TEMPLATES>
+  </VODML>
+  <DESCRIPTION>NewDataSet</DESCRIPTION>
+  <RESOURCE>
+    <TABLE ID="matches">
+      <FIELD name="CatID" datatype="long" ucd="ID_MAIN" ID="CatID">
+	<DESCRIPTION>Unique identifier for each catalog entry</DESCRIPTION>
+      </FIELD>
+      <FIELD name="MatchID" datatype="long" ID="MatchID">
+	<DESCRIPTION>identifier for the match</DESCRIPTION>
+      </FIELD>
+      <FIELD name="MemID" datatype="int" ID="MemID">
+	<DESCRIPTION>Unique identifier for each source of a match</DESCRIPTION>
+      </FIELD>
+      <FIELD name="SourceID" datatype="long" ID="SourceID">
+	<DESCRIPTION>Source identifier from white light (detection) image</DESCRIPTION>
+      </FIELD>
+      <FIELD name="ImageID" datatype="long" unit="none" ID="ImageID"/>
+      <FIELD name="Det" datatype="char" ID="Det" arraysize="*">
+	<DESCRIPTION>Is source detected  in this observation ?</DESCRIPTION>
+      </FIELD>
+      <FIELD name="MatchRA" datatype="double" unit="deg" ucd="pos.eq.ra;meta.main"
+	     ID="MatchRA">
+	<DESCRIPTION>Right Ascension for the match</DESCRIPTION>
+      </FIELD>
+      <FIELD name="MatchDec" datatype="double" unit="deg" ucd="pos.eq.dec;meta.main"
+	     ID="MatchDec">
+	<DESCRIPTION>Declination  for the match</DESCRIPTION>
+      </FIELD>
+      <FIELD name="SourceRA" datatype="double" unit="deg" ucd="pos.eq.ra"
+	     ID="SourceRA">
+	<DESCRIPTION>Right Ascension for this source detection</DESCRIPTION>
+      </FIELD>
+      <FIELD name="SourceDec" datatype="double" unit="deg" ucd="pos.eq.dec"
+	     ID="SourceDec">
+	<DESCRIPTION>Declination for this source detection</DESCRIPTION>
+      </FIELD>
+      <FIELD name="D" datatype="double" unit="mas" ID="D">
+	<DESCRIPTION>Distance  from source position  to the match position  in milli arcsec (mas)</DESCRIPTION>
+      </FIELD>
+      <FIELD name="DSigma" datatype="double"/>
+      <FIELD name="AbsCorr" datatype="char" ID="AbsCorr" arraysize="*">
+	<DESCRIPTION>Was absolute astrometry correction made ?</DESCRIPTION>
+      </FIELD>
+      <FIELD name="XImage" datatype="double"/>
+      <FIELD name="YImage" datatype="double"/>
+      <FIELD name="ImageName" datatype="char" ID="ImageName"
+	     arraysize="*">
+	<DESCRIPTION>HLA image Name</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Instrument" datatype="char" ID="Instrument"
+	     arraysize="*">
+	<DESCRIPTION>Name of instrument</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Mode" datatype="char" ID="Mode" arraysize="*">
+	<DESCRIPTION>Observing mode</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Detector" datatype="char" ID="Detector"
+	     arraysize="*">
+	<DESCRIPTION>Detector</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Aperture" datatype="char" ID="Aperture"
+	     arraysize="*">
+	<DESCRIPTION>Aperture</DESCRIPTION>
+      </FIELD>
+      <FIELD name="ExposureTime" datatype="double" ucd="TIME_EXPTIME"
+	     unit="sec" ID="ExposureTime">
+	<DESCRIPTION>Exposure time</DESCRIPTION>
+      </FIELD>
+      <FIELD name="StartMJD" datatype="double" unit="days" ucd="TIME_DATE"
+	     ID="StartMJD">
+	<DESCRIPTION>Observation start time in MJD</DESCRIPTION>
+      </FIELD>
+      <FIELD name="StopMJD" datatype="double" unit="days" ucd="TIME_DATE"
+	     ID="StopMJD">
+	<DESCRIPTION>Observation stop time in MJD</DESCRIPTION>
+      </FIELD>
+      <FIELD name="WaveLength" datatype="double"/>
+      <FIELD name="Filter" datatype="char" ID="Filter" arraysize="*">
+	<DESCRIPTION>Filter</DESCRIPTION>
+      </FIELD>
+      <FIELD name="TargetName" datatype="char" ID="TargetName"
+	     arraysize="*">
+	<DESCRIPTION>Target Name for this observation</DESCRIPTION>
+      </FIELD>
+      <FIELD name="FluxAper2" datatype="double" ucd="PHOT_MAG_VISUAL"
+	     unit="counts/s" ID="FluxAper2">
+	<DESCRIPTION>Count rate with an aperture radius 0.3 arcsec (WFPC2),  0.15 arcsec (ACS, WFC3/UVIS) and 0.45 arcsec (WFC3/IR)</DESCRIPTION>
+      </FIELD>
+      <FIELD name="MagAper2" datatype="double" ucd="PHOT_MAG_VISUAL"
+	     unit="ABMAG" ID="MagAper2">
+	<DESCRIPTION>Magnitude with an aperture radius 0.3 arcsec (WFPC2),  0.15 arcsec (ACS, WFC3/UVIS) and 0.45 arcsec (WFC3/IR)</DESCRIPTION>
+      </FIELD>
+      <FIELD name="MagAuto" datatype="double" ucd="PHOT_MAG_VISUAL" unit="ABMAG"
+	     ID="MagAuto">
+	<DESCRIPTION>Estimated total magnitude using Source Extractor algorithm</DESCRIPTION>
+      </FIELD>
+      <FIELD name="PropID" datatype="int" unit="none" ID="PropID">
+	<DESCRIPTION>HST proposal number</DESCRIPTION>
+      </FIELD>
+      <FIELD name="CI" datatype="double" unit="ABMAG" ID="CI">
+	<DESCRIPTION>Concentration Index - difference between magntiude in  small and large apertures</DESCRIPTION>
+      </FIELD>
+      <FIELD name="KronRadius" datatype="double" unit="arcsec" ID="KronRadius">
+	<DESCRIPTION>Mean value of the Kron Radius from Source Extractor </DESCRIPTION>
+      </FIELD>
+      <FIELD name="Flags" datatype="int" unit="none" ID="Flags">
+	<DESCRIPTION>Bit encoded flag: bit 0 (value 0) = point source, (value 1) = extended, bits 1 or 2 (values 2 or 4) = saturated</DESCRIPTION>
+      </FIELD>
+      <FIELD name="naxis" datatype="char" ucd="VOX:Image_Naxis" arraysize="*"/>
+      <FIELD name="crpix" datatype="char" ucd="VOX:WCS_CoordRefPixel"
+	     arraysize="*"/>
+      <FIELD name="crval" datatype="char" ucd="VOX:WCS_CoordRefValue"
+	     arraysize="*"/>
+      <FIELD name="cd_matrix" datatype="char" ucd="VOX:WCS_CDMatrix"
+	     arraysize="*"/>
+      <FIELD name="_selected_" datatype="boolean"/>
+      <FIELD name="AccessUrlFits" datatype="char" ID="AccessUrlFits"
+	     arraysize="*"/>
+      <DATA>
+	<TABLEDATA>
+	  <TR>
+	    <TD>247770718</TD>
+	    <TD>42686270</TD>
+	    <TD>1</TD>
+	    <TD>2812937530</TD>
+	    <TD>14001</TD>
+	    <TD>Y</TD>
+	    <TD>12.2838618016467</TD>
+	    <TD>42.7488037990913</TD>
+	    <TD>12.283862346188</TD>
+	    <TD>42.7488034148881</TD>
+	    <TD>1.99634031967908</TD>
+	    <TD>6.46344223620122</TD>
+	    <TD>Y</TD>
+	    <TD>3000.51806640625</TD>
+	    <TD>2728.00708007813</TD>
+	    <TD>hst_10265_15_acs_wfc_f606w</TD>
+	    <TD>WFPC2</TD>
+	    <TD>ACCUM</TD>
+	    <TD>WFPC2</TD>
+	    <TD>WFCENTER</TD>
+	    <TD>5060</TD>
+	    <TD>53363.4242828032</TD>
+	    <TD>53363.519480479</TD>
+	    <TD>5919.7153</TD>
+	    <TD>F814W</TD>
+	    <TD>NGC224-DISK</TD>
+	    <TD>0.496535003185272</TD>
+	    <TD>27.265100479126</TD>
+	    <TD>27.24880027771</TD>
+	    <TD>10265</TD>
+	    <TD>1.00064818505888</TD>
+	    <TD>0.222499996423721</TD>
+	    <TD>0</TD>
+	    <TD>5550 5535</TD>
+	    <TD>2775.00 2767.50</TD>
+	    <TD>12.28812764 42.74935190</TD>
+	    <TD>-1.38889e-005 8.10979e-011 8.10979e-011 1.38889e-005</TD>
+	    <TD/>
+	    <TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_15_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
+	  </TR>
+	  <TR>
+	    <TD>255488227</TD>
+	    <TD>42686270</TD>
+	    <TD>2</TD>
+	    <TD>2766036134</TD>
+	    <TD>13989</TD>
+	    <TD>Y</TD>
+	    <TD>12.2838618016467</TD>
+	    <TD>42.7488037990913</TD>
+	    <TD>12.2838606654259</TD>
+	    <TD>42.7488033280184</TD>
+	    <TD>3.44939487361395</TD>
+	    <TD>6.46344223620122</TD>
+	    <TD>Y</TD>
+	    <TD>2945.00610351563</TD>
+	    <TD>2749.32104492188</TD>
+	    <TD>hst_10265_13_acs_wfc_f606w</TD>
+	    <TD>ACS</TD>
+	    <TD>ACCUM</TD>
+	    <TD>ACS/WFC</TD>
+	    <TD>WFCENTER</TD>
+	    <TD>5060</TD>
+	    <TD>53363.1578242732</TD>
+	    <TD>53363.2530104467</TD>
+	    <TD>5919.71505</TD>
+	    <TD>F606W</TD>
+	    <TD>NGC224-DISK</TD>
+	    <TD>0.500751972198486</TD>
+	    <TD>27.2558994293213</TD>
+	    <TD>27.2371006011963</TD>
+	    <TD>10265</TD>
+	    <TD>1.09296297585523</TD>
+	    <TD>0.244499996304512</TD>
+	    <TD>0</TD>
+	    <TD>5550 5535</TD>
+	    <TD>2775.00 2767.50</TD>
+	    <TD>12.28707645 42.74905626</TD>
+	    <TD>-1.38889e-005 -1.91185e-010 -1.91185e-010 1.38889e-005</TD>
+	    <TD/>
+	    <TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_13_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
+	  </TR>
+	  <TR>
+	    <TD>252524170</TD>
+	    <TD>42686270</TD>
+	    <TD>3</TD>
+	    <TD>2811739259</TD>
+	    <TD>13961</TD>
+	    <TD>Y</TD>
+	    <TD>12.2838618016467</TD>
+	    <TD>42.7488037990913</TD>
+	    <TD>12.283862555358</TD>
+	    <TD>42.7488024934056</TD>
+	    <TD>5.10534472436811</TD>
+	    <TD>6.46344223620122</TD>
+	    <TD>Y</TD>
+	    <TD>2833.17700195313</TD>
+	    <TD>2791.17309570313</TD>
+	    <TD>hst_10265_09_acs_wfc_f606w</TD>
+	    <TD>ACS</TD>
+	    <TD>ACCUM</TD>
+	    <TD>ACS/WFC</TD>
+	    <TD>WFCENTER</TD>
+	    <TD>5060</TD>
+	    <TD>53363.5575120393</TD>
+	    <TD>53363.7068067803</TD>
+	    <TD>5919.7153</TD>
+	    <TD>F606W</TD>
+	    <TD>NGC224-DISK</TD>
+	    <TD>0.497000008821487</TD>
+	    <TD>27.2639999389648</TD>
+	    <TD>27.2089004516602</TD>
+	    <TD>10265</TD>
+	    <TD>1.00000003973643</TD>
+	    <TD>0.238000020384789</TD>
+	    <TD>0</TD>
+	    <TD>5550 5535</TD>
+	    <TD>2775.00 2767.50</TD>
+	    <TD>12.28496336 42.74847331</TD>
+	    <TD>-1.38889e-005 -3.26388e-010 -3.26388e-010 1.38889e-005</TD>
+	    <TD/>
+	    <TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_09_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
+	  </TR>
+	  <TR>
+	    <TD>250617668</TD>
+	    <TD>42686270</TD>
+	    <TD>4</TD>
+	    <TD>4000297355782</TD>
+	    <TD>13949</TD>
+	    <TD>Y</TD>
+	    <TD>12.2838618016467</TD>
+	    <TD>42.7488037990913</TD>
+	    <TD>12.283861255365</TD>
+	    <TD>42.7488051938301</TD>
+	    <TD>5.22461757187077</TD>
+	    <TD>6.46344223620122</TD>
+	    <TD>Y</TD>
+	    <TD>2999.498046875</TD>
+	    <TD>2723.98608398438</TD>
+	    <TD>hst_10265_07_acs_wfc_f606w</TD>
+	    <TD>ACS</TD>
+	    <TD>ACCUM</TD>
+	    <TD>ACS/WFC</TD>
+	    <TD>WFCENTER</TD>
+	    <TD>5060</TD>
+	    <TD>53362.0920027895</TD>
+	    <TD>53362.1871075346</TD>
+	    <TD>5919.7148</TD>
+	    <TD>F606W</TD>
+	    <TD>NGC224-DISK</TD>
+	    <TD>0.511794984340668</TD>
+	    <TD>27.2322006225586</TD>
+	    <TD>27.2304000854492</TD>
+	    <TD>10265</TD>
+	    <TD>0.939166656246892</TD>
+	    <TD>0.211999997496605</TD>
+	    <TD>0</TD>
+	    <TD>5550 5535</TD>
+	    <TD>2775.00 2767.50</TD>
+	    <TD>12.28810685 42.74940950</TD>
+	    <TD>-1.38889e-005 -2.16418e-011 -2.16418e-011 1.38889e-005</TD>
+	    <TD/>
+	    <TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_07_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
+	  </TR>
+	  <TR>
+	    <TD>255476299</TD>
+	    <TD>42686270</TD>
+	    <TD>5</TD>
+	    <TD>2769863335</TD>
+	    <TD>14025</TD>
+	    <TD>Y</TD>
+	    <TD>12.2838618016467</TD>
+	    <TD>42.7488037990913</TD>
+	    <TD>12.2838635209551</TD>
+	    <TD>42.7488027009272</TD>
+	    <TD>6.02395247484734</TD>
+	    <TD>6.46344223620122</TD>
+	    <TD>Y</TD>
+	    <TD>2885.19702148438</TD>
+	    <TD>2762.18188476563</TD>
+	    <TD>hst_10265_19_acs_wfc_f606w</TD>
+	    <TD>ACS</TD>
+	    <TD>ACCUM</TD>
+	    <TD>ACS/WFC</TD>
+	    <TD>WFCENTER</TD>
+	    <TD>5060</TD>
+	    <TD>53373.4325932013</TD>
+	    <TD>53373.5619346043</TD>
+	    <TD>5919.718675</TD>
+	    <TD>F606W</TD>
+	    <TD>NGC224-DISK</TD>
+	    <TD>0.509698987007141</TD>
+	    <TD>27.2366008758545</TD>
+	    <TD>27.059700012207</TD>
+	    <TD>10265</TD>
+	    <TD>1.11231483795025</TD>
+	    <TD>0.299499988555908</TD>
+	    <TD>0</TD>
+	    <TD>5549 5535</TD>
+	    <TD>2774.50 2767.50</TD>
+	    <TD>12.28595692 42.74887651</TD>
+	    <TD>-1.38889e-005 -8.38352e-011 -8.38352e-011 1.38889e-005</TD>
+	    <TD/>
+	    <TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_19_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
+	  </TR>
+	  <TR>
+	    <TD>252593591</TD>
+	    <TD>42686270</TD>
+	    <TD>6</TD>
+	    <TD>4000202142548</TD>
+	    <TD>13913</TD>
+	    <TD>Y</TD>
+	    <TD>12.2838618016467</TD>
+	    <TD>42.7488037990913</TD>
+	    <TD>12.2838640189983</TD>
+	    <TD>42.7488047725245</TD>
+	    <TD>6.82945400375354</TD>
+	    <TD>6.46344223620122</TD>
+	    <TD>Y</TD>
+	    <TD>2832.19409179688</TD>
+	    <TD>2786.81103515625</TD>
+	    <TD>hst_10265_01_acs_wfc_f606w</TD>
+	    <TD>ACS</TD>
+	    <TD>ACCUM</TD>
+	    <TD>ACS/WFC</TD>
+	    <TD>WFCENTER</TD>
+	    <TD>5060</TD>
+	    <TD>53359.4941787058</TD>
+	    <TD>53359.5889930762</TD>
+	    <TD>5919.7139</TD>
+	    <TD>F606W</TD>
+	    <TD>NGC224-DISK</TD>
+	    <TD>0.508464992046356</TD>
+	    <TD>27.2392997741699</TD>
+	    <TD>27.2033996582031</TD>
+	    <TD>10265</TD>
+	    <TD>1.05444446757988</TD>
+	    <TD>0.256999999284744</TD>
+	    <TD>0</TD>
+	    <TD>5550 5535</TD>
+	    <TD>2775.00 2767.50</TD>
+	    <TD>12.28494592 42.74853688</TD>
+	    <TD>-1.38889e-005 -1.36092e-010 -1.36092e-010 1.38889e-005</TD>
+	    <TD/>
+	    <TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_01_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
+	  </TR>
+	  <TR>
+	    <TD>250095977</TD>
+	    <TD>42686270</TD>
+	    <TD>7</TD>
+	    <TD>4000227784686</TD>
+	    <TD>13925</TD>
+	    <TD>Y</TD>
+	    <TD>12.2838618016467</TD>
+	    <TD>42.7488037990913</TD>
+	    <TD>12.2838582492358</TD>
+	    <TD>42.7488046900453</TD>
+	    <TD>9.92381955915309</TD>
+	    <TD>6.46344223620122</TD>
+	    <TD>Y</TD>
+	    <TD>2887.9169921875</TD>
+	    <TD>2766.31103515625</TD>
+	    <TD>hst_10265_03_acs_wfc_f606w</TD>
+	    <TD>ACS</TD>
+	    <TD>ACCUM</TD>
+	    <TD>ACS/WFC</TD>
+	    <TD>WFCENTER</TD>
+	    <TD>5060</TD>
+	    <TD>53360.5597342476</TD>
+	    <TD>53360.7104179049</TD>
+	    <TD>5919.7144</TD>
+	    <TD>F606W</TD>
+	    <TD>NGC224-DISK</TD>
+	    <TD>0.472894996404648</TD>
+	    <TD>27.318000793457</TD>
+	    <TD>27.2908000946045</TD>
+	    <TD>10265</TD>
+	    <TD>0.973055539307771</TD>
+	    <TD>0.219499990344048</TD>
+	    <TD>0</TD>
+	    <TD>5550 5535</TD>
+	    <TD>2775.00 2767.50</TD>
+	    <TD>12.28599394 42.74882159</TD>
+	    <TD>-1.38889e-005 -1.72982e-011 -1.72982e-011 1.38889e-005</TD>
+	    <TD/>
+	    <TD>https://hla.stsci.edu/cgi-bin/fitscut.cgi?config=hscv2&amp;red=hst_10265_03_acs_wfc_f606w&amp;size=ALL&amp;format=fits</TD>
+	  </TR>
+	</TABLEDATA>
+      </DATA>
+    </TABLE>
+  </RESOURCE>
 </VOTABLE>

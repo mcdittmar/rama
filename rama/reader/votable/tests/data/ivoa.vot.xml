@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- VOTable annotated with VODML elements mapping its contents to the sample Source and Filter data models.
+
+     This example contains an instance of a simple Test Object in the Sample model class suite
+     which uses each of the primitives defined in the IVOA base types model.
+
+     Here, the values are annotated as LITERALs.
+
+ -->
+<VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <VODML>
+    <MODEL>
+      <NAME>ivoa</NAME>
+      <URL>https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/vo-dml/IVOA-v1.0.vo-dml.xml</URL>
+    </MODEL>
+    <GLOBALS>
+      <!-- IVOA Types annotated as LITERALS -->
+      <INSTANCE dmtype="sample:test.BaseTypeElements">
+        <ATTRIBUTE dmrole="sample:test.BaseTypeElements.sval">
+          <LITERAL value="blah" dmtype="ivoa:string"/>
+        </ATTRIBUTE>
+        <ATTRIBUTE dmrole="sample:test.BaseTypeElements.unit">
+          <LITERAL value="km/s" dmtype="ivoa:Unit"/>
+        </ATTRIBUTE>
+        <ATTRIBUTE dmrole="sample:test.BaseTypeElements.link">
+          <LITERAL value="https://www.ivoa.net/bogus.html" dmtype="ivoa:anyURI"/>
+        </ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.qval'>
+          <LITERAL value="TRUE" dmtype="ivoa:boolean"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.tval'>
+	  <LITERAL value="20200102T12:34:56" dmtype="ivoa:datetime"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.ival'>
+	  <LITERAL value="-1234" dmtype="ivoa:integer"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.wval'>
+	  <LITERAL value="1234" dmtype="ivoa:nonnegativeInteger"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.rval'>
+	  <LITERAL value="3.14" dmtype="ivoa:real"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.iqty'>
+	  <LITERAL value="72" dmtype="ivoa:IntegerQuantity" unit="C"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.rqty'>
+	  <LITERAL value="15.3" dmtype="ivoa:RealQuantity" unit="kg"/>
+	</ATTRIBUTE>
+      </INSTANCE>
+      <!-- IVOA Types annotated as CONSTANTS -->
+      <INSTANCE dmtype="sample:test.BaseTypeElements">
+        <ATTRIBUTE dmrole="sample:test.BaseTypeElements.sval">
+          <CONSTANT ref="_a" dmtype="ivoa:string"/>
+        </ATTRIBUTE>
+        <ATTRIBUTE dmrole="sample:test.BaseTypeElements.unit">
+          <CONSTANT ref="_b" dmtype="ivoa:Unit"/>
+        </ATTRIBUTE>
+        <ATTRIBUTE dmrole="sample:test.BaseTypeElements.link">
+          <CONSTANT ref="_c" dmtype="ivoa:anyURI"/>
+        </ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.qval'>
+          <CONSTANT ref="_d" dmtype="ivoa:boolean"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.tval'>
+	  <CONSTANT ref="_e" dmtype="ivoa:datetime"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.ival'>
+	  <CONSTANT ref="_f" dmtype="ivoa:integer"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.wval'>
+	  <CONSTANT ref="_g" dmtype="ivoa:nonnegativeInteger"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.rval'>
+	  <CONSTANT ref="_h" dmtype="ivoa:real"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.iqty'>
+	  <CONSTANT ref="_i" dmtype="ivoa:IntegerQuantity"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole='sample:test.BaseTypeElements.rqty'>
+	  <CONSTANT ref="_j" dmtype="ivoa:RealQuantity"/>
+	</ATTRIBUTE>
+      </INSTANCE>
+    </GLOBALS>
+  </VODML>
+  <RESOURCE>
+    <TABLE ID="_table1">
+      <PARAM ID="_a" name="sval" datatype="char" arraysize="4" value="blah"/>
+      <PARAM ID="_b" name="unit" datatype="char" arraysize="4" value="km/s"/>
+      <PARAM ID="_c" name="link" datatype="char" arraysize="31" value="https://www.ivoa.net/bogus.html"/>
+      <PARAM ID="_d" name="qval" datatype="boolean" value="TRUE" />
+      <PARAM ID="_e" name="tval" datatype="char" arraysize="17" value="20200102T12:34:56" />
+      <PARAM ID="_f" name="ival" datatype="int" value="-1234" />
+      <PARAM ID="_g" name="wval" datatype="int" value="1234" />
+      <PARAM ID="_h" name="rval" datatype="float" value="3.14"/>
+      <PARAM ID="_i" name="iqty" datatype="int" value="72" unit="C"/>
+      <PARAM ID="_j" name="rqty" datatype="float" value="15.3" unit="kg"/>
+    </TABLE>
+  </RESOURCE>
+</VOTABLE>

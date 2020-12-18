@@ -28,6 +28,7 @@
           </INSTANCE>
         </ATTRIBUTE>
       </INSTANCE>
+      <!-- Position in context of LITERAL (scalar) -->
       <INSTANCE dmtype="meas:StdPosition">
         <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
           <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
@@ -44,5 +45,45 @@
         </ATTRIBUTE>
       </INSTANCE>
     </GLOBALS>
+    <TEMPLATES tableref="_table1">
+      <!-- Position in context of COLUMNs -->
+      <INSTANCE dmtype="meas:StdPosition">
+        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+          <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
+            <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.ra">
+              <COLUMN ref="_RA" dmtype="ivoa:RealQuantity"/>
+            </ATTRIBUTE>
+            <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
+              <COLUMN ref="_DEC" dmtype="ivoa:RealQuantity"/>
+            </ATTRIBUTE>
+            <REFERENCE dmrole="coords:Coordinate.frame">
+              <IDREF>_SPACE_FRAME</IDREF>
+            </REFERENCE>
+          </INSTANCE>
+        </ATTRIBUTE>
+      </INSTANCE>
+    </TEMPLATES>
   </VODML>
+  <RESOURCE ID="_MY_POSITIONS">
+    <TABLE ID="_table1">
+      <FIELD name="ra" ID="_RA" unit="deg" datatype="float">
+        <DESCRIPTION>right ascension (J2000 decimal deg)</DESCRIPTION>
+      </FIELD>
+      <FIELD name="dec" ID="_DEC" unit="deg" datatype="float">
+        <DESCRIPTION>declination (J2000 decimal deg)</DESCRIPTION>
+      </FIELD>
+      <DATA>
+        <TABLEDATA>
+          <TR>
+            <TD>10.0</TD>
+            <TD>11.0</TD>
+          </TR>
+          <TR>
+            <TD>20.0</TD>
+            <TD>21.0</TD>
+          </TR>
+        </TABLEDATA>
+      </DATA>
+    </TABLE>
+  </RESOURCE>
 </VOTABLE>
