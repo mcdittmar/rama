@@ -74,20 +74,17 @@ def test_ivoa_constants( example_file ):
     objs = example_file.find_instances( BaseTypeElements )
     assert len(objs) == 2
 
-    #
-    # TODO: CONSTANT elements not yet handled
-    #
     item = objs[1]  # Instance annotated as CONSTANTs
-    #assert item.sval == "blah"                               # ivoa:string
-    #assert item.unit == u.Unit("km/s")                       # ivoa:Unit
-    #assert item.link == "https://www.ivoa.net/bogus.html"    # ivoa:anyURI
-    #assert item.qval == True                                 # ivoa:boolean
-    #assert item.tval.isoformat() == '2020-01-02T12:34:56'    # ivoa:datetime
-    #assert item.ival == -1234                                # ivoa:integer
-    #assert item.wval == 1234                                 # ivoa:nonnegativeInteger
-    #assert item.rval == 3.14                                 # ivoa:real
-    #assert item.iqty.value == 72                             # ivoa:IntegerQuantity
-    #assert item.iqty.unit  == "C"
-    #assert item.rqty.value == 15.3                           # ivoa:RealQuantity
-    #assert item.rqty.unit == "kg"
+    assert item.sval == "blah"                               # ivoa:string
+    assert item.unit == u.Unit("km/s")                       # ivoa:Unit
+    assert item.link == "https://www.ivoa.net/bogus.html"    # ivoa:anyURI
+    assert item.qval == True                                 # ivoa:boolean
+    assert item.tval.isoformat() == '2020-01-02T12:34:56'    # ivoa:datetime
+    assert item.ival == -1234                                # ivoa:integer
+    assert item.wval == 1234                                 # ivoa:nonnegativeInteger
+    assert item.rval == 3.14                                 # ivoa:real
+    assert item.iqty.value == 72                             # ivoa:IntegerQuantity
+    assert item.iqty.unit  == "C"
+    assert item.rqty.value == 15.3                           # ivoa:RealQuantity
+    assert item.rqty.unit == "kg"
     
