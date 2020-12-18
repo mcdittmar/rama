@@ -37,7 +37,7 @@
               <CONSTANT ref="_lon_err" dmtype="ivoa:real"/>
             </ATTRIBUTE>
             <ATTRIBUTE dmrole="sample:catalog.AlignedEllipse.latError">
-              <CONSTANT ref="lat_err" dmtype="ivoa:real"/>
+              <CONSTANT ref="_lat_err" dmtype="ivoa:real"/>
             </ATTRIBUTE>
           </INSTANCE>
         </ATTRIBUTE>
@@ -62,8 +62,8 @@
   </VODML>
   <RESOURCE ID="_MY_CATALOG">
     <TABLE ID="_table1">
-      <PARAM ID="_lonErr" name="pos_err_lon" datatype="float" value="0.1"/>
-      <PARAM ID="_latErr" name="pos_err_lat" datatype="float" value="0.2"/>
+      <PARAM ID="_lon_err" name="pos_err_lon" datatype="float" value="0.1"/>
+      <PARAM ID="_lat_err" name="pos_err_lat" datatype="float" value="0.2"/>
       <FIELD datatype="double" ID="_ra" name="ra" unit="deg"/>
       <FIELD datatype="double" ID="_dec" name="dec" unit="deg"/>
       <DATA>

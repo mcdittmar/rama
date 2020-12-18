@@ -54,6 +54,7 @@
 	<!-- Element with multiplicity 2:2 -->
 	<ATTRIBUTE dmrole="sample:test.MultiObj.b">
 	  <CONSTANT ref="_f" dmtype="ivoa:real"/>
+	  <CONSTANT ref="_g" dmtype="ivoa:real"/>
 	</ATTRIBUTE>
       </INSTANCE>
     </GLOBALS>
@@ -65,7 +66,9 @@
       <PARAM ID="_c" name="luminosity_err" datatype="float" value="0.112" unit="mag"/>
       <PARAM ID="_d" name="value_type" datatype="char" arraysize="9" value="magnitude"/>
       <PARAM ID="_e" name="pscalar" datatype="float" value="100.0"/>
-      <PARAM ID="_f" name="parray" datatype="float" value="200.0 201.0"/>
+      <PARAM ID="_f" name="pmin_x" datatype="float" value="200.0"/>
+      <PARAM ID="_g" name="pmin_y" datatype="float" value="201.0"/>
+      <PARAM ID="_test" name="pmins" datatype="float" arraysize="2" value="210.0 211.0"/>
     </TABLE>
   </RESOURCE>
 </VOTABLE>

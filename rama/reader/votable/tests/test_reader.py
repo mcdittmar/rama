@@ -114,26 +114,25 @@ def test_parsing_constants( constants_file ):
     """
     luminosity = constants_file.find_instances( LuminosityMeasurement  )[0]
  
-    # MCD NOTE: TODO - CONSTANT handling not implemented
+    # CONSTANT with dmtype, value  (ivoa:string)
+    assert luminosity.description == "some descriptive text"
     
-    ## CONSTANT with dmtype, value  (ivoa:string)
-    #assert luminosity.description == "some descriptive text"
-    #
-    ## CONSTANT with dmtype, value, unit  (ivoa:RealQuantity)
-    #assert luminosity.value.value == 15.718
-    #assert luminosity.value.unit == "mag"
-    #
+    # CONSTANT with dmtype, value, unit  (ivoa:RealQuantity)
+    assert luminosity.value.value == 15.718
+    assert luminosity.value.unit == "mag"
+    
     ## CONSTANT with OPTIONMAPPING
     ## MCD NOTE: TODO - enumeration type ==> 'string'.. OPTIONMAPPING not parsed/interpreted
     #assert luminosity.type == "magnitude"
     ##assert (luminosity.optionmapping) == 2
     #
     ## Check multiplicity handling
-    elem = constants_file.find_instances( MultiObj  )[0]
-    #assert isinstance(elem.a, float)  # multiplicity 1:1 == scalar
-    #assert elem.a == 100.0
-    #assert len(elem.b) == 2           # multiplicity 2:2 == array
-    #assert elem.b == [200.0, 201.0]
+    elems = constants_file.find_instances( MultiObj  )
+    elem = elems[0]
+    assert isinstance(elem.a, float)  # multiplicity 1:1 == scalar
+    assert elem.a == 100.0
+    assert len(elem.b) == 2           # multiplicity 2:2 == array
+    assert elem.b == [200.0, 201.0]
 
 def test_parsing_columns( columns_file ):
     """
@@ -214,9 +213,8 @@ def test_parsing_attributes( attributes_file ):
 
     # Check ATTRIBUTE with CONSTANT content
     err = source.position_error
-    #assert err.long_error == 0.1
-    #assert err.lat_error  == 0.2
-    # MCD NOTE: TODO - CONSTANT handling not implemented
+    assert err.long_error == 0.1
+    assert err.lat_error  == 0.2
 
     # Check ATTRIBUTE with COLUMN content
     expected_lon = numpy.array([122.99277, 122.986794, 123.033734], dtype='float64') * u.Unit('deg')

@@ -19,6 +19,7 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# ----------------------------------------------------------------------
 import itertools
 import logging
 import uuid
@@ -56,12 +57,14 @@ def get_local_name(tag_name):
 TEMPLATES = get_local_name("TEMPLATES")
 INSTANCE = get_local_name("INSTANCE")
 LITERAL = get_local_name("LITERAL")
+CONSTANT = get_local_name("CONSTANT")
 COLUMN = get_local_name("COLUMN")
 REFERENCE = get_local_name("REFERENCE")
 COMPOSITION = get_local_name("COMPOSITION")
 ATTRIBUTE = get_local_name("ATTRIBUTE")
 TABLE = get_local_name("TABLE")
 FIELD = get_local_name("FIELD")
+PARAM = get_local_name("PARAM")
 PRIMARYKEY = get_local_name("PRIMARYKEY")
 FOREIGNKEY = get_local_name("FOREIGNKEY")
 PKFIELD = get_local_name("PKFIELD")
@@ -145,6 +148,9 @@ def parse_column(context, xml_element):
 
 
 def parse_table(context, column_element):
+    """
+    Parse VOTable TABLE Element
+    """
     table_elements = column_element.xpath(f"parent::{TABLE}")
     if not table_elements:
         raise RuntimeError("COLUMN points to FIELD that does not have a TABLE parent")
@@ -180,6 +186,22 @@ def parse_literal(context, xml_element):
     unit = units[0] if units else None
     return context.get_type_by_id(value_type)(value, unit)
 
+def parse_constant(context, xml_element):
+    param_ref = xml_element.xpath(REF_ATTR)[0]
+    find_param_xpath = f"//{PARAM}[{ID_ATTR}='{param_ref}']"
+    param_elements = xml_element.xpath(find_param_xpath)
+    if not param_elements:
+        msg = f"Can't find param with ID {param_ref}.  Setting value to NaN"
+        LOG.warning(msg)
+        warnings.warn(msg, SyntaxWarning)
+        return numpy.NaN
+    
+    param_element = param_elements[0]
+    value_type = xml_element.xpath(TYPE_ATTR)[0]
+    value = param_element.xpath(VALUE_ATTR)[0]
+    units = param_element.xpath(UNIT_ATTR)
+    unit = units[0] if units else None
+    return context.get_type_by_id(value_type)(value, unit)
 
 def parse_id(context, xml_element, instance_class):
     keys = None
@@ -206,6 +228,9 @@ def parse_primary_key_field(context, xml_element):
     literal_elements = xml_element.xpath(f"./{LITERAL}")
     if literal_elements:
         return parse_literal(context, literal_elements[0])
+    constant_elements = xml_element.xpath(f"./{CONSTANT}")
+    if constant_elements:
+        return parse_constant(context, constant_elements[0])
     column_elements = xml_element.xpath(f"./{COLUMN}")
     if column_elements:
         return parse_column(context, column_elements[0]).data
@@ -286,6 +311,7 @@ def parse_attributes(xml_element, field_object, context):
     if xml_element is not None:
         values = parse_structured_instances(xml_element, context) +\
                  parse_literals(xml_element, context) +\
+                 parse_constants(xml_element, context) +\
                  parse_columns(xml_element, context)
         return field_object.select_return_value(values)
 
@@ -321,6 +347,9 @@ def parse_literals(xml_element, context):
     elements = get_children(xml_element, LITERAL)
     return [parse_literal(context, element) for element in elements]
 
+def parse_constants(xml_element, context):
+    elements = get_children(xml_element, CONSTANT)
+    return [parse_constant(context, element) for element in elements]
 
 def parse_columns(xml_element, context):
     elements = get_children(xml_element, COLUMN)
