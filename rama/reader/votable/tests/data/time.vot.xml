@@ -1,51 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+Annotated VOTable containing Coords model Time coordinates.
+
+-->
 <VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <VODML>
-        <GLOBALS>
-            <INSTANCE dmtype="coords:domain.time.TimeFrame" ID="_TT_FRAME">
-                <ATTRIBUTE dmrole="coords:domain.time.TimeFrame.refPosition">
-                    <INSTANCE dmtype="coords:domain.space.StdRefLocation">
-                        <ATTRIBUTE dmrole="coords:domain.space.StdRefLocation.position">
-                            <LITERAL value="BARYCENTER" dmtype="coords:domain.space.StdRefPosition"/>
-                        </ATTRIBUTE>
-                    </INSTANCE>
-                </ATTRIBUTE>
-                <ATTRIBUTE dmrole="coords:domain.time.TimeFrame.timescale">
-                    <LITERAL value="TT" dmtype="coords:domain.time.TimeScale"/>
-                </ATTRIBUTE>
-            </INSTANCE>
-        </GLOBALS>
-        <TEMPLATES tableref="_DATA_TABLE">
-            <INSTANCE dmtype="meas:StdTimeMeasure">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
-                    <INSTANCE dmtype="coords:domain.time.JD">
-                        <REFERENCE dmrole="coords:Coordinate.frame">
-                            <IDREF>_TT_FRAME</IDREF>
-                        </REFERENCE>
-                        <ATTRIBUTE dmrole="coords:domain.time.JD.date">
-                            <COLUMN dmtype="ivoa:real" ref="_col_H_TIME"/>
-                        </ATTRIBUTE>
-                    </INSTANCE>
-                </ATTRIBUTE>
-            </INSTANCE>
-        </TEMPLATES>
-    </VODML>
-    <RESOURCE>
-        <TABLE ID="_DATA_TABLE">
-            <FIELD datatype="char" arraysize="8" ID="_TARGET_NAME" name="_TARGET_NAME"/>
-            <FIELD datatype="float" ID="_col_H_TIME" name="h_time" unit="d"/>
-            <DATA>
-                <TABLEDATA>
-                    <TR>
-                        <TD>beta Lyr</TD>
-                        <TD>2453486.5</TD>
-                    </TR>
-                    <TR>
-                        <TD>beta Lyr</TD>
-                        <TD></TD>
-                    </TR>
-                </TABLEDATA>
-            </DATA>
-        </TABLE>
-    </RESOURCE>
+  <VODML>
+    <MODEL>
+      <NAME>coords</NAME>
+      <URL>https://volute.g-vo.org/svn/trunk/projects/dm/STC/Coords/vo-dml/STC_coords-v1.0.vo-dml.xml</URL>
+    </MODEL>
+    <MODEL>
+      <NAME>ivoa</NAME>
+      <URL>https://volute.g-vo.org/svn/trunk/projects/dm/vo-dml/models/ivoa/vo-dml/IVOA-v1.0.vo-dml.xml</URL>
+    </MODEL>
+    <GLOBALS ID="_COORDSYSTEMS_">
+      <INSTANCE ID="_TT_BARY" dmtype="coords:TimeSys">
+	<COMPOSITION dmrole="coords:PhysicalCoordSys.frame">
+	  <INSTANCE dmtype="coords:TimeFrame">
+            <ATTRIBUTE dmrole="coords:TimeFrame.refPosition">
+              <INSTANCE dmtype="coords:StdRefLocation">
+		<ATTRIBUTE dmrole="coords:StdRefLocation.position">
+		  <LITERAL value="BARYCENTER" dmtype="ivoa:string"/>
+		</ATTRIBUTE>
+              </INSTANCE>
+            </ATTRIBUTE>
+            <ATTRIBUTE dmrole="coords:TimeFrame.timescale">
+              <LITERAL value="TT" dmtype="ivoa:string"/>
+            </ATTRIBUTE>
+	  </INSTANCE>
+	</COMPOSITION>
+      </INSTANCE>
+    </GLOBALS>
+    <GLOBALS ID="_INSTANCES_">
+      <INSTANCE dmtype="meas:StdTimeMeasure">
+        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+	  <INSTANCE dmtype="coords:ISOTime">
+	    <ATTRIBUTE dmrole="coords:ISOTime.date">
+	      <CONSTANT dmtype="ivoa:datetime" ref="_DATE" />
+	    </ATTRIBUTE>
+            <REFERENCE dmrole="coords:Coordinate.coordSys">
+              <IDREF>_TT_BARY</IDREF>
+            </REFERENCE>
+	  </INSTANCE>
+	</ATTRIBUTE>
+      </INSTANCE>
+      <INSTANCE dmtype="meas:StdTimeMeasure">
+        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+	  <INSTANCE dmtype="coords:MJD">
+	    <ATTRIBUTE dmrole="coords:MJD.date">
+	      <CONSTANT dmtype="ivoa:real" ref="_MJDREF" />
+	    </ATTRIBUTE>
+            <REFERENCE dmrole="coords:Coordinate.coordSys">
+              <IDREF>_TT_BARY</IDREF>
+            </REFERENCE>
+	  </INSTANCE>
+	</ATTRIBUTE>
+      </INSTANCE>
+      <INSTANCE dmtype="meas:StdTimeMeasure">
+        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+	  <INSTANCE dmtype="coords:JD">
+	    <ATTRIBUTE dmrole="coords:JD.date">
+	      <LITERAL dmtype="ivoa:real" value="2453456.5" />
+	    </ATTRIBUTE>
+            <REFERENCE dmrole="coords:Coordinate.coordSys">
+              <IDREF>_TT_BARY</IDREF>
+            </REFERENCE>
+	  </INSTANCE>
+	</ATTRIBUTE>
+      </INSTANCE>
+    </GLOBALS>
+    <TEMPLATES tableref="_DATA_TABLE">
+      <INSTANCE dmtype="meas:StdTimeMeasure">
+        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+	  <INSTANCE dmtype="coords:ISOTime">
+	    <ATTRIBUTE dmrole="coords:ISOTime.date">
+	      <COLUMN dmtype="ivoa:datetime" ref="_col_DATE" />
+	    </ATTRIBUTE>
+            <REFERENCE dmrole="coords:Coordinate.coordSys">
+              <IDREF>_TT_BARY</IDREF>
+            </REFERENCE>
+	  </INSTANCE>
+	</ATTRIBUTE>
+      </INSTANCE>
+      <INSTANCE dmtype="meas:StdTimeMeasure">
+        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+	  <INSTANCE dmtype="coords:MJD">
+	    <ATTRIBUTE dmrole="coords:MJD.date">
+	      <COLUMN dmtype="ivoa:real" ref="_col_MJD" />
+	    </ATTRIBUTE>
+            <REFERENCE dmrole="coords:Coordinate.coordSys">
+              <IDREF>_TT_BARY</IDREF>
+            </REFERENCE>
+	  </INSTANCE>
+	</ATTRIBUTE>
+      </INSTANCE>
+      <INSTANCE dmtype="meas:StdTimeMeasure">
+        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+          <INSTANCE dmtype="coords:JD">
+            <ATTRIBUTE dmrole="coords:JD.date">
+              <COLUMN dmtype="ivoa:real" ref="_col_H_TIME"/>
+            </ATTRIBUTE>
+            <REFERENCE dmrole="coords:Coordinate.coordSys">
+              <IDREF>_TT_BARY</IDREF>
+            </REFERENCE>
+          </INSTANCE>
+        </ATTRIBUTE>
+      </INSTANCE>
+    </TEMPLATES>
+  </VODML>
+  <RESOURCE>
+    <TABLE ID="_DATA_TABLE">
+      <PARAM ID="_DATE" datatype="char" arraysize="16" value="2000-09-02T01:10:14"/>
+      <PARAM ID="_MJDREF" datatype="float" value="50814.02"/>
+      <FIELD datatype="char" arraysize="8" ID="_TARGET_NAME" name="_TARGET_NAME"/>
+      <FIELD datatype="char" arraysize="19" ID="_col_DATE" name="obsdate"/>
+      <FIELD datatype="float" ID="_col_MJD" name="obsmjd"/>
+      <FIELD datatype="float" ID="_col_H_TIME" name="h_time" unit="d"/>
+      <DATA>
+        <TABLEDATA>
+          <TR>
+            <TD>beta Lyr</TD>
+	    <TD>2000-09-02T08:15:00</TD>
+            <TD>53486.5</TD>
+            <TD>2453486.5</TD>
+          </TR>
+          <TR>
+            <TD>beta Lyr</TD>
+            <TD></TD>
+            <TD></TD>
+            <TD></TD>
+          </TR>
+        </TABLEDATA>
+      </DATA>
+    </TABLE>
+  </RESOURCE>
 </VOTABLE>

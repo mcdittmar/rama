@@ -3,79 +3,84 @@
     While the data itself may have originated from another source, we make
     every attempt to accurately reproduce the original content.-->
 <VOTABLE version="1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://www.ivoa.net/xml/VOTable/v1.4_vodml" xsi:schemaLocation="http://www.ivoa.net/xml/VOTable/v1.4_vodml http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/xsd/ext/VOTable-1.4_vodml.xsd">
-	<VODML>
-		<MODEL>
-			<NAME>ivoa</NAME>
-			<URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/models/ivoa/IVOA.vo-dml.xml</URL>
-		</MODEL>
-		<MODEL>
-			<NAME>source</NAME>
-			<URL>https://volute.g-vo.org/svn/trunk/projects/dm/SourceDM/vo-dml/Source-0.1.vo-dml.xml</URL>
-		</MODEL>
-		<MODEL>
-			<NAME>photdm-alt</NAME>
-			<URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/models/photdm-alt/PhotDM-alt.vo-dml.xml</URL>
-		</MODEL>
-		<MODEL>
-			<NAME>meas</NAME>
-			<URL>http://volute.g-vo.org/svn/trunk/projects/dm/STC/vo-dml/STC_meas-v2.0.vo-dml.xml</URL>
-		</MODEL>
-		<MODEL>
-			<NAME>coords</NAME>
-			<URL>https://volute.g-vo.org/svn/trunk/projects/dm/STC/vo-dml/STC_coords-v2.0.vo-dml.xml</URL>
-		</MODEL>
-		<GLOBALS>
-			<INSTANCE ID="_icrs_" dmtype="coords:domain.space.SpaceFrame">
-				<ATTRIBUTE dmrole="coords:domain.space.SpaceFrame.spaceRefFrame">
-					<LITERAL value="ICRS" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-			</INSTANCE>
-			<INSTANCE dmtype="source:SourcePosition">
-				<ATTRIBUTE dmrole="meas:CoordMeasure.coord">
-					<INSTANCE dmtype="coords:domain.space.EquatorialCoord">
-						<ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.ra">
-							<LITERAL value="123.45" dmtype="ivoa:RealQuantity" unit="deg"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.dec">
-							<LITERAL value="67.89" dmtype="ivoa:RealQuantity" unit="deg"/>
-						</ATTRIBUTE>
-						<REFERENCE dmrole="coords:Coordinate.frame">
-							<IDREF>_icrs_</IDREF>
-						</REFERENCE>
-					</INSTANCE>
-				</ATTRIBUTE>
-			</INSTANCE>
-			<INSTANCE ID="_F606W" dmtype="photdm-alt:PhotometryFilter">
-				<PRIMARYKEY>
-					<PKFIELD>
-						<LITERAL value="F606W" dmtype="ivoa:string"/>
-					</PKFIELD>
-					<PKFIELD>
-						<LITERAL value="ACS" dmtype="ivoa:string"/>
-					</PKFIELD>
-				</PRIMARYKEY>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
-					<LITERAL value="F606W" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
-					<LITERAL value="R" dmtype="ivoa:string"/>
-				</ATTRIBUTE>
-				<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.spectralLocation">
-					<LITERAL value="606" dmtype="ivoa:RealQuantity" unit="nm"/>
-				</ATTRIBUTE>
-				<COMPOSITION dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
-					<INSTANCE dmtype="photdm-alt:TransmissionPoint">
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
-							<LITERAL value="5432.0" dmtype="ivoa:RealQuantity" unit="nm"/>
-						</ATTRIBUTE>
-						<ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
-							<LITERAL value="84.6" dmtype="ivoa:RealQuantity" unit="nm"/>
-						</ATTRIBUTE>
-					</INSTANCE>
-				</COMPOSITION>
-			</INSTANCE>
-		</GLOBALS>
-	</VODML>
-	<RESOURCE/>
+	 xmlns="http://www.ivoa.net/xml/VOTable/v1.4_vodml" xsi:schemaLocation="http://www.ivoa.net/xml/VOTable/v1.4_vodml http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/xsd/ext/VOTable-1.4_vodml.xsd">
+  <VODML>
+    <MODEL>
+      <NAME>ivoa</NAME>
+      <URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/models/ivoa/IVOA.vo-dml.xml</URL>
+    </MODEL>
+    <MODEL>
+      <NAME>source</NAME>
+      <URL>https://volute.g-vo.org/svn/trunk/projects/dm/SourceDM/vo-dml/Source-0.1.vo-dml.xml</URL>
+    </MODEL>
+    <MODEL>
+      <NAME>photdm-alt</NAME>
+      <URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/models/photdm-alt/PhotDM-alt.vo-dml.xml</URL>
+    </MODEL>
+    <MODEL>
+      <NAME>meas</NAME>
+      <URL>http://volute.g-vo.org/svn/trunk/projects/dm/STC/vo-dml/STC_meas-v2.0.vo-dml.xml</URL>
+    </MODEL>
+    <MODEL>
+      <NAME>coords</NAME>
+      <URL>https://volute.g-vo.org/svn/trunk/projects/dm/STC/Coords/vo-dml/STC_coords-v1.0.vo-dml.xml</URL>
+    </MODEL>
+    <GLOBALS>
+      <INSTANCE ID="_icrs_" dmtype="coords:SpaceSys">
+	<!-- use default standard spherical coordspace -->
+	<COMPOSITION dmrole="coords:PhysicalCoordSys.frame">
+	  <INSTANCE dmtype="coords:SpaceFrame">
+            <ATTRIBUTE dmrole="coords:SpaceFrame.spaceRefFrame">
+              <LITERAL value="ICRS" dmtype="ivoa:string"/>
+            </ATTRIBUTE>
+	  </INSTANCE>
+	</COMPOSITION>
+      </INSTANCE>
+      <INSTANCE dmtype="source:SourcePosition">
+	<ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+	  <INSTANCE dmtype="coords:Point">
+	    <ATTRIBUTE dmrole="coords:Point.axis1">
+	      <LITERAL value="123.45" dmtype="ivoa:RealQuantity" unit="deg"/>
+	    </ATTRIBUTE>
+	    <ATTRIBUTE dmrole="coords:Point.axis2">
+	      <LITERAL value="67.89" dmtype="ivoa:RealQuantity" unit="deg"/>
+	    </ATTRIBUTE>
+	    <REFERENCE dmrole="coords:Coordinate.coordSys">
+	      <IDREF>_icrs_</IDREF>
+	    </REFERENCE>
+	  </INSTANCE>
+	</ATTRIBUTE>
+      </INSTANCE>
+      <INSTANCE ID="_F606W" dmtype="photdm-alt:PhotometryFilter">
+	<PRIMARYKEY>
+	  <PKFIELD>
+	    <LITERAL value="F606W" dmtype="ivoa:string"/>
+	  </PKFIELD>
+	  <PKFIELD>
+	    <LITERAL value="ACS" dmtype="ivoa:string"/>
+	  </PKFIELD>
+	</PRIMARYKEY>
+	<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.name">
+	  <LITERAL value="F606W" dmtype="ivoa:string"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.bandName">
+	  <LITERAL value="R" dmtype="ivoa:string"/>
+	</ATTRIBUTE>
+	<ATTRIBUTE dmrole="photdm-alt:PhotometryFilter.spectralLocation">
+	  <LITERAL value="606" dmtype="ivoa:RealQuantity" unit="nm"/>
+	</ATTRIBUTE>
+	<COMPOSITION dmrole="photdm-alt:PhotometryFilter.transmissionPoint">
+	  <INSTANCE dmtype="photdm-alt:TransmissionPoint">
+	    <ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectral">
+	      <LITERAL value="5432.0" dmtype="ivoa:RealQuantity" unit="nm"/>
+	    </ATTRIBUTE>
+	    <ATTRIBUTE dmrole="photdm-alt:TransmissionPoint.spectralError">
+	      <LITERAL value="84.6" dmtype="ivoa:RealQuantity" unit="nm"/>
+	    </ATTRIBUTE>
+	  </INSTANCE>
+	</COMPOSITION>
+      </INSTANCE>
+    </GLOBALS>
+  </VODML>
+  <RESOURCE/>
 </VOTABLE>

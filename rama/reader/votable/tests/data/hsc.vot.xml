@@ -17,6 +17,7 @@
       <NAME>photdm-alt</NAME>
       <URL>http://volute.g-vo.org/svn/trunk/projects/dm/vo-dml-org/models/photdm-alt/PhotDM-alt.vo-dml.xml</URL>
     </MODEL>
+    <!-- OBSOLETE ELEMENTS - model has migrated from this content
     <GLOBALS>
       <INSTANCE ID="_icrs_" dmtype="coords:domain.space.SpaceFrame">
 	<ATTRIBUTE dmrole="coords:domain.space.SpaceFrame.spaceRefFrame">
@@ -24,6 +25,7 @@
 	</ATTRIBUTE>
       </INSTANCE>
     </GLOBALS>
+    -->
     <GLOBALS ID="_HSC_FILTERS">
       <INSTANCE ID="_F606W" dmtype="photdm-alt:PhotometryFilter">
 	<PRIMARYKEY>
@@ -112,6 +114,7 @@
 	</COMPOSITION>
 	<COMPOSITION dmrole="source:Source.position">
 	  <INSTANCE dmtype="source:SourcePosition">
+	    <!-- OBSOLETE ELEMENTS - model has migrated from this content
             <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
               <INSTANCE dmtype="coords:domain.space.EquatorialCoord">
                 <ATTRIBUTE dmrole="coords:domain.space.EquatorialCoord.ra">
@@ -125,6 +128,7 @@
                 </REFERENCE>
               </INSTANCE>
             </ATTRIBUTE>
+	    -->
 	  </INSTANCE>
 	</COMPOSITION>
 	<COMPOSITION dmrole="source:Detection.sourceImage">
