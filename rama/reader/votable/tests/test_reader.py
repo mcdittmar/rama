@@ -27,8 +27,7 @@ import pytest
 from astropy import units as u
 from astropy.table import MaskedColumn
 
-from rama import read, unroll
-from rama.framework import InstanceId
+from rama import read, is_template, unroll
 from rama.models.test.sample import Source, SkyCoordinate, SkyCoordinateFrame, LuminosityMeasurement, MultiObj
 
 from rama.models.photdmalt import PhotometryFilter
@@ -198,13 +197,14 @@ def test_parsing_attributes( attributes_file ):
     """
     sources = attributes_file.find_instances(Source)
     assert len(sources) == 2
-
-    # Check ATTRIBUTE with INSTANCE content
+    
+    # Check ATTRIBUTE with INSTANCE content in GLOBAL context
     #   Soure.position      == SkyCoordinate
     #   Soure.positionError == AlignedEllipse
     source = sources[0]
     assert source.position is not None
     assert source.position_error is not None
+    assert not is_template( source.position ) 
 
     # Check ATTRIBUTE with LITERAL content
     position = source.position
@@ -216,11 +216,12 @@ def test_parsing_attributes( attributes_file ):
     assert err.long_error == 0.1
     assert err.lat_error  == 0.2
 
-    # Check ATTRIBUTE with COLUMN content
+    # Check ATTRIBUTE with COLUMN content in TEMPLATE context
     expected_lon = numpy.array([122.99277, 122.986794, 123.033734], dtype='float64') * u.Unit('deg')
     expected_lat = numpy.array([ -2.092676,  -2.095231,  -2.103671], dtype='float64') * u.Unit('deg')
     source = sources[1]
     assert source.position is not None
+    assert is_template( source.position ) 
     assert len(source.position.longitude) == 3
     assert len(source.position.latitude)  == 3
     assert source.position.longitude[0] == expected_lon[0]
@@ -279,6 +280,21 @@ def test_referred_built_only_once(references_file):
     assert sky[0].frame is frames[0]
     assert sky[1].frame is frames[0]
 
+def test_references_context(references_file):
+    """
+    Test handling of REFERENCEs within GLOBAL and TEMPLATE
+      o Elements in GLOBAL and TEMPLATE
+        - reference element in GLOBAL
+    """
+    sky = references_file.find_instances( SkyCoordinate )
+    assert len(sky) == 2
+
+    assert not is_template( sky[0] )
+    assert not is_template( sky[0].frame )
+    assert is_template( sky[1] )
+    assert not is_template( sky[1].frame )
+
+    
 def test_reference_target_missing(references_file, recwarn):
     """
     Test handling of missing reference target.

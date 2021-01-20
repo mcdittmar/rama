@@ -19,13 +19,13 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# ----------------------------------------------------------------------------------------------------
 import logging
 
 import io
 import requests
 from pkg_resources import iter_entry_points
 
-from rama.framework import VodmlDescriptor, Composition
 from rama.reader import Reader
 from rama.reader.votable import Votable
 
@@ -45,7 +45,7 @@ def read(filename, fmt='votable'):
     }
 
     if fmt not in formats:
-        raise AttributeError(f"No such format: {fmt}. Available formats: {fmt.keys()}")
+        raise AttributeError(f"No such format: {fmt}. Available formats: {formats.keys()}")
 
     return Reader(formats[fmt](filename))
 
