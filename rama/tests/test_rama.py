@@ -25,7 +25,7 @@ from numpy.testing import assert_array_equal
 
 from rama import read, is_template
 from rama.models.cube import NDPoint, Observable
-from rama.models.measurements import StdPosition
+from rama.models.measurements import Position
 from rama.tools.time import TimeSeries
 
 
@@ -35,7 +35,7 @@ def time_series(make_data_path):
 
 def test_is_template(time_series, recwarn):
     gavo = time_series
-    positions = gavo.find_instances(StdPosition)
+    positions = gavo.find_instances(Position)
     cube_points = gavo.find_instances(NDPoint)
     axes = gavo.find_instances(Observable)
 
@@ -60,8 +60,8 @@ def test_time_series(time_series, recwarn):
     cube_point = time_series.find_instances(NDPoint)[0]
     time_series = TimeSeries(cube_point)
 
-    assert_array_equal(time_series.time, cube_point['hjd'])
-    assert_array_equal(time_series['time'], cube_point['hjd'])
+    assert_array_equal(time_series.time, cube_point['time'])
+    assert_array_equal(time_series['time'], cube_point['time'])
     assert_array_equal(time_series.dependent[0], cube_point['flux'])
     assert_array_equal(time_series['flux'], cube_point['flux'])
 

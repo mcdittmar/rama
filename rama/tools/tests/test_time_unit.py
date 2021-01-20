@@ -19,6 +19,7 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# ----------------------------------------------------------------------------------------------------
 from astropy import units as u
 from unittest import mock
 
@@ -26,7 +27,7 @@ import numpy as np
 from numpy.testing import assert_array_equal
 
 from rama.adapters.cube import CubePoint
-from rama.models.measurements import StdTimeMeasure, GenericCoordMeasure
+from rama.models.measurements import Time, GenericMeasure
 from rama.tools.time import TimeSeries
 
 
@@ -35,7 +36,7 @@ class TimeAxisStub:
         self.dependent = False
         coord = np.array([1, 2, 3]) * u.Unit('d')
         coord.name = "foo"
-        self.measure = mock.MagicMock(StdTimeMeasure, coord=coord)
+        self.measure = mock.MagicMock(Time, coord=coord)
 
 
 class FluxAxisStub:
@@ -44,7 +45,7 @@ class FluxAxisStub:
         cval = np.array([10, 20, 30]) * u.Unit('mag')
         cval.name = 'flux'
         coord = mock.MagicMock(cval=cval)
-        self.measure = mock.MagicMock(GenericCoordMeasure, coord=coord)
+        self.measure = mock.MagicMock(GenericMeasure, coord=coord)
 
 
 class NdPointStub:
@@ -52,9 +53,14 @@ class NdPointStub:
 
 
 def test_time_series():
+    """
+    Time Series Unit Tests
+    """
+    # Create mock time series instance
     cube = CubePoint(NdPointStub())
     time_series = TimeSeries(cube)
 
+    # Test access to TimeSeries axes by either ts.<axis>  or ts['<axis>'] syntax
     assert_array_equal(time_series.time.measure, np.array([1, 2, 3]) * u.Unit('d'))
     assert_array_equal(time_series['time'].measure, np.array([1, 2, 3]) * u.Unit('d'))
     assert_array_equal(time_series.dependent[0].measure, np.array([10, 20, 30]) * u.Unit('mag'))

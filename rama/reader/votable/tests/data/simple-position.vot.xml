@@ -126,8 +126,8 @@
     <GLOBALS>
       <!-- Positions in context of LITERAL (scalar) -->
       <!--    Case: no reference frame.. cannot convert to SkyCoord -->
-      <INSTANCE dmtype="meas:StdPosition">
-        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+      <INSTANCE dmtype="meas:Position">
+        <ATTRIBUTE dmrole="meas:Position.coord">
           <INSTANCE dmtype="coords:Point">
             <ATTRIBUTE dmrole="coords:Point.axis1">
               <LITERAL value="0.0" dmtype="ivoa:RealQuantity" unit="deg"/>
@@ -142,8 +142,8 @@
         </ATTRIBUTE>
       </INSTANCE>
       <!--    Case: valid SkyCoord in spherical  -->
-      <INSTANCE dmtype="meas:StdPosition">
-        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+      <INSTANCE dmtype="meas:Position">
+        <ATTRIBUTE dmrole="meas:Position.coord">
           <INSTANCE dmtype="coords:Point">
 	    <!-- Spherical 'celesital' coord -->
             <ATTRIBUTE dmrole="coords:Point.axis1">
@@ -159,8 +159,8 @@
         </ATTRIBUTE>
       </INSTANCE>
       <!--    Case: valid SkyCoord in cartesian  -->
-      <INSTANCE dmtype="meas:StdPosition">
-	<ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+      <INSTANCE dmtype="meas:Position">
+	<ATTRIBUTE dmrole="meas:Position.coord">
 	  <!-- Cartesian coord -->
 	  <INSTANCE dmtype="coords:Point">
 	    <ATTRIBUTE dmrole="coords:Point.axis1">
@@ -179,8 +179,8 @@
         </ATTRIBUTE>
       </INSTANCE>
       <!--    Case: '(chipx,chipy)' local cartesian coordinates (non-SkyCoord)  -->
-      <INSTANCE dmtype="meas:StdPosition">
-	<ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+      <INSTANCE dmtype="meas:Position">
+	<ATTRIBUTE dmrole="meas:Position.coord">
 	  <!-- Cartesian coord -->
 	  <INSTANCE dmtype="coords:Point">
 	    <ATTRIBUTE dmrole="coords:Point.axis1">
@@ -198,8 +198,8 @@
     </GLOBALS>
     <TEMPLATES tableref="_table1">
       <!-- Position in context of COLUMNs -->
-      <INSTANCE dmtype="meas:StdPosition">
-        <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+      <INSTANCE dmtype="meas:Position">
+        <ATTRIBUTE dmrole="meas:Position.coord">
           <INSTANCE dmtype="coords:Point">
             <ATTRIBUTE dmrole="coords:Point.axis1">
               <COLUMN ref="_RA" dmtype="ivoa:RealQuantity"/>

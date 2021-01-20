@@ -37,7 +37,7 @@
 	</COMPOSITION>
       </INSTANCE>
       <INSTANCE dmtype="source:SourcePosition">
-	<ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+	<ATTRIBUTE dmrole="meas:Position.coord">
 	  <INSTANCE dmtype="coords:Point">
 	    <ATTRIBUTE dmrole="coords:Point.axis1">
 	      <LITERAL value="123.45" dmtype="ivoa:RealQuantity" unit="deg"/>

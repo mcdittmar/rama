@@ -19,9 +19,13 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# ----------------------------------------------------------------------------------------------------
+# Classes for an early prototype of a Source DataModel
+#  - Defines SourcePosition as extension of base measurements model Measure type
+# 
 from rama.framework import Attribute, Composition, Reference, BaseType
 from rama.models.ivoa import StringQuantity
-from rama.models.measurements import CoordMeasure
+from rama.models.measurements import Position
 from rama.utils.registry import VO
 
 
@@ -87,7 +91,7 @@ class SourceImage(BaseType):
 
 
 @VO('source:SourcePosition')
-class SourcePosition(CoordMeasure):
+class SourcePosition(Position):
     algorithm = Reference('source:SourcePosition.algorithm', min_occurs=1, max_occurs=1)
 
 

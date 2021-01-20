@@ -37,21 +37,23 @@
       </INSTANCE>
       <INSTANCE ID="_SPACESYS" dmtype="coords:SpaceSys">
 	<!-- use default standard spherical coordspace -->
-	<INSTANCE dmtype="coords:SpaceFrame">
-          <ATTRIBUTE dmrole="coords:SpaceFrame.spaceRefFrame">
-            <LITERAL value="FK4" dmtype="ivoa:string"/>
-          </ATTRIBUTE>
-          <ATTRIBUTE dmrole="coords:SpaceFrame.equinox">
-            <LITERAL value="J2000" dmtype="coords:Epoch"/>
-          </ATTRIBUTE>
-          <ATTRIBUTE dmrole="coords:SpaceFrame.refPosition">
-            <INSTANCE dmtype="coords:StdRefLocation">
-              <ATTRIBUTE dmrole="coords:StdRefLocation.position">
-		<LITERAL value="TOPOCENTER" dmtype="ivoa:string"/>
-              </ATTRIBUTE>
-            </INSTANCE>
-          </ATTRIBUTE>
-	</INSTANCE>
+	<COMPOSITION dmrole="coords:PhysicalCoordSys.frame">
+	  <INSTANCE dmtype="coords:SpaceFrame">
+            <ATTRIBUTE dmrole="coords:SpaceFrame.spaceRefFrame">
+              <LITERAL value="FK4" dmtype="ivoa:string"/>
+            </ATTRIBUTE>
+            <ATTRIBUTE dmrole="coords:SpaceFrame.equinox">
+              <LITERAL value="J2000" dmtype="coords:Epoch"/>
+            </ATTRIBUTE>
+            <ATTRIBUTE dmrole="coords:SpaceFrame.refPosition">
+              <INSTANCE dmtype="coords:StdRefLocation">
+		<ATTRIBUTE dmrole="coords:StdRefLocation.position">
+		  <LITERAL value="TOPOCENTER" dmtype="ivoa:string"/>
+		</ATTRIBUTE>
+              </INSTANCE>
+            </ATTRIBUTE>
+	  </INSTANCE>
+	</COMPOSITION>
       </INSTANCE>
       <INSTANCE dmtype="cube:SparseCube">
         <COMPOSITION dmrole="cube:SparseCube.data">
@@ -82,8 +84,8 @@
               <LITERAL value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <COMPOSITION dmrole="cube:MeasurementAxis.measure">
-              <INSTANCE dmtype="meas:StdTimeMeasure">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+              <INSTANCE dmtype="meas:Time">
+                <ATTRIBUTE dmrole="meas:Time.coord">
                   <INSTANCE dmtype="coords:ISOTime">
                     <ATTRIBUTE dmrole="coords:ISOTime.date">
                       <COLUMN dmtype="ivoa:datetime" ref="_col_TIME"/>
@@ -101,8 +103,8 @@
               <LITERAL value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <COMPOSITION dmrole="cube:MeasurementAxis.measure">
-              <INSTANCE dmtype="meas:StdPosition">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+              <INSTANCE dmtype="meas:Position">
+                <ATTRIBUTE dmrole="meas:Position.coord">
                   <INSTANCE dmtype="coords:Point">
                     <ATTRIBUTE dmrole="coords:Point.axis1">
                       <COLUMN dmtype="ivoa:RealQuantity" ref="_col_RAJ2000"/>
@@ -123,19 +125,19 @@
               <LITERAL value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <COMPOSITION dmrole="cube:MeasurementAxis.measure">
-              <INSTANCE dmtype="meas:GenericCoordMeasure">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+              <INSTANCE dmtype="meas:GenericMeasure">
+                <ATTRIBUTE dmrole="meas:GenericMeasure.coord">
                   <INSTANCE dmtype="coords:PhysicalCoordinate">
                     <ATTRIBUTE dmrole="coords:PhysicalCoordinate.cval">
                       <COLUMN dmtype="ivoa:RealQuantity" ref="_col_FLUX"/>
                     </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
-                <COMPOSITION dmrole="meas:CoordMeasure.error">
-                  <INSTANCE dmtype="meas:Error1D">
-                    <ATTRIBUTE dmrole="meas:Error1D.statError">
-                      <INSTANCE dmtype="meas:Symmetrical1D">
-                        <ATTRIBUTE dmrole="meas:Symmetrical1D.radius">
+                <COMPOSITION dmrole="meas:Measure.error">
+                  <INSTANCE dmtype="meas:Error">
+                    <ATTRIBUTE dmrole="meas:Error.statError">
+                      <INSTANCE dmtype="meas:Symmetrical">
+                        <ATTRIBUTE dmrole="meas:Symmetrical.radius">
                           <COLUMN dmtype="ivoa:RealQuantity" ref="_col_FLUX_ERROR"/>
                         </ATTRIBUTE>
                       </INSTANCE>
@@ -150,8 +152,8 @@
               <LITERAL value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <COMPOSITION dmrole="cube:MeasurementAxis.measure">
-              <INSTANCE dmtype="meas:GenericCoordMeasure">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+              <INSTANCE dmtype="meas:GenericMeasure">
+                <ATTRIBUTE dmrole="meas:GenericMeasure.coord">
                   <INSTANCE dmtype="coords:PhysicalCoordinate">
                     <ATTRIBUTE dmrole="coords:PhysicalCoordinate.cval">
                       <COLUMN dmtype="ivoa:RealQuantity" ref="_col_MAG"/>
@@ -159,10 +161,10 @@
                   </INSTANCE>
                 </ATTRIBUTE>
                 <COMPOSITION dmrole="meas:CoordMeasure.error">
-                  <INSTANCE dmtype="meas:Error1D">
-                    <ATTRIBUTE dmrole="meas:Error1D.statError">
-                      <INSTANCE dmtype="meas:Symmetrical1D">
-                        <ATTRIBUTE dmrole="meas:Symmetrical1D.radius">
+                  <INSTANCE dmtype="meas:Error">
+                    <ATTRIBUTE dmrole="meas:Error.statError">
+                      <INSTANCE dmtype="meas:Symmetrical">
+                        <ATTRIBUTE dmrole="meas:Symmetrical.radius">
                           <COLUMN dmtype="ivoa:RealQuantity" ref="_col_MAG_ERROR"/>
                         </ATTRIBUTE>
                       </INSTANCE>

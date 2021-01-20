@@ -34,7 +34,7 @@ from astropy import units as u
 from astropy.coordinates import SkyCoord, FK5, ICRS
 from astropy.time import Time
 
-from rama.models.measurements import StdPosition, StdTimeMeasure
+from rama.models.measurements import Position
 from rama.models.coordinates import Point, JD, MJD, ISOTime
 from rama import read
 
@@ -54,7 +54,7 @@ def test_skycoord_adapter(positions_file):
 
     Check in context of GLOBALS/scalar and TEMPLATES/column
     """
-    sky_positions = positions_file.find_instances(StdPosition)
+    sky_positions = positions_file.find_instances(Position)
     assert len(sky_positions) == 5
 
     # globals instances:

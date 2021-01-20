@@ -19,10 +19,11 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# ----------------------------------------------------------------------------------------------------
 from astropy import units as u
 from matplotlib import pyplot as plt
 
-from rama.models.measurements import GenericCoordMeasure, StdPosition, StdTimeMeasure
+from rama.models.measurements import GenericMeasure, Position, Time
 
 
 def plotter(plotter_class):
@@ -69,11 +70,16 @@ class VoAxis:
 
 
 class TimeAxis(VoAxis):
-    model_class = StdTimeMeasure
+    name = 'time'
+    model_class = Time
 
     def __init__(self, axis):
         super().__init__(axis)
-        self.name = axis.measure.coord.name
+        try:
+            # MCD NOTE: This is not where the axis name should be coming from.
+            self.name = axis.measure.coord.name
+        except:
+            pass
 
     @property
     def measurement(self):
@@ -96,16 +102,17 @@ class SkyPositionPlotter:
 @plotter(SkyPositionPlotter)
 class SkyPositionAxis(VoAxis):
     name = 'position'
-    model_class = StdPosition
+    model_class = Position
 
 
 class GenericCoordMeasureAxis(VoAxis):
     name = 'generic'
-    model_class = GenericCoordMeasure
+    model_class = GenericMeasure
 
     def __init__(self, axis):
         super().__init__(axis)
         self.name = axis.measure.coord.cval.name
+        # MCD NOTE: This is not where the axis name should be coming from.
 
     @property
     def measure(self):

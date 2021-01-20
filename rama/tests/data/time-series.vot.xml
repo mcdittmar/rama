@@ -99,8 +99,8 @@
               <LITERAL value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <COMPOSITION dmrole="cube:MeasurementAxis.measure">
-              <INSTANCE dmtype="meas:StdTimeMeasure">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+              <INSTANCE dmtype="meas:Time">
+                <ATTRIBUTE dmrole="meas:Time.coord">
                   <INSTANCE dmtype="coords:JD">
                     <ATTRIBUTE dmrole="coords:JD.date">
                       <COLUMN dmtype="ivoa:real" ref="_col_TIME"/>
@@ -118,8 +118,8 @@
               <LITERAL value="False" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <COMPOSITION dmrole="cube:MeasurementAxis.measure">
-              <INSTANCE dmtype="meas:StdPosition">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+              <INSTANCE dmtype="meas:Position">
+                <ATTRIBUTE dmrole="meas:Position.coord">
                   <INSTANCE dmtype="coords:Point">
                     <ATTRIBUTE dmrole="coords:Point.axis1">
                       <LITERAL value="269.82846" dmtype="ivoa:RealQuantity" unit="deg"/>
@@ -140,19 +140,19 @@
               <LITERAL value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <COMPOSITION dmrole="cube:MeasurementAxis.measure">
-              <INSTANCE dmtype="meas:GenericCoordMeasure">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+              <INSTANCE dmtype="meas:GenericMeasure">
+                <ATTRIBUTE dmrole="meas:GenericMeasure.coord">
                   <INSTANCE dmtype="coords:PhysicalCoordinate">
                     <ATTRIBUTE dmrole="coords:PhysicalCoordinate.cval">
                       <COLUMN dmtype="ivoa:RealQuantity" ref="_col_FLUX"/>
                     </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
-                <COMPOSITION dmrole="meas:CoordMeasure.error">
-                  <INSTANCE dmtype="meas:Error1D">
-                    <ATTRIBUTE dmrole="meas:Error1D.statError">
-                      <INSTANCE dmtype="meas:Symmetrical1D">
-                        <ATTRIBUTE dmrole="meas:Symmetrical1D.radius">
+                <COMPOSITION dmrole="meas:Measure.error">
+                  <INSTANCE dmtype="meas:Error">
+                    <ATTRIBUTE dmrole="meas:Error.statError">
+                      <INSTANCE dmtype="meas:Symmetrical">
+                        <ATTRIBUTE dmrole="meas:Symmetrical.radius">
                           <COLUMN dmtype="ivoa:RealQuantity" ref="_col_FLUX_ERROR"/>
                         </ATTRIBUTE>
                       </INSTANCE>
@@ -167,19 +167,19 @@
               <LITERAL value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <COMPOSITION dmrole="cube:MeasurementAxis.measure">
-              <INSTANCE dmtype="meas:GenericCoordMeasure">
-                <ATTRIBUTE dmrole="meas:CoordMeasure.coord">
+              <INSTANCE dmtype="meas:GenericMeasure">
+                <ATTRIBUTE dmrole="meas:GenericMeasure.coord">
                   <INSTANCE dmtype="coords:PhysicalCoordinate">
                     <ATTRIBUTE dmrole="coords:PhysicalCoordinate.cval">
                       <COLUMN dmtype="ivoa:RealQuantity" ref="_col_MAG"/>
                     </ATTRIBUTE>
                   </INSTANCE>
                 </ATTRIBUTE>
-                <COMPOSITION dmrole="meas:CoordMeasure.error">
-                  <INSTANCE dmtype="meas:Error1D">
-                    <ATTRIBUTE dmrole="meas:Error1D.statError">
-                      <INSTANCE dmtype="meas:Symmetrical1D">
-                        <ATTRIBUTE dmrole="meas:Symmetrical1D.radius">
+                <COMPOSITION dmrole="meas:Measure.error">
+                  <INSTANCE dmtype="meas:Error">
+                    <ATTRIBUTE dmrole="meas:Error.statError">
+                      <INSTANCE dmtype="meas:Symmetrical">
+                        <ATTRIBUTE dmrole="meas:Symmetrical.radius">
                           <COLUMN dmtype="ivoa:RealQuantity" ref="_col_MAG_ERROR"/>
                         </ATTRIBUTE>
                       </INSTANCE>
