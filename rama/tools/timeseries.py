@@ -19,6 +19,8 @@
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# ----------------------------------------------------------------------------------------------------
+#
 from astropy.visualization import quantity_support
 quantity_support()
 
@@ -26,6 +28,26 @@ from rama.adapters.cube import TimeAxis
 
 
 class TimeSeries:
+    """
+    TimeSeries class
+       Supports prototype efforts to represent Time Series as a specialized Cube.
+
+    Description:
+       Structurally matches the CubePoint Adapter class but..
+         o time axis is explicit, as the independent axis of the cube
+         o all other axes are dependent. 
+
+       Time axis is expected to be an instance of the TimeAxis class, 
+       which is defined in the Cube Adapter
+
+    Note:
+       This implementation focuses on the Data segment of the Cube.
+       All metadata information associated with the Cube is lost.
+
+
+    Exceptions:
+        AttributeError  - No independent time axis is found
+    """
     def __init__(self, cube_object):
         self.time = None
         self.dependent = []
@@ -33,11 +55,16 @@ class TimeSeries:
 
         for axis in cube_object.axes:
             if not axis.dependent and isinstance(axis, TimeAxis):
-                self.time = axis
-                self._index['time'] = axis
+                if self.time is None:
+                    self.time = axis
+                    self._index['time'] = axis
+                else:
+                    raise AttributeError("This is not a time series, found multiple independent Time axes")
             elif axis.dependent:
                 self.dependent.append(axis)
                 self._index[axis.name] = axis
+            else:
+                raise AttributeError("This is not a time series, found independent axis other than Time")
 
         if self.time is None:
             raise AttributeError("This is not a time series, there is no independent axis for Time")

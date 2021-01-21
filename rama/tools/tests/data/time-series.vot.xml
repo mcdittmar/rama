@@ -115,7 +115,7 @@
           </INSTANCE>
           <INSTANCE dmtype="cube:Observable">
             <ATTRIBUTE dmrole="cube:DataAxis.dependent">
-              <LITERAL value="False" dmtype="ivoa:boolean"/>
+              <LITERAL value="True" dmtype="ivoa:boolean"/>
             </ATTRIBUTE>
             <COMPOSITION dmrole="cube:MeasurementAxis.measure">
               <INSTANCE dmtype="meas:Position">
