@@ -97,6 +97,8 @@ def test_parsing_literals( literals_file ):
     assert isinstance(elem.a, float)  # multiplicity 1:1 == scalar
     assert elem.a == 100.0
     assert len(elem.b) == 2           # multiplicity 2:2 == array
+    assert isinstance(elem.b, list)
+    assert isinstance(elem.b[0], float)
     assert elem.b == [200.0, 201.0]
     
 
@@ -131,6 +133,8 @@ def test_parsing_constants( constants_file ):
     assert isinstance(elem.a, float)  # multiplicity 1:1 == scalar
     assert elem.a == 100.0
     assert len(elem.b) == 2           # multiplicity 2:2 == array
+    assert isinstance(elem.b, list)
+    assert isinstance(elem.b[0], float)
     assert elem.b == [200.0, 201.0]
 
 def test_parsing_columns( columns_file ):
@@ -197,14 +201,26 @@ def test_parsing_attributes( attributes_file ):
     """
     sources = attributes_file.find_instances(Source)
     assert len(sources) == 2
-    
-    # Check ATTRIBUTE with INSTANCE content in GLOBAL context
+
+    expected_lon = numpy.array([122.99277, 122.986794, 123.033734], dtype='float64') * u.Unit('deg')
+    expected_lat = numpy.array([ -2.092676, -2.095231,  -2.103671], dtype='float64') * u.Unit('deg')
+    expected_ra_err  = numpy.array([0.3, 0.3, 0.3], dtype='float64')
+    expected_dec_err = numpy.array([0.4, 0.4, 0.4], dtype='float64')
+
+    # ----------------------------------------------------------------------
+    # GLOBALS context:
+    #
+    # Check ATTRIBUTE with INSTANCE content
     #   Soure.position      == SkyCoordinate
     #   Soure.positionError == AlignedEllipse
     source = sources[0]
     assert source.position is not None
     assert source.position_error is not None
-    assert not is_template( source.position ) 
+
+    # Check is_template assignment for each object
+    assert not is_template(source)                 # - top tier object
+    assert not is_template(source.position)        # - second tier child with LITERALs
+    assert not is_template(source.position_error)  # - second tier child with CONSTANTs
 
     # Check ATTRIBUTE with LITERAL content
     position = source.position
@@ -216,12 +232,19 @@ def test_parsing_attributes( attributes_file ):
     assert err.long_error == 0.1
     assert err.lat_error  == 0.2
 
-    # Check ATTRIBUTE with COLUMN content in TEMPLATE context
-    expected_lon = numpy.array([122.99277, 122.986794, 123.033734], dtype='float64') * u.Unit('deg')
-    expected_lat = numpy.array([ -2.092676,  -2.095231,  -2.103671], dtype='float64') * u.Unit('deg')
+    # ----------------------------------------------------------------------
+    # TEMPLATES context:
+    #
     source = sources[1]
     assert source.position is not None
-    assert is_template( source.position ) 
+    assert source.position_error is not None
+
+    # Check is_template assignment for each object
+    assert is_template(source)                     # - top tier object
+    assert is_template(source.position)            # - second tier child with COLUMNs
+    assert is_template(source.position_error)      # - second tier child with CONSTANT/LITERAL
+    
+    # Check ATTRIBUTE with COLUMN content in TEMPLATE context
     assert len(source.position.longitude) == 3
     assert len(source.position.latitude)  == 3
     assert source.position.longitude[0] == expected_lon[0]
@@ -230,6 +253,16 @@ def test_parsing_attributes( attributes_file ):
     assert source.position.latitude[0]  == expected_lat[0]
     assert source.position.latitude[1]  == expected_lat[1]
     assert source.position.latitude[2]  == expected_lat[2]
+
+    # Check ATTRIBUTE with CONSTANT content
+    #assert len(source.position_error.long_error) == 3
+    #assert source.position_error.long_error == expected_ra_err
+    assert source.position_error.long_error == expected_ra_err[0]
+
+    # Check ATTRIBUTE with LITERAL content
+    #assert len(source.position_error.lat_error) == 3
+    #assert source.position_error.lat_error == expected_dec_err
+    assert source.position_error.lat_error == expected_dec_err[0]
     
     
 def test_parsing_compositions( compositions_file ):

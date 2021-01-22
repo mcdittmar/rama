@@ -57,6 +57,18 @@
             </ATTRIBUTE>
           </INSTANCE>
         </ATTRIBUTE>
+	<ATTRIBUTE dmrole="sample:catalog.AbstractSource.positionError">
+          <INSTANCE dmtype="sample:catalog.AlignedEllipse">
+	    <!-- ATTRIBUTEs with CONSTANT content -->
+            <ATTRIBUTE dmrole="sample:catalog.AlignedEllipse.longError">
+              <CONSTANT ref="_ra_err" dmtype="ivoa:real"/>
+            </ATTRIBUTE>
+	    <!-- ATTRIBUTEs with LITERAL content -->
+            <ATTRIBUTE dmrole="sample:catalog.AlignedEllipse.latError">
+              <LITERAL value="0.4" dmtype="ivoa:real"/>
+            </ATTRIBUTE>
+          </INSTANCE>
+        </ATTRIBUTE>
       </INSTANCE>
     </TEMPLATES>
   </VODML>
@@ -64,6 +76,7 @@
     <TABLE ID="_table1">
       <PARAM ID="_lon_err" name="pos_err_lon" datatype="float" value="0.1"/>
       <PARAM ID="_lat_err" name="pos_err_lat" datatype="float" value="0.2"/>
+      <PARAM ID="_ra_err"  name="pos_err_ra"  datatype="float" value="0.3"/>
       <FIELD datatype="double" ID="_ra" name="ra" unit="deg"/>
       <FIELD datatype="double" ID="_dec" name="dec" unit="deg"/>
       <DATA>
