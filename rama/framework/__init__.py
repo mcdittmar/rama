@@ -33,6 +33,10 @@ LOG = logging.getLogger(__name__)
 
 
 class VodmlDescriptor:
+    """
+    Basis for VODML Meta Model elements which form the building blocks
+    for the Data Model Object Class contents.
+    """
     def __init__(self, vodml_id, min_occurs=0, max_occurs=1):
         self.vodml_id = vodml_id
         self.default = None
@@ -58,6 +62,12 @@ class VodmlDescriptor:
         self.name = name
 
     def select_return_value(self, values):
+        # MCD NOTE: Having problem here with array Attribute as Column
+        #   - element has max > 1
+        #   - but since its a column, the list holds a single Quantity or MaskedColumn
+        #     + the value of THAT is 2D ( nrows, ndim )
+        #   - this logic looks good for compositions and references, 
+        #     but may need override for Attributes 
         max_occurs = self.max
         if max_occurs == 1 and len(values) == 1:
             return values[0]
@@ -142,6 +152,9 @@ class RowReferenceWrapper(ReferenceWrapper):
 
 
 class BaseType:
+    """
+    Basis for Data Model Object Classes
+    """
     vodml_id = None
 
     def __init__(self):
