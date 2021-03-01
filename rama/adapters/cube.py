@@ -24,6 +24,7 @@ from astropy import units as u
 from matplotlib import pyplot as plt
 
 from rama.models.measurements import GenericMeasure, Position, Time
+from rama.models.measurements import Symmetrical
 
 
 def plotter(plotter_class):
@@ -54,7 +55,12 @@ class VoAxis:
 
     @property
     def stat_error(self):
-        return self._axis.measure.error.stat_error
+        try:
+            errors = self._axis.measure.error.stat_error
+        except:
+            errors = None
+            pass
+        return errors
 
     @property
     def is_scalar(self):
@@ -132,7 +138,27 @@ class CubePointPlotter:
         fig = plt.figure()
         ax = fig.add_subplot(111)
         ax.grid(True)
-        ax.scatter(instance[x_name].measure, instance[y_name].measure, *args, **kwargs)
+
+        ax.set_title("Cube Data Points")
+        label = x_name
+        if hasattr(instance[x_name].measure, 'unit'):
+            label += f" ({instance[x_name].measure.unit})"
+        ax.set_xlabel(label)
+        label = y_name
+        if hasattr(instance[y_name].measure, 'unit'):
+            label += f" ({instance[y_name].measure.unit})"
+        ax.set_ylabel(label)
+
+        xvals = instance[x_name].measure.value
+        yvals = instance[y_name].measure.value
+        if ( isinstance( instance[y_name].stat_error, Symmetrical ) ):
+            yerr = instance[y_name].stat_error.radius.value
+        else:
+            yerr = None
+            
+        ax.errorbar( xvals, yvals, yerr=yerr, fmt="bo", ecolor='#FF0000')
+
+        plt.show()
 
 
 @plotter(CubePointPlotter)
