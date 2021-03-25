@@ -35,7 +35,6 @@
                     <LITERAL value="2mass:H" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
-
             <INSTANCE ID="_2massJ" dmtype="filter:PhotometryFilter">
                 <PRIMARYKEY>
                     <PKFIELD>
@@ -46,7 +45,6 @@
                     <LITERAL value="2mass:J" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
-
             <INSTANCE ID="_2massK" dmtype="filter:PhotometryFilter">
                 <PRIMARYKEY>
                     <PKFIELD>
@@ -57,7 +55,6 @@
                     <LITERAL value="2mass:K" dmtype="ivoa:string"/>
                 </ATTRIBUTE>
             </INSTANCE>
-
         </GLOBALS>
         <GLOBALS ID="_SDSS_FILTERS">
             <INSTANCE dmtype="filter:PhotometryFilter">
@@ -159,7 +156,6 @@
             </INSTANCE>
         </TEMPLATES>
         <TEMPLATES tableref="_sdss_mags">
-
             <INSTANCE ID="SDSS_MAGS" dmtype="sample:catalog.LuminosityMeasurement">
                 <CONTAINER>
                     <FOREIGNKEY>
@@ -170,17 +166,21 @@
                     </FOREIGNKEY>
                 </CONTAINER>
                 <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.value">
-                    <COLUMN ref="_mag" dmtype="ivoa:real"/>
+                    <COLUMN ref="_gMag" dmtype="ivoa:real"/>
                 </ATTRIBUTE>
                 <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.error">
-                    <COLUMN ref="_eMag" dmtype="ivoa:real"/>
+                    <COLUMN ref="_e_GMag" dmtype="ivoa:real"/>
+                </ATTRIBUTE>
+                <ATTRIBUTE dmrole="sample:catalog.LuminosityMeasurement.type">
+                  <LITERAL value="magnitude" dmtype="sample:catalog.LuminosityType"/>
                 </ATTRIBUTE>
                 <!-- Following is example of OR-like reference, but not to another table but to a singleton object -->
+		<!--
                 <REFERENCE dmrole="sample:catalog.LuminosityMeasurement.filter">
                     <IDREF></IDREF>
                 </REFERENCE>
+		-->
             </INSTANCE>
-
         </TEMPLATES>
 
     </VODML>
@@ -387,14 +387,51 @@
             <FIELD ID="_e_GMag" name="e_gmag" datatype="float"/>
             <FIELD ID="_rMag" name="rmag" datatype="float"/>
             <FIELD ID="_e_RMag" name="e_rmag" datatype="float"/>
+	    <!--
             <FIELD ID="_filter" name="filter" datatype="char" arraysize="*"/>
+	    -->
             <DATA>
                 <TABLEDATA>
+                    <TR>
+                        <TD>10000001-9999999</TD>
+                        <TD>17.0</TD>
+                        <TD>.05</TD>
+                        <TD>17.5</TD>
+                        <TD>.03</TD>
+                    </TR>
+                    <TR>
+                        <TD>10000002-9999999</TD>
+                        <TD>18.0</TD>
+                        <TD>.05</TD>
+                        <TD>18.5</TD>
+                        <TD>.03</TD>
+                    </TR>
                     <TR>
                         <TD>08120809-0206132</TD>
                         <TD>23.2</TD>
                         <TD>.04</TD>
                         <TD>23.0</TD>
+                        <TD>.03</TD>
+                    </TR>
+                    <TR>
+                        <TD>10000003-9999999</TD>
+                        <TD>19.0</TD>
+                        <TD>.05</TD>
+                        <TD>19.5</TD>
+                        <TD>.03</TD>
+                    </TR>
+                    <TR>
+                        <TD>08115826-0205336</TD>
+                        <TD>20.0</TD>
+                        <TD>.05</TD>
+                        <TD>20.5</TD>
+                        <TD>.03</TD>
+                    </TR>
+                    <TR>
+                        <TD>08115826-0205336</TD>
+                        <TD>20.1</TD>
+                        <TD>.05</TD>
+                        <TD>20.6</TD>
                         <TD>.03</TD>
                     </TR>
                 </TABLEDATA>

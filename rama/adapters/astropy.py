@@ -140,7 +140,7 @@ class SkyCoordAdapter:
                 return sky_coord
             else:
                 raise ValueError("Unrecognized coordinate space type")
-        except (AttributeError, UnitTypeError, ValueError) as exc:
+        except (AttributeError, UnitTypeError, ValueError, TypeError) as exc:
             LOG.warning(f"Can't apply adapter: {exc}")
             return spatial_coord
 

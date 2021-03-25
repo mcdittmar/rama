@@ -55,7 +55,9 @@ def get_local_name(tag_name):
 
 
 TEMPLATES = get_local_name("TEMPLATES")
+EXTINSTANCES = get_local_name("EXTINSTANCES")
 INSTANCE = get_local_name("INSTANCE")
+CONTAINER = get_local_name("CONTAINER")
 LITERAL = get_local_name("LITERAL")
 CONSTANT = get_local_name("CONSTANT")
 COLUMN = get_local_name("COLUMN")
@@ -107,65 +109,6 @@ def read_instance(xml_element, context):
     return make(element_class, xml_element, context)
 
 
-def parse_column(context, xml_element):
-    """
-    Interpret input VODML <COLUMN> element and associated VOTable <FIELD>
-
-    Inputs:
-      o context     - Reader
-      o xml_element - VODML <COLUMN> node to process
-
-    Returns column as:
-      o AstroPy Quantity if FIELD has units
-      o AstroPy MaskedColumn if FIELD does not have units
-    """
-    # Find VOTable FIELD element referenced by COLUMN
-    column_ref = xml_element.xpath(REF_ATTR)[0]
-    find_column_xpath = f"//{FIELD}[{ID_ATTR}='{column_ref}']"
-    column_elements = xml_element.xpath(find_column_xpath)
-    if not column_elements:
-        msg = f"Can't find column with ID {column_ref}. Setting values to NaN"
-        LOG.warning(msg)
-        warnings.warn(msg, SyntaxWarning)
-        return numpy.NaN
-    column_element = column_elements[0]
-
-    # Interpret FIELD; adding column to table stored in context.
-    table = parse_table(context, column_element)
-    column_ref = context.get_column_mapping(column_ref)
-    column = table[column_ref]
-
-    # Another hack:
-    #   it simplify things if the byte columns are converted to strings...
-    #   maybe this is an issue in the VOTable parser needing some attention?
-    try:
-        if column.dtype == 'object':
-            column = column.astype('U')
-            table[column_ref] = column
-    except:
-        pass
-
-    # Get name from FIELD element.. assign to column
-    name = column_element.xpath(NAME_ATTR)[0]
-    column.name = name
-
-    # Kind of a hack, but I couldn't find a better way.
-    # For instances with primary keys which use the same column(s) as a different
-    # attribute, in some but not all cases changing the column names makes it
-    # impossible for the second pass to find the same column implementing a
-    # different attribute (for instance, in test5, the same column is used
-    # for the primary key and for Source.name).  Whether or not this happens
-    # seems to depend on what class the column is (e.g. Quantity vs MappedColumn).
-    #
-    # MCD NOTE: Why would this fail here and not when same command occurs above
-    try:
-        column = table[column_ref]
-    except KeyError:
-        context.add_column_mapping(column_ref, name)
-
-    return column
-
-
 def parse_table(context, column_element):
     """
     Parse VOTable <TABLE> Element
@@ -191,72 +134,24 @@ def parse_table(context, column_element):
     if table_ids:
         table_id = table_ids[0]
     else:
-        # MCD NOTE: I do not think this case is tested
+        # NOTE: this only serves to create a no-match condition
+        #       the actual table id is assigned within the table processing clause
         table_id = f"_GENERATED_ID_{table_index}"
 
     # Pull stored table from reader, or generate it and add it to reader
     table = context.get_table_by_id(table_id)
     if table is None:
+        # Process table
         table = QTable(votable.parse_single_table(context.file, table_number=table_index).to_table())
-        table_id = id(table)
+        table_id = str(id(table)) # MCD TEMP: ACTUAL CODE CHANGE!!
+
+        # Store table in context
         context.add_table(table_id, table)
 
         # Set the ID attribute in the XML so we have an handle if see it again
-        table_element.attrib[ID] = str(table_id)
+        table_element.attrib[ID] = table_id
 
     return table
-
-
-def parse_literal(context, xml_element):
-    value = xml_element.xpath(VALUE_ATTR)[0]
-    value_type = xml_element.xpath(TYPE_ATTR)[0]
-    units = xml_element.xpath(UNIT_ATTR)
-    unit = units[0] if units else None
-    return context.get_type_by_id(value_type)(value, unit)
-
-def parse_constant(context, xml_element):
-    """
-    Interpret input VODML <CONSTANT> element and associated VOTable <PARAM>
-
-    Inputs:
-      o context        - Reader
-      o xml_element    - VODML <COLUMN> node
-
-    Returns
-      o value as type mapping to specified vodml-id
-         - interpretation done by Reader
-    """
-    # Find VOTable PARAM element referenced by CONSTANT
-    param_ref = xml_element.xpath(REF_ATTR)[0]
-    find_param_xpath = f"//{PARAM}[{ID_ATTR}='{param_ref}']"
-    param_elements = xml_element.xpath(find_param_xpath)
-    if not param_elements:
-        msg = f"Can't find param with ID {param_ref}.  Setting value to NaN"
-        LOG.warning(msg)
-        warnings.warn(msg, SyntaxWarning)
-        return numpy.NaN
-    param_element = param_elements[0]
-
-    # Pull desired type, and param data
-    value_type = xml_element.xpath(TYPE_ATTR)[0]
-    value = param_element.xpath(VALUE_ATTR)[0]
-    units = param_element.xpath(UNIT_ATTR)
-    unit = units[0] if units else None
-
-    # Create instance of specified type
-    #   - resulting type determined by Reader
-    result = context.get_type_by_id(value_type)(value, unit)
-
-    # MCD NOTE:
-    #  o unlike columns, there is no place to store PARAM name in the result
-    #    at least not for many base types (eg ivoa:real )
-    #  o CONSTANTs within TEMPLATES are singluar while
-    #    COLUMNs   within TEMPLATES are arrays (per row)
-    #  o what does this do for multiplicity > 1?
-    #    a) float( [a,b] ) == Error?
-    #    b) Quantity may work, but maybe problems in FIELD (2D array)
-    
-    return result
 
 def parse_id(context, xml_element, instance_class):
     keys = None
@@ -361,8 +256,8 @@ def attach_fields(instance_info):
         field_instance = field_reader(instance_info.xml_element, field_object, instance_info.context)
         instance_info.instance.set_field(field_name, field_instance)
     return instance_info
-
-
+#
+# ----------------------------------------------------------------------
 def parse_attributes(xml_element, field_object, context):
     xml_element = find_element_for_role(xml_element, ATTRIBUTE, field_object.vodml_id)
     if xml_element is not None:
@@ -376,8 +271,10 @@ def parse_attributes(xml_element, field_object, context):
 def parse_composed_instances(xml_element, field_object, context):
     xml_element = find_element_for_role(xml_element, COMPOSITION, field_object.vodml_id)
     if xml_element is not None:
-        values = parse_structured_instances(xml_element, context)
-        return field_object.select_return_value(values)
+        values = parse_structured_instances(xml_element, context) +\
+                 parse_extinstances(xml_element, context)
+        result = field_object.select_return_value(values)
+        return result
 
 
 def parse_references(xml_element, field_object, context):
@@ -394,11 +291,9 @@ def parse_references(xml_element, field_object, context):
         if foreign_key_instances:
             return field_object.select_return_value(foreign_key_instances)
 
-
 def parse_structured_instances(xml_element, context):
     elements = get_children(xml_element, INSTANCE)
     return [read_instance(element, context) for element in elements]
-
 
 def parse_literals(xml_element, context):
     elements = get_children(xml_element, LITERAL)
@@ -412,16 +307,238 @@ def parse_columns(xml_element, context):
     elements = get_children(xml_element, COLUMN)
     return [parse_column(context, element) for element in elements]
 
-
 def parse_idref_instances(xml_element, context):
     elements = get_children(xml_element, IDREF)
     return [parse_idref(element, context) for element in elements]
-
 
 def parse_foreign_key_instances(xml_element, context):
     elements = get_children(xml_element, FOREIGNKEY)
     return [parse_foreign_key(element, context) for element in elements]
 
+def parse_extinstances(xml_element, context):
+    elements = get_children(xml_element, EXTINSTANCES)
+    instances = []
+    for element in elements:
+        instances += parse_extinstance(element, context)
+    return instances
+
+#
+# ----------------------------------------------------------------------
+def parse_extinstance(xml_element, context):
+    # get extinstance reference id
+    ref = InstanceId(xml_element.text, None)
+    
+    # pull referred instance element
+    referred_elements = xml_element.xpath(f"//{INSTANCE}[{ID_ATTR}='{ref.id}']")
+    if not referred_elements:
+        # TODO make a single call?
+        msg = f"Dangling reference {ref}"
+        warnings.warn(msg, SyntaxWarning)
+        LOG.warning(msg)
+        return None
+    referred_element = referred_elements[0]
+
+    # process extinstance template
+    #  - we want the individual instances in this case.
+    instance = read_instance( referred_element, context )
+    instances = instance.unroll()
+
+    # FOREIGNKEY = constrains returned instance set
+    has_foreign_key = len(referred_element.xpath(f'./child::{CONTAINER}/{FOREIGNKEY}')) > 0
+
+    if not has_foreign_key:
+        # No screening criteria, return List of resolved instances
+        result = instances
+    else:
+        element = get_children(referred_element, CONTAINER)[0]
+        result = group_extinstances( instances, element, context )
+
+    return result
+
+
+def group_extinstances( instances, xml_element, context ):
+    # ----------------------------------------------------------------------
+    # instances: List of resolved EXTINSTANCEs
+    # xml_element: CONTAINER element
+    #----------------------------------------------------------------------
+    # CONTAINER is a backward connection to a parent instance.
+    #   - Contains one of: IDREF, FOREIGNKEY, REMOTEREF
+    #      - implementing FOREIGNKEY
+
+    fk_elements = get_children(xml_element, FOREIGNKEY)
+    for fk_element in fk_elements:
+        target_id = fk_element.xpath(f"./{TARGETID}")[0].text
+        
+        # Get keys associated with each instance
+        instance_keys = parse_identifier_field(context, fk_element)
+        #print("DEBUG: EXTINSTANCE KEYS = %s"%(str(instance_keys)))
+        
+        # Get target keys
+        target = context.get_instance_by_id( InstanceId( target_id, None ) )
+        if target is not None:
+            # Untested
+            target_instance_keys = target.__vo_id__.keys
+        else:
+            # Target instance not already processed..
+            # NOTE: do not want to 'make' it, can set up recursive loop
+            #  ie: we are currently processing the Target instance.
+            target_elements = xml_element.xpath(f"//*[{ID_ATTR}='{target_id}']")
+            target_element = target_elements[0]
+            
+            # Resolve PRIMARYKEY value set from target element:
+            #   pulled from read_instance() and make()
+            type_id = resolve_type(target_element)
+            element_class = context.get_type_by_id(type_id)
+            target_instance_id = parse_id(context, target_element, element_class)
+            target_instance_keys = target_instance_id.keys
+            #print("DEBUG: TARGET instance keys = %s"%(str(target_instance_keys)))
+            
+    # Have keys resolved.. sort instances
+    # target instance keys are the selection criteria
+    sorted_instances = {}
+    for key in target_instance_keys:
+        matches = [instances[n] for n in range(len(instances)) if ( key == instance_keys[n] )]
+        sorted_instances[ tuple(key) ] = matches
+                
+    # We want to return slices of the sorted_instances, with 1 instance per target 'row'
+    #   - determine maximumn # matches; this is # slices to return`
+    #   - pad each entry to the same length (with None)
+    #   - generate slices
+    result = []
+    max_matches = max( [len(matches) for matches in sorted_instances.values() ] )
+
+    for values in sorted_instances.values():
+        values += [None]*(max_matches - len(values))
+
+    for n in range(max_matches):
+        group = [ sorted_instances[ tuple(key) ][n] for key in target_instance_keys ]
+        result.append(group)
+
+    return result
+
+
+def parse_literal(context, xml_element):
+    value = xml_element.xpath(VALUE_ATTR)[0]
+    value_type = xml_element.xpath(TYPE_ATTR)[0]
+    units = xml_element.xpath(UNIT_ATTR)
+    unit = units[0] if units else None
+    return context.get_type_by_id(value_type)(value, unit)
+
+def parse_constant(context, xml_element):
+    """
+    Interpret input VODML <CONSTANT> element and associated VOTable <PARAM>
+
+    Inputs:
+      o context        - Reader
+      o xml_element    - VODML <COLUMN> node
+
+    Returns
+      o value as type mapping to specified vodml-id
+         - interpretation done by Reader
+    """
+    # Find VOTable PARAM element referenced by CONSTANT
+    param_ref = xml_element.xpath(REF_ATTR)[0]
+    find_param_xpath = f"//{PARAM}[{ID_ATTR}='{param_ref}']"
+    param_elements = xml_element.xpath(find_param_xpath)
+    if not param_elements:
+        msg = f"Can't find param with ID {param_ref}.  Setting value to NaN"
+        LOG.warning(msg)
+        warnings.warn(msg, SyntaxWarning)
+        return numpy.NaN
+    param_element = param_elements[0]
+
+    # Pull desired type, and param data
+    value_type = xml_element.xpath(TYPE_ATTR)[0]
+    value = param_element.xpath(VALUE_ATTR)[0]
+    units = param_element.xpath(UNIT_ATTR)
+    unit = units[0] if units else None
+
+    # Create instance of specified type
+    #   - resulting type determined by Reader
+    result = context.get_type_by_id(value_type)(value, unit)
+
+    # MCD NOTE:
+    #  o unlike columns, there is no place to store PARAM name in the result
+    #    at least not for many base types (eg ivoa:real )
+    #  o CONSTANTs within TEMPLATES are singluar while
+    #    COLUMNs   within TEMPLATES are arrays (per row)
+    #  o what does this do for multiplicity > 1?
+    #    a) float( [a,b] ) == Error?
+    #    b) Quantity may work, but maybe problems in FIELD (2D array)
+    
+    return result
+
+def parse_column(context, xml_element):
+    """
+    Interpret input VODML <COLUMN> element and associated VOTable <FIELD>
+
+    Inputs:
+      o context     - Reader
+      o xml_element - VODML <COLUMN> node to process
+
+    Returns column as:
+      o AstroPy Quantity if FIELD has units
+      o AstroPy MaskedColumn if FIELD does not have units
+    """
+    # Find VOTable FIELD element referenced by COLUMN
+    column_ref = xml_element.xpath(REF_ATTR)[0]
+    find_column_xpath = f"//{FIELD}[{ID_ATTR}='{column_ref}']"
+    column_elements = xml_element.xpath(find_column_xpath)
+    if not column_elements:
+        msg = f"Can't find column with ID {column_ref}. Setting values to NaN"
+        LOG.warning(msg)
+        warnings.warn(msg, SyntaxWarning)
+        return numpy.NaN
+    column_element = column_elements[0]
+
+    # Get Table containing the column
+    #  - will either process table or pull from storage in context.
+    table = parse_table(context, column_element)
+    
+    # Pull column from table
+    #  - check column mapping in case ID is an alias for a different column (see below).
+    column_ref = context.get_column_mapping(column_ref)
+    column = table[column_ref]
+
+    # We want the column to contain the FIELD name.. BUT changing it can
+    # affect future access to the same column.  For example, if the same
+    # column is used in multiple roles.
+    # ======================================================================
+    # QTable has 2 kinds of columns:
+    # ======================================================================
+    # MaskedColumn
+    #   + column.name appears to be the column ID, probably falling back on NAME
+    #   + changing column name appears to also change the table access.
+    #       ie: afterwards, table[<ref_id>] does not work.
+    #   + so need to add a column_mapping to retain link between ref_id and column
+    #   * can CAUSE a problem if multiple columns have the same name but different ids
+    #
+    # Quantity Column
+    #   + does not natively have a 'name' attribute
+    #   + settting column.name adds it to the object
+    #   + this has no affect on the table access
+    # ======================================================================
+    # Get name from FIELD element.. assign to column
+    name = column_element.xpath(NAME_ATTR)[0]
+    column.name = name
+    try:
+        # check if the assignment affected access.
+        dummy = table[column_ref]
+    except KeyError:
+        # it did.. add column mapping for this column
+        context.add_column_mapping(column_ref, name)
+
+    # Another hack:
+    #   it simplify things if the byte columns are converted to strings...
+    #   maybe this is an issue in the VOTable parser needing some attention?
+    try:
+        if column.dtype == 'object':
+            column = column.astype('U')
+            table[column_ref] = column
+    except:
+        pass
+
+    return column
 
 def parse_idref(xml_element, context):
     ref = InstanceId(xml_element.text, None)
@@ -451,7 +568,8 @@ def parse_foreign_key(xml_element, context):
     references = [instances_index.get(tuple(key), None) for key in ref.keys]
     return RowReferenceWrapper(references)
 
-
+#
+# ----------------------------------------------------------------------
 def make(instance_class, xml_element, context):
     instance_id = parse_id(context, xml_element, instance_class)
     instance = context.get_instance_by_id(instance_id)
