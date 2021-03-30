@@ -86,7 +86,17 @@ class Composition(VodmlDescriptor):
         values = self.values[instance]
         if values is None:
             return
-        return [value.__class__._unroll(value, instance_index) for value in values]
+
+        result = []
+        for value in values:
+            if _is_list(value):
+                #extintances under composition are already unrolled lists
+                result.append( value[instance_index] )
+            else:
+                result.append( value.__class__._unroll(value, instance_index) )
+        
+        #return [value.__class__._unroll(value, instance_index) for value in values]
+        return result
 
 
 class Attribute(VodmlDescriptor):
@@ -250,6 +260,9 @@ class InstanceId:
 
         return hash((id_to_hash, keys_to_hash))
 
+
+def _is_list(value):
+    return isinstance(value, list)
 
 def _is_string(value):
     return isinstance(value, str)

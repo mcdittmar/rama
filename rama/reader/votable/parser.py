@@ -340,6 +340,7 @@ def parse_extinstance(xml_element, context):
 
     # process extinstance template
     #  - we want the individual instances in this case.
+    #    may be getting appended to local instances and needs to be a list of instances
     instance = read_instance( referred_element, context )
     instances = instance.unroll()
 

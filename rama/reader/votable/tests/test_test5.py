@@ -26,7 +26,7 @@ from numpy.testing import assert_array_equal
 
 from rama import is_template, count, unroll
 from rama.models.test.filter import PhotometryFilter
-from rama.models.test.sample import SkyCoordinateFrame, Source
+from rama.models.test.sample import SkyCoordinateFrame, Source, SkyCoordinate, LuminosityMeasurement
 from rama.reader import Reader
 from rama.reader.votable import Votable
 
@@ -148,86 +148,123 @@ def test_source(context_test5, recwarn):
 
 
 def test_source_unroll(context_test5, recwarn):
-    template_source = context_test5.find_instances(Source)[0]
-    assert is_template(template_source)
-    assert count(template_source) == 3
 
+    # Frame instance
+    # - is a GLOBALS instance, only have 1 spec'd
+    #   - is singular, cardinality = 0
     frame = context_test5.find_instances(SkyCoordinateFrame)[0]
+    t = frame.unroll()
+    assert len(t) == 0   # <== t = []
+
+    # PhotometryFilters
+    # - is a GLOBALS instance, have 3 spec'd
+    # - find returns [filter,filter,filter]
+    #   - each filter is singular, cardinality = 0
     filters = context_test5.find_instances(PhotometryFilter)
     h_filter = filters[0]
     j_filter = filters[1]
     k_filter = filters[2]
 
-    # Temporarily disable: cannot unroll source with external instances.
-    #   + the List does not unpack (has no unroll() method.
+    t = h_filter.unroll()
+    assert len(t) == 0   # <== t = []
+
+    # SkyCoordinate
+    # - is a TEMPLATE instance, have 1 spec'd with 3 rows in table.
+    pos = context_test5.find_instances(SkyCoordinate)
+    assert len(pos) == 1
+    assert len(pos[0].longitude) == 3
+
+    t = pos[0].unroll()  # <== t = [SkyCoordinate, SkyCoordinate, SkyCoordinate]
+    assert len(t) == 3
+    for n in range(len(t)):
+        assert t[n].longitude == pos[0].longitude[n]
+        assert t[n].latitude == pos[0].latitude[n]
+        assert t[n].frame is frame
+    
+    # LuminosityMeasurement
+    # - This just gets ALL LuminosityMeasurement instances
+    # - is a TEMPLATE instance, have 3 spec'd with 3 rows each
+    #                           PLUS some from EXTINSTANCES (second table)
+    # - end up with 4 instances, Quantity with 3 rows in first 3
+    #                            MaskedColumn with 6 rows in 4th (no units)
+    lum = context_test5.find_instances(LuminosityMeasurement)
+    assert len(lum) == 4
+    assert len(lum[0].value) == 3
+    assert len(lum[1].value) == 3
+    assert len(lum[2].value) == 3
+    assert len(lum[3].value) == 6
+
+    for ii in range(len(lum)):
+        t = lum[ii].unroll()
+        assert len(t) == 3 if ii < 2 else 6
+        for n in range(len(t)):
+            assert t[n].type  == lum[ii].type      # singular.. not type[n]
+            assert t[n].value == lum[ii].value[n]  # Quantity w/ n values
+            assert t[n].error == lum[ii].error[n]  # Quantity w/ n values
+            if ii < 3:
+                assert t[n].filter is filters[ii]  # ref to filter is still reference
+            else:
+                assert t[n].filter is None
+
+    # ================================================================================
+    # So the atomic level seems to be OK.
+    # Next unroll Source: fully within TEMPLATES, contains the above
+    template_source = context_test5.find_instances(Source)[0]
+    assert is_template(template_source)
+    assert template_source.cardinality == 3  #<== check the no. of instances from TEMPLATE
+
+    # unroll it
     #sources = unroll(template_source)
-    #
-    #assert len(sources) == 3
-    #source = sources[0]
-    #assert source.name == '08120809-0206132'
-    #assert source.position.longitude == template_source.position.longitude[0]
-    #assert source.position.latitude == template_source.position.latitude[0]
-    #assert source.position.frame is frame
-    #h_mag = source.luminosity[0]
-    #assert h_mag.type == 'magnitude'
-    #assert h_mag.filter is h_filter
-    #assert h_mag.value == template_source.luminosity[0].value[0]
-    #assert h_mag.error == template_source.luminosity[0].error[0]
-    #
-    #j_mag = source.luminosity[1]
-    #assert j_mag.type == 'magnitude'
-    #assert j_mag.filter is j_filter
-    #assert j_mag.value == template_source.luminosity[1].value[0]
-    #assert j_mag.error == template_source.luminosity[1].error[0]
-    #
-    #k_mag = source.luminosity[2]
-    #assert k_mag.type == 'magnitude'
-    #assert k_mag.filter is k_filter
-    #assert k_mag.value == template_source.luminosity[2].value[0]
-    #assert k_mag.error == template_source.luminosity[2].error[0]
-    #
-    #source = sources[1]
-    #assert source.name == '08115683-0205428'
-    #assert source.position.longitude == template_source.position.longitude[1]
-    #assert source.position.latitude == template_source.position.latitude[1]
-    #assert source.position.frame is frame
-    #h_mag = source.luminosity[0]
-    #assert h_mag.type == 'magnitude'
-    #assert h_mag.filter is h_filter
-    #assert h_mag.value == template_source.luminosity[0].value[1]
-    #assert h_mag.error == template_source.luminosity[0].error[1]
-    #
-    #j_mag = source.luminosity[1]
-    #assert j_mag.type == 'magnitude'
-    #assert j_mag.filter is j_filter
-    #assert j_mag.value == template_source.luminosity[1].value[1]
-    #assert j_mag.error == template_source.luminosity[1].error[1]
-    #
-    #k_mag = source.luminosity[2]
-    #assert k_mag.type == 'magnitude'
-    #assert k_mag.filter is k_filter
-    #assert k_mag.value == template_source.luminosity[2].value[1]
-    #assert k_mag.error == template_source.luminosity[2].error[1]
-    #
-    #source = sources[2]
-    #assert source.name == '08115826-0205336'
-    #assert source.position.longitude == template_source.position.longitude[2]
-    #assert source.position.latitude == template_source.position.latitude[2]
-    #assert source.position.frame is frame
-    #h_mag = source.luminosity[0]
-    #assert h_mag.type == 'magnitude'
-    #assert h_mag.filter is h_filter
-    #assert h_mag.value == template_source.luminosity[0].value[2]
-    #assert h_mag.error == template_source.luminosity[0].error[2]
-    #
-    #j_mag = source.luminosity[1]
-    #assert j_mag.type == 'magnitude'
-    #assert j_mag.filter is j_filter
-    #assert j_mag.value == template_source.luminosity[1].value[2]
-    #assert j_mag.error == template_source.luminosity[1].error[2]
-    #
-    #k_mag = source.luminosity[2]
-    #assert k_mag.type == 'magnitude'
-    #assert k_mag.filter is k_filter
-    #assert k_mag.value == template_source.luminosity[2].value[2]
-    #assert k_mag.error == template_source.luminosity[2].error[2]
+    sources = template_source.unroll()
+
+    assert len(sources) == 3
+    assert len(sources[0].luminosity) == 5  # 3 local + 2 external instances
+
+    for n in range(len(sources)):
+        #assert sources[n].name == '08120809-0206132'
+        assert sources[n].name == template_source.name[n]
+        assert sources[n].position.longitude == template_source.position.longitude[n]
+        assert sources[n].position.latitude == template_source.position.latitude[n]
+        assert sources[n].position.frame is frame
+        h_mag = sources[n].luminosity[0]
+        assert h_mag.type == 'magnitude'
+        assert h_mag.filter is h_filter
+        assert h_mag.value == template_source.luminosity[0].value[n]
+        assert h_mag.error == template_source.luminosity[0].error[n]
+        #
+        j_mag = sources[n].luminosity[1]
+        assert j_mag.type == 'magnitude'
+        assert j_mag.filter is j_filter
+        assert j_mag.value == template_source.luminosity[1].value[n]
+        assert j_mag.error == template_source.luminosity[1].error[n]
+        #
+        k_mag = sources[n].luminosity[2]
+        assert k_mag.type == 'magnitude'
+        assert k_mag.filter is k_filter
+        assert k_mag.value == template_source.luminosity[2].value[n]
+        assert k_mag.error == template_source.luminosity[2].error[n]
+
+        # external instances, may be None; organized differently in packed representation
+        g_mag = sources[n].luminosity[3]
+        if n == 1:
+            assert g_mag is None
+            assert g_mag == template_source.luminosity[3][n]
+        else:
+            assert g_mag.type == 'magnitude'
+            assert g_mag.filter is None
+            assert g_mag.value == template_source.luminosity[3][n].value
+            assert g_mag.error == template_source.luminosity[3][n].error
+
+        g_mag = sources[n].luminosity[4]
+        if n != 2:
+            assert g_mag is None
+            assert g_mag == template_source.luminosity[4][n]
+        else:
+            assert g_mag.type == 'magnitude'
+            assert g_mag.filter is None
+            assert g_mag.value == template_source.luminosity[4][n].value
+            assert g_mag.error == template_source.luminosity[4][n].error
+            
+        
+#    assert sources is None
+    
