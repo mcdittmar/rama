@@ -28,6 +28,8 @@ from weakref import WeakKeyDictionary
 import numpy
 from astropy.table import Column
 from astropy.units import Quantity
+from astropy.time import Time
+from astropy.coordinates import SkyCoord
 
 LOG = logging.getLogger(__name__)
 
@@ -79,6 +81,12 @@ class VodmlDescriptor:
 
 
 class Composition(VodmlDescriptor):
+    def __set__(self, instance, value):
+        VodmlDescriptor.__set__(self, instance, value)
+        if hasattr(value, 'cardinality'):  # BaseTypes
+            if ( self.max == 1 and value.cardinality > 0 ):
+                instance.cardinality = max(instance.cardinality, value.cardinality)
+
     def get_index(self, instance, instance_index):
         """
         For each member of the composition call unroll and return a list of the resulting instances
@@ -86,6 +94,10 @@ class Composition(VodmlDescriptor):
         values = self.values[instance]
         if values is None:
             return
+
+        # composition with multiplicity == 1 results in direct instance rather than list
+        if _is_basetype(values):
+            return values.__class__._unroll(values, instance_index)
 
         result = []
         for value in values:
@@ -95,7 +107,6 @@ class Composition(VodmlDescriptor):
             else:
                 result.append( value.__class__._unroll(value, instance_index) )
         
-        #return [value.__class__._unroll(value, instance_index) for value in values]
         return result
 
 
@@ -103,9 +114,15 @@ class Attribute(VodmlDescriptor):
     def __set__(self, instance, value):
         VodmlDescriptor.__set__(self, instance, value)
         if hasattr(value, 'cardinality'):  # BaseTypes
-            instance.cardinality = value.cardinality
+            instance.cardinality = max(instance.cardinality, value.cardinality)
         elif isinstance(value, Quantity) and not value.isscalar or isinstance(value, Column):
-            instance.cardinality = len(value)
+            instance.cardinality = max(instance.cardinality, len(value))
+        elif isinstance(value, Time) and not value.isscalar:
+            # Astropy Time, from adapters
+            instance.cardinality = max(instance.cardinality, len(value))
+        elif isinstance(value, SkyCoord) and not value.isscalar:
+            # Astropy SkyCoord, from adapters
+            instance.cardinality = max(instance.cardinality, len(value))
 
     def get_index(self, instance, instance_index):
         value = self.values[instance]
