@@ -126,13 +126,17 @@ class Attribute(VodmlDescriptor):
 
     def get_index(self, instance, instance_index):
         value = self.values[instance]
+        result = None
         if _is_basetype(value):
-            return value.__class__._unroll(value, instance_index)
-        if _is_string(value):
-            return value
-        if value is not None:
-            return value[instance_index]
-
+            result = value.__class__._unroll(value, instance_index)
+        elif _is_string(value):
+            result = value
+        elif value is not None:
+            try:
+                result = value[instance_index]
+            except TypeError:
+                result = value
+        return result
 
 class Reference(VodmlDescriptor):
     def get_index(self, instance, instance_index):

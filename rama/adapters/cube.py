@@ -117,8 +117,9 @@ class GenericCoordMeasureAxis(VoAxis):
 
     def __init__(self, axis):
         super().__init__(axis)
-        self.name = axis.measure.coord.cval.name
-        # MCD NOTE: This is not where the axis name should be coming from.
+        if hasattr( axis.measure.coord.cval, "name"):
+            self.name = axis.measure.coord.cval.name
+            # MCD NOTE: This is not where the axis name should be coming from.
 
     @property
     def measure(self):
@@ -183,3 +184,22 @@ class CubePoint:
 
     def __getitem__(self, item):
         return self._index[item]
+
+    def unroll(self):
+        '''
+        NDPoint structure is not good for unrolling automatically
+          * it holds a composition of Observable..
+          * unrolled, each NDPoint needs 1 value from each Observable
+        '''
+        observables = self._ndpoint.observable
+        self._ndpoint.observables = None
+        result = [self._unroll( observables, instance_index ) for instance_index in range(observables[0].cardinality)]
+            
+        self._ndpoint.observable = observables
+        
+        return result
+
+    def _unroll(self, observables, instance_index ):
+        instance = self._ndpoint._unroll( self._ndpoint, instance_index )
+        instance.observable = [ item._unroll( item, instance_index) for item in observables ]
+        return self.__class__(instance)
