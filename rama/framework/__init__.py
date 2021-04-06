@@ -113,6 +113,11 @@ class Composition(VodmlDescriptor):
 class Attribute(VodmlDescriptor):
     def __set__(self, instance, value):
         VodmlDescriptor.__set__(self, instance, value)
+
+        if _is_list(value):
+            # Attribute with multiplicity > 1; grab one for setting cardinality
+            value = value[0]
+
         if hasattr(value, 'cardinality'):  # BaseTypes
             instance.cardinality = max(instance.cardinality, value.cardinality)
         elif isinstance(value, Quantity) and not value.isscalar or isinstance(value, Column):
@@ -124,6 +129,7 @@ class Attribute(VodmlDescriptor):
             # Astropy SkyCoord, from adapters
             instance.cardinality = max(instance.cardinality, len(value))
 
+
     def get_index(self, instance, instance_index):
         value = self.values[instance]
         result = None
@@ -132,10 +138,14 @@ class Attribute(VodmlDescriptor):
         elif _is_string(value):
             result = value
         elif value is not None:
-            try:
-                result = value[instance_index]
-            except TypeError:
-                result = value
+            if _is_list(value) and ( len(value[0]) == instance.cardinality ):
+                # Attribute with multiplicity > 1 shows as list of instances
+                result = [ value[ii][instance_index] for ii in range(len(value)) ]
+            else:
+                try:
+                    result = value[instance_index]
+                except TypeError:
+                    result = value
         return result
 
 class Reference(VodmlDescriptor):
