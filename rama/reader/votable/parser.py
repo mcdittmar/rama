@@ -398,7 +398,7 @@ def group_extinstances( instances, xml_element, context ):
     # target instance keys are the selection criteria
     sorted_instances = {}
     for key in target_instance_keys:
-        matches = [instances[n] for n in range(len(instances)) if ( key == instance_keys[n] )]
+        matches = [instances[n] for n in range(len(instances)) if ( tuple(key) == tuple(instance_keys[n]) )]
         sorted_instances[ tuple(key) ] = matches
                 
     # We want to return slices of the sorted_instances, with 1 instance per target 'row'

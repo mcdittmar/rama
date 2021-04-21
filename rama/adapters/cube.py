@@ -120,6 +120,12 @@ class GenericCoordMeasureAxis(VoAxis):
         if hasattr( axis.measure.coord.cval, "name"):
             self.name = axis.measure.coord.cval.name
             # MCD NOTE: This is not where the axis name should be coming from.
+        elif hasattr( axis.measure.coord.cval, "unit"):
+            # MCD NOTE: This is DEFINITELY not where the axis name should be coming from.
+            if axis.measure.coord.cval.unit == 'mag':
+                self.name = 'magnitude'
+            elif axis.measure.coord.cval.unit in ['e-/s', 'Jy']:
+                self.name = 'flux'
 
     @property
     def measure(self):
